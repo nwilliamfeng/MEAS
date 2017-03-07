@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MEAS.Core
+namespace MEAS
 {
     public abstract class Entity
     {

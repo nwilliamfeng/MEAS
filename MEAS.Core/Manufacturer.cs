@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MEAS
 {
-    public abstract class Company:Entity
+    public class Manufacturer:Company
     {
     }
 }
