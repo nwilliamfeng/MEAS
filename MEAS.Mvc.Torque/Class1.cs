@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MEAS
+namespace MEAS.Mvc.Torque
 {
-    public abstract class Company:Entity
+    public class Class1
     {
-        public string Name { get; set; }
     }
 }

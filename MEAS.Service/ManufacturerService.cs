@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace MEAS.Service
 {
-    public class ManufacturerService
+    public class ManufacturerService : IManufacturerService
     {
+        public Manufacturer Find(string name)
+        {
+            return new Manufacturer { Name=name};
+        }
     }
 }

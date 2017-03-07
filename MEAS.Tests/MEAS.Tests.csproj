@@ -92,9 +92,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MEAS\MEAS.csproj">
+    <ProjectReference Include="..\MEAS\MEAS.Mvc.csproj">
       <Project>{CC5667E0-C1AA-4D21-9004-62495EB466E2}</Project>
-      <Name>MEAS</Name>
+      <Name>MEAS.Mvc</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
