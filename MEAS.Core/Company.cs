@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MEAS
 {
+    [Serializable]
     public abstract class Company:Entity
     {
         public string Name { get; set; }

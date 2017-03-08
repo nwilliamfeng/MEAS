@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MEAS
 {
+    [Serializable]
     public class Manufacturer:Company
     {
     }

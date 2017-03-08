@@ -7,11 +7,11 @@ using MEAS.Service;
 
 namespace MEAS.Controllers
 {
-    public class HomeController : Controller
+    public class ManufacturerController : Controller
     {
         private IManufacturerService _service;
 
-        public HomeController(IManufacturerService service)
+        public ManufacturerController(IManufacturerService service)
         {
             this._service = service;
         }
@@ -21,18 +21,13 @@ namespace MEAS.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult List(int page)
         {
-            ViewBag.Message = "Your application description page." + this._service.Find("snap-on").Name;
+            ViewBag.Message = "sdadsfasdf" + this._service.Find("snap-on " +page.ToString()).Name;
 
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+     
     }
 }
