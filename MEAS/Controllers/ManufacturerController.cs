@@ -21,11 +21,11 @@ namespace MEAS.Controllers
             return View();
         }
 
-        public ActionResult List(int page)
+        public ActionResult List(int page,string name)
         {
-            ViewBag.Message = "sdadsfasdf" + this._service.Find("snap-on " +page.ToString()).Name;
-
-            return View();
+            //  ViewBag.Message = "sdadsfasdf" + this._service.Find("snap-on " +page.ToString()+"   "+name).Name ;
+            Manufacturer cp = this._service.Find(string.Format("the company:{0}{1}", page, name));
+            return View(cp);
         }
 
      
