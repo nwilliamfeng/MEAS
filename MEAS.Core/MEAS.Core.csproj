@@ -43,7 +43,9 @@
     <Compile Include="Company.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Manufacturer.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\IProductService.cs" />
     <Compile Include="Service\IManufacturerService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

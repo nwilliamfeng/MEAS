@@ -59,6 +59,7 @@ namespace MEAS
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterControllers(typeof(MEAS.Controllers.ManufacturerController).Assembly);
             builder.RegisterType<ManufacturerService>().As<IManufacturerService>();
+            builder.RegisterType<ProductService>().As<IProductService>();
         }
     }
 }
