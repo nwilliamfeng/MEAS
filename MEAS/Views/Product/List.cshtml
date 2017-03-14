@@ -5,11 +5,7 @@
 }
 @foreach(var p in Model.Values)
 {
-    <div>
-        <h3>@p.Name</h3>
-        <h4>@p.Model</h4>
-        <h4>@p.Price</h4>
-    </div>
+    @Html.Partial("ProductSummary",p)
 }
 <div>
     @Html.DropDownList("dp", Model.ToSelectList(), "--请选择--", new { @class = " my-select-css-class" })
