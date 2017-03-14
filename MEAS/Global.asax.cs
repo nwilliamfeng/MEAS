@@ -9,6 +9,8 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Core.Lifetime;
 using MEAS.Service;
+using MEAS.Data;
+using MEAS.Data.SqlServer;
 
 namespace MEAS
 {
@@ -59,6 +61,7 @@ namespace MEAS
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterControllers(typeof(MEAS.Controllers.ManufacturerController).Assembly);
             builder.RegisterType<ManufacturerService>().As<IManufacturerService>();
+            builder.RegisterType<ProductRepository>().As<IProductRepository>();
             builder.RegisterType<ProductService>().As<IProductService>();
         }
     }

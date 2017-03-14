@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MEAS.Service
+namespace MEAS.Data
 {
-    public interface IProductService
+    public interface IProductRepository
     {
-        
+         
 
         Task<IEnumerable<Product>> FindWithCategory(string category);
     }

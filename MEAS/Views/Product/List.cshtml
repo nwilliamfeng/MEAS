@@ -1,8 +1,9 @@
-﻿@model IEnumerable<Product>
+﻿@using MEAS.Models
+@model  PagingResult<Product>
 @{ 
     ViewBag.Title = "Products";
 }
-@foreach(var p in Model)
+@foreach(var p in Model.Values)
 {
     <div>
         <h3>@p.Name</h3>
@@ -10,3 +11,6 @@
         <h4>@p.Price</h4>
     </div>
 }
+<div>
+    @Html.DropDownList("dp", Model.ToSelectList(), "--请选择--", new { @class = " my-select-css-class" })
+</div>

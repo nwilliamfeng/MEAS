@@ -10,6 +10,19 @@ namespace MEAS
     {
         public int Id { get; set; }
 
-      
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (this.GetType() != obj.GetType())
+                return false;
+
+            return this.Id == (obj as Entity).Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.GetHashCode()*37+ this.Id.GetHashCode();
+        }
     }
 }

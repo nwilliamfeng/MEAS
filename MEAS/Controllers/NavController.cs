@@ -16,9 +16,10 @@ namespace MEAS.Controllers
             return View();
         }
 
-        public PartialViewResult Menu()
+        public PartialViewResult Menu(string category)
         {
-            return PartialView(new string[] { "aa","bb"});
+            ViewBag.SelectedCategory = category;
+            return PartialView(new string[] { "Chess","Soccer","Waterports"});
         }
 
      

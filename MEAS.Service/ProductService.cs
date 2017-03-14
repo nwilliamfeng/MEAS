@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MEAS.Data;
 
 namespace MEAS.Service
 {
     public class ProductService : IProductService
     {
-        public IEnumerable<Product> Find(string model)
+        private IProductRepository _rp;
+       public ProductService(IProductRepository rp)
         {
-            yield return new Product { Model = model + "1", Name = "ProductA", Price = 100.2m };
-            yield return new Product { Model = model + "2", Name = "ProductB", Price = 30.6m };
-            yield return new Product { Model = model + "3", Name = "ProductC", Price = 34.9m };
+            this._rp = rp;
+        }
+
+        public async Task<IEnumerable<Product>> FindWithCategory(string category)
+        {
+            return await this._rp.FindWithCategory(category);
         }
     }
 }
