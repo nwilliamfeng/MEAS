@@ -8,7 +8,7 @@ namespace MEAS.Service
 {
     public interface IProductService
     {
-        
+        Task<Product> FindWithId(int id);
 
         Task<IEnumerable<Product>> FindWithCategory(string category);
     }
