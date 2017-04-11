@@ -19,5 +19,10 @@ namespace MEAS.Service
         {
             return await this._rp.FindWithCategory(category);
         }
+
+        public Task<Product> FindWithId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

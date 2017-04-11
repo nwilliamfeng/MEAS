@@ -22,7 +22,7 @@ namespace MEAS
 
         public override int GetHashCode()
         {
-            return this.GetHashCode()*37+ this.Id.GetHashCode();
+            return  this.Id.GetHashCode();
         }
     }
 }

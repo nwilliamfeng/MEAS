@@ -17,7 +17,7 @@ namespace MEAS.Controllers
        
         public ActionResult AddToCart(int productId,string returnUrl)
         {
-            var product =this._productService.
+        
             return View();
         }
     }
