@@ -11,5 +11,8 @@ namespace MEAS.Data
          
 
         Task<IEnumerable<Product>> FindWithCategory(string category);
+
+
+        Task<Product> FindWithId(int productId);
     }
 }

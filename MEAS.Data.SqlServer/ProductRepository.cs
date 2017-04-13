@@ -31,5 +31,13 @@ namespace MEAS.Data.SqlServer
                 return lst.Where(x => x.Category == category);
             });
         }
+
+        public Task<Product> FindWithId(int productId)
+        {
+            return Task.Run(() =>
+            {
+                return lst.FirstOrDefault(x => x.Id == productId);
+            });
+        }
     }
 }

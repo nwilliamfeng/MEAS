@@ -19,6 +19,11 @@ namespace MEAS
                 this._cartLines.Add(new CartLine { Product = product, Quantity = quantity });
         }
 
+        public void RemoveLine(Product product)
+        {
+            this._cartLines.RemoveAll(x => x.Product.Equals(product));
+        }
+
         public IEnumerable<CartLine> Lines
         {
             get { return this._cartLines; }

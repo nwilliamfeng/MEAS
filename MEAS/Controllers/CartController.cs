@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
 using MEAS.Service;
+using MEAS.Models;
 
 namespace MEAS.Controllers
 {
@@ -14,11 +16,34 @@ namespace MEAS.Controllers
         {
             this._productService = productService;
         }
-       
-        public ActionResult AddToCart(int productId,string returnUrl)
+
+        public ActionResult Index(string returnUrl)
         {
-        
-            return View();
+            return View(new CartIndexViewModel { Cart = this.GetCart(), ReturnUrl = returnUrl });
+        }
+     
+       
+        public async Task<ActionResult> AddToCart(int id,string returnUrl)
+        {
+            var product = await this._productService.FindWithId(id);
+            this.GetCart().AddLine(product, 1);
+            return this.RedirectToAction("Index",returnUrl);
+        }
+
+        public async Task<ActionResult> RemoveFromCart(int productId, string returnUrl)
+        {
+            var product = await this._productService.FindWithId(productId);
+            this.GetCart().RemoveLine(product);
+            return this.RedirectToAction("Index", returnUrl);
+        }
+
+        private Cart GetCart()
+        {
+            var cart = this.Session["Cart"] as Cart;
+            if (cart == null)
+                cart = new Cart();
+            this.Session["Cart"] = cart;
+            return cart;
         }
     }
 }

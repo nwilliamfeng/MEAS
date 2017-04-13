@@ -28,6 +28,7 @@ namespace MEAS.Controllers
         {
             if (category == null)
                 return this.RedirectToAction("Index", "Home");
+
             var results = await this._service.FindWithCategory(category);
             var vm = new PagingResult<Product> { Values = results.Skip(PageSize * (page - 1)).Take(PageSize), CurrentPage = page, ItemsPerPage = PageSize, TotalItems = results.Count() };
         
