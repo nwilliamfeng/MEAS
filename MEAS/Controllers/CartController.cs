@@ -27,14 +27,14 @@ namespace MEAS.Controllers
         {
             var product = await this._productService.FindWithId(id);
             this.GetCart().AddLine(product, 1);
-            return this.RedirectToAction("Index",returnUrl);
+            return this.RedirectToAction("Index",new { returnUrl});
         }
 
         public async Task<ActionResult> RemoveFromCart(int productId, string returnUrl)
         {
             var product = await this._productService.FindWithId(productId);
             this.GetCart().RemoveLine(product);
-            return this.RedirectToAction("Index", returnUrl);
+            return this.RedirectToAction("Index", new { returnUrl});
         }
 
         private Cart GetCart()
