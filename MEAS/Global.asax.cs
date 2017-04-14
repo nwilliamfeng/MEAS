@@ -11,6 +11,7 @@ using Autofac.Core.Lifetime;
 using MEAS.Service;
 using MEAS.Data;
 using MEAS.Data.SqlServer;
+using MEAS.Binder;
 
 namespace MEAS
 {
@@ -23,6 +24,7 @@ namespace MEAS
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ModelBinders.Binders.Add(typeof(Cart), new CartBinder()); //Page 191
         }
 
         private void InitizeAutofac()
