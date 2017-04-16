@@ -3,7 +3,7 @@
     ViewBag.Title = "Your Cart";
 }
 <h2>Your Cart</h2>
-<table class="table">
+<table class="table" id="cartTable">
 <thead>
 <tr>
     <th>Quanity</th>
@@ -19,6 +19,15 @@
                 <td class="text-center">@line.Quantity</td>
                 <td class="text-left">@line.Product.Name</td>
                 <td class="text-right">@line.Product.Price</td>
+                <td class="text-right">(@line.Product.Price * @line.Quantity).ToString("c")</td>
+                <td>
+                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                    {
+                        Html.Hidden("productId", 1);
+                        Html.HiddenFor(x => x.ReturnUrl);
+                        <input class="btn btn-sm btn-warning"  type="submit" value="Remove..."/>
+                    }
+                </td>
             </tr>
 
         }

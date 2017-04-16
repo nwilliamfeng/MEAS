@@ -14,7 +14,7 @@ namespace MEAS.Controllers
         public ActionResult Index()
         {
             return View();
-        }
+        } 
 
         public PartialViewResult Menu(string category)
         {
