@@ -30,6 +30,7 @@ namespace MEAS.Controllers
             return this.RedirectToAction("Index",new { returnUrl});
         }
 
+      
         public async Task<ActionResult> RemoveFromCart(Cart cart, int productId, string returnUrl)
         {
             var product = await this._productService.FindWithId(productId);
@@ -37,6 +38,11 @@ namespace MEAS.Controllers
             return this.RedirectToAction("Index", new { returnUrl});
         }
 
+
+        public  ActionResult  Summary(Cart cart)
+        {
+            return PartialView(cart);
+        }
     
     }
 }

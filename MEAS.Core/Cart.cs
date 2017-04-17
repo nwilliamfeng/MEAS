@@ -28,6 +28,13 @@ namespace MEAS
         {
             get { return this._cartLines; }
         }
+
+        public decimal ComputeTotalValue()
+        {
+            decimal result = 0;
+            this.Lines.ToList().ForEach(x => result += x.Quantity * x.Product.Price);
+            return result;
+        } 
     }
 
     public class CartLine
@@ -35,5 +42,15 @@ namespace MEAS
         public Product Product { get; set; }
 
         public int Quantity { get; set; }
+
+        public int ProductId
+        {
+            get
+            {
+                if (Product == null)
+                    return -1;
+                return this.Product.Id;
+            }
+        }
     }
 }
