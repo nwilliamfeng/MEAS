@@ -46,7 +46,7 @@ namespace MEAS.Controllers
 
         public ActionResult CheckOut()
         {
-
+            return View(new ShippingDetails());
         }
     
     }
