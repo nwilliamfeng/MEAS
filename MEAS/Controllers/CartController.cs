@@ -43,6 +43,11 @@ namespace MEAS.Controllers
         {
             return PartialView(cart);
         }
+
+        public ActionResult CheckOut()
+        {
+
+        }
     
     }
 }
