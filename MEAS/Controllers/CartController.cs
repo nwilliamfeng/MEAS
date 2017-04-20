@@ -55,8 +55,15 @@ namespace MEAS.Controllers
         [HttpPost]
         public ActionResult CheckOut(Cart cart ,ShippingDetails shippingDetails)
         {
-            if (cart.Lines == 0)
-                this.ModelState.AddModelError("",);  
+            if (cart.Lines.Count() == 0)
+                this.ModelState.AddModelError("","Sorry ,your cart is empty");
+            if (this.ModelState.IsValid)
+            {
+                this._orderProcessor.ProcessOrder(cart, shippingDetails);
+                return View("");
+            }
+            else
+                return View(shippingDetails);
         }
     
     }
