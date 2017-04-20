@@ -12,9 +12,12 @@ namespace MEAS.Controllers
     public class CartController : Controller
     {
         private IProductService _productService;
-        public CartController(IProductService productService)
+        private IOrderProcessor _orderProcessor;
+
+        public CartController(IProductService productService,IOrderProcessor orderProcessor)
         {
             this._productService = productService;
+            this._orderProcessor = orderProcessor;
         }
 
         public ActionResult Index(Cart cart, string returnUrl)
@@ -39,7 +42,7 @@ namespace MEAS.Controllers
         }
 
 
-        public  ActionResult  Summary(Cart cart)
+        public ActionResult Summary(Cart cart)
         {
             return PartialView(cart);
         }
@@ -47,6 +50,13 @@ namespace MEAS.Controllers
         public ActionResult CheckOut()
         {
             return View(new ShippingDetails());
+        }
+
+        [HttpPost]
+        public ActionResult CheckOut(Cart cart ,ShippingDetails shippingDetails)
+        {
+            if (cart.Lines == 0)
+                this.ModelState.AddModelError("",);  
         }
     
     }

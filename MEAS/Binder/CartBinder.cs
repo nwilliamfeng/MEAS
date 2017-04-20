@@ -25,7 +25,6 @@ namespace MEAS.Binder
                     controllerContext.HttpContext.Session[sessionkey] = cart;
             }
             return cart;
-               
         }
     }
 }

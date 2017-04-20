@@ -65,6 +65,7 @@ namespace MEAS
             builder.RegisterType<ManufacturerService>().As<IManufacturerService>();
             builder.RegisterType<ProductRepository>().As<IProductRepository>();
             builder.RegisterType<ProductService>().As<IProductService>();
+            builder.RegisterType<OrderProcessor>().As<IOrderProcessor>();
         }
     }
 }
