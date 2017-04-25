@@ -8,7 +8,7 @@ namespace MEAS.Data
 {
     public interface IProductRepository
     {
-         
+        Task<IEnumerable<Product>> LoadAll();
 
         Task<IEnumerable<Product>> FindWithCategory(string category);
 

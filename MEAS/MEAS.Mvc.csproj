@@ -177,12 +177,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Binder\CartBinder.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\NavController.cs" />
-    <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -253,13 +253,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Manufacturer\List.cshtml" />
     <Content Include="Views\Nav\Menu.cshtml" />
     <Content Include="Views\Product\List.cshtml" />
     <Content Include="Views\Shared\ProductSummary.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Summary.cshtml" />
     <Content Include="Views\Cart\CheckOut.cshtml" />
+    <Content Include="Views\Cart\Completed.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -280,10 +283,6 @@
     <ProjectReference Include="..\MEAS.Data.SqlServer\MEAS.Data.SqlServer.csproj">
       <Project>{04cb1db8-70c0-4d54-853a-ecaf1547a821}</Project>
       <Name>MEAS.Data.SqlServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MEAS.Mvc.Torque\MEAS.Mvc.Torque.csproj">
-      <Project>{222a06fb-5357-4d35-870e-59dd12c9bce2}</Project>
-      <Name>MEAS.Mvc.Torque</Name>
     </ProjectReference>
     <ProjectReference Include="..\MEAS.Service\MEAS.Service.csproj">
       <Project>{dec9d363-fc4f-4950-a427-1297ae8ee338}</Project>

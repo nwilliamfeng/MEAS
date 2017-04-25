@@ -60,7 +60,7 @@ namespace MEAS.Controllers
             if (this.ModelState.IsValid)
             {
                 this._orderProcessor.ProcessOrder(cart, shippingDetails);
-                return View("");
+                return View("Completed");
             }
             else
                 return View(shippingDetails);

@@ -39,5 +39,13 @@ namespace MEAS.Data.SqlServer
                 return lst.FirstOrDefault(x => x.Id == productId);
             });
         }
+
+        public  Task<IEnumerable<Product>> LoadAll()
+        {
+            return Task.Run<IEnumerable<Product>>(() =>
+            {
+                return lst;
+            });
+        }
     }
 }
