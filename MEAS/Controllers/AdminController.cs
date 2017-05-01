@@ -29,11 +29,22 @@ namespace MEAS.Controllers
             return View(products);
         }
 
-        public  ActionResult  Edit(int productId)
+        public async Task<ActionResult> Edit(int productId)
         {
-           
-            return View(products);
+            var product = await this._productRepository.FindWithId(productId);
+            return View(product);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Edit(Product product)
+        {
+            if (this.ModelState.IsValid)
+            {
+               
+                return RedirectToAction("Index");
+            }
+
+            return View(product);
+        }
     }
 }
