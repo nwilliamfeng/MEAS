@@ -35,6 +35,11 @@ namespace MEAS.Controllers
             return View(product);
         }
 
+        public ActionResult Cols()
+        {
+            return View();  
+        }
+
         [HttpPost]
         public async Task<ActionResult> Edit(Product product)
         {
@@ -43,7 +48,7 @@ namespace MEAS.Controllers
                
                 return RedirectToAction("Index");
             }
-
+         
             return View(product);
         }
     }
