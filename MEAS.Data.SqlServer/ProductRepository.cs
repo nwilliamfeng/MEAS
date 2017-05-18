@@ -22,6 +22,13 @@ namespace MEAS.Data.SqlServer
             lst.Add(new Product { Id = 8, Category = "Watersports", Name = "Name1_Watersports", Model = "Model1_Watersports", Price = 99.99m });
             lst.Add(new Product { Id = 9, Category = "Watersports", Name = "Name2_Watersports", Model = "Model2_Watersports", Price = 299.09m });
             lst.Add(new Product { Id = 10, Category = "Watersports", Name = "Name3_Watersports", Model = "Model3_Watersports", Price = 199.99m });
+            for(int i = 0; i < 10; i++)
+                lst.Add(new Product { Id =11+ i, Category = "Chess", Name = "Name"+i.ToString()+"_Chess", Model = "Model1_Chess", Price = i*10m });
+            for (int i = 0; i < 10; i++)
+                lst.Add(new Product { Id = 30 + i, Category = "Soccer", Name = "Name" + i.ToString() + "_Soccer", Model = "Model1_Soccer", Price = i * 5m });
+            for (int i = 0; i < 10; i++)
+                lst.Add(new Product { Id = 40 + i, Category = "Watersports", Name = "Watersports" + i.ToString() + "_Watersports", Model = "Model1_Watersports", Price = i * 12m });
+
         }
 
         public Task<IEnumerable<Product>> FindWithCategory(string category)
