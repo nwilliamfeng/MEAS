@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using MEAS.Data;
+using PagedList;
+
 
 namespace MEAS.Controllers
 {
@@ -17,10 +19,12 @@ namespace MEAS.Controllers
             this._productRepository = productRepository;
         }
     
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
+            var pnum = page ?? 1;
             var products = await this._productRepository.LoadAll();
-            return View(products);
+           
+            return View(products.ToPagedList());
         }
 
         public async Task<ActionResult> Delete(int id)
