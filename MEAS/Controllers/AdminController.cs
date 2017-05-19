@@ -21,10 +21,10 @@ namespace MEAS.Controllers
     
         public async Task<ActionResult> Index(int? page)
         {
-            var pnum = page ?? 1;
+            var pageNum = page ?? 1;
             var products = await this._productRepository.LoadAll();
-           
-            return View(products.ToPagedList());
+         //   ViewBag.OnePageResult = products.ToPagedList(pageNum,10);
+            return View(products.ToPagedList(pageNum, 10));
         }
 
         public async Task<ActionResult> Delete(int id)
