@@ -10,6 +10,7 @@ using PagedList;
 
 namespace MEAS.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private IProductRepository _productRepository;
