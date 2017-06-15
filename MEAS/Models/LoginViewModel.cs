@@ -10,7 +10,7 @@ namespace MEAS.Models
     {
         [Required]
         [Display(Name = "用户名")]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
