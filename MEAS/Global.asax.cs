@@ -13,11 +13,31 @@ using MEAS.Data;
 using MEAS.Data.SqlServer;
 using MEAS.Binder;
 using System.Reflection;
+using System.Web.Security;
+using System.Security.Principal;
 
 namespace MEAS
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+
+        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+        {
+            if (!FormsAuthentication.CookiesSupported)
+                return;           
+            string cookieName = FormsAuthentication.FormsCookieName;
+            if (string.IsNullOrEmpty(cookieName))
+                return;
+            HttpCookie authCookie = Context.Request.Cookies[cookieName];
+            if (authCookie == null)
+                return;
+
+            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+            string[] roles = authTicket.UserData.Split(',');
+            var userIdentity = new FormsIdentity(authTicket); //此处也可以用自定义的IIdentity实例代替，比如GenericIdentity
+            Context.User = new GenericPrincipal(userIdentity, roles);    
+        }
+
         protected void Application_Start()
         {
               // this.InitizeAutofac();

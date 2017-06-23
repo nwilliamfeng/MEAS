@@ -10,7 +10,7 @@ using PagedList;
 
 namespace MEAS.Controllers
 {
-    [Authorize]
+  
     public class AdminController : Controller
     {
         private IProductRepository _productRepository;
@@ -20,11 +20,24 @@ namespace MEAS.Controllers
             this._productRepository = productRepository;
         }
     
+       // [Permission(Roles ="1,2,3")]
+       [Authorize(Roles ="1,2,3")]
         public async Task<ActionResult> Index(int? page)
         {
+            Console.WriteLine(this.Request); 
             var pageNum = page ?? 1;
             var products = await this._productRepository.LoadAll();
          //   ViewBag.OnePageResult = products.ToPagedList(pageNum,10);
+            return View(products.ToPagedList(pageNum, 10));
+        }
+
+
+        [Permission(Roles = "1,2,3,4")]
+        public async Task<ActionResult> Index2(int? page)
+        {
+            var pageNum = page ?? 1;
+            var products = await this._productRepository.LoadAll();
+            //   ViewBag.OnePageResult = products.ToPagedList(pageNum,10);
             return View(products.ToPagedList(pageNum, 10));
         }
 
@@ -55,6 +68,14 @@ namespace MEAS.Controllers
             }
          
             return View(product);
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            
+            base.Dispose(disposing);
+            
         }
     }
 }
