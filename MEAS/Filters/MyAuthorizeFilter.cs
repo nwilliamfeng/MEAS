@@ -22,7 +22,7 @@ namespace MEAS
         {
             roles = new Dictionary<string, string[]>();
             roles["admin"] = new string[] { "1","2","3"};
-            roles["user"] = new string[] { "1" ,"2"};
+            roles["user"] = new string[] { "4" ,"5"};
         }
 
         public static string[]  GetRoles(string name)

@@ -20,8 +20,8 @@ namespace MEAS.Controllers
             this._productRepository = productRepository;
         }
     
-       // [Permission(Roles ="1,2,3")]
-       [Authorize(Roles ="1,2,3")]
+
+       [CustomAuthorize(Roles ="1,2,3")]
         public async Task<ActionResult> Index(int? page)
         {
             Console.WriteLine(this.Request); 
