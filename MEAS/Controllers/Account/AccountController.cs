@@ -20,12 +20,15 @@ namespace MEAS.Controllers
         }
 
       
+         [CustomHandleError(View ="Home/Index")]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-         
+            throw new InvalidOperationException("not allow login!");
             ViewBag.ReturnUrl = returnUrl;
             return View();
+             
+         
         }
 
         //[HttpPost]
@@ -70,10 +73,7 @@ namespace MEAS.Controllers
         {            
             if (!ModelState.IsValid)
                 return View();
-
-    
-
-            
+ 
             var result = this.Authorize(model.UserName, model.Password);
             if (result)
             {

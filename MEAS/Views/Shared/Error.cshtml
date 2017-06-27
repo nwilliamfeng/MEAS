@@ -6,19 +6,14 @@
     {
         var ex = Model.Exception as HttpException;
         if (ex.GetHttpCode() == (int)HttpStatusCode.Unauthorized)
-        {
-            System.Threading.Tasks.Task.Run(() =>
-            {
-                System.Threading.Thread.Sleep(3000);
-                Url.Action("login", "account");
-                //Response.Redirect("~/Account/Login");
-            });
-
+        { 
+               Response.Redirect("~/Account/Login");
+        
         }
     }
 }
 
-<h1 class="text-danger">很抱歉，操作出现了问题 : + @Model.Exception.Message</h1>
+<h1 class="text-danger">很抱歉，操作出现了问题 :  @Model.Exception.Message</h1>
  
 <h2 class="text-danger">An error occurred while processing your request.</h2>
  

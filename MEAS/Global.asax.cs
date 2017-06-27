@@ -49,6 +49,11 @@ namespace MEAS
             ModelBinders.Binders.Add(typeof(Cart), new CartBinder()); //Page 191
         }
 
+        protected void Application_Error()
+        {       
+            System.Diagnostics.Debug.WriteLine("");   
+        }
+
         private   void SetAutofacContainer()
         {
             var builder = new ContainerBuilder();
