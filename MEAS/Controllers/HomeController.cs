@@ -21,6 +21,11 @@ namespace MEAS.Controllers
             return View();
         }
 
+        public ActionResult Demo()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
