@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace MEAS
 {
-  
+   
     public class CustomAuthorizeAttribute:AuthorizeAttribute
     {
         protected override void HandleUnauthorizedRequest(AuthorizationContext context)
@@ -13,14 +13,17 @@ namespace MEAS
             if (context.HttpContext.Request.IsAuthenticated)
             {
                 var ex = new HttpException((int)System.Net.HttpStatusCode.Forbidden, "此操作没有权限！");
-                context.Result = this.GetErrorPage(ex, context);
+                throw ex;
+            //    context.Result = this.GetErrorPage(ex, context);
             }
             else
             {
                 base.HandleUnauthorizedRequest(context);
-
+              
                 var exception = new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "请重新登录。");
-                context.Result = this.GetErrorPage(exception ,context );
+                throw exception;
+
+                //   context.Result = this.GetErrorPage(exception ,context );
             }
         }
 

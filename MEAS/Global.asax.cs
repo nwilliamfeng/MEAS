@@ -50,8 +50,11 @@ namespace MEAS
         }
 
         protected void Application_Error()
-        {       
-            System.Diagnostics.Debug.WriteLine("");   
+        {
+            var error = Server.GetLastError();
+            var type = error.GetType();
+            System.Diagnostics.Debug.WriteLine(type);
+            System.Diagnostics.Debug.WriteLine(error);   
         }
 
         private   void SetAutofacContainer()

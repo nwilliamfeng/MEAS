@@ -20,11 +20,11 @@ namespace MEAS.Controllers
         }
 
       
-         [CustomHandleError(View ="Home/Index")]
+     
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            throw new InvalidOperationException("not allow login!");
+            //throw new InvalidOperationException("not allow login!");
             ViewBag.ReturnUrl = returnUrl;
             return View();
              
