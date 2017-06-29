@@ -10,7 +10,14 @@ using PagedList;
 
 namespace MEAS.Controllers
 {
-  
+    public class NotAuthorizedHttpException : HttpException
+    {
+        public NotAuthorizedHttpException(string missingRoles)
+          : base(401, string.Format("You do not have the required role(s) '{0}'.", string.Join(", ", missingRoles)))
+        {
+        }
+    }
+
     public class AdminController : Controller
     {
         private IProductRepository _productRepository;
@@ -21,10 +28,10 @@ namespace MEAS.Controllers
         }
     
 
-       [CustomAuthorize(Roles ="1,2,3")]
+        [CustomAuthorize(Roles ="1,2,3")]
         public async Task<ActionResult> Index(int? page)
         {
-            Console.WriteLine(this.Request); 
+      
             var pageNum = page ?? 1;
             var products = await this._productRepository.LoadAll();
          //   ViewBag.OnePageResult = products.ToPagedList(pageNum,10);

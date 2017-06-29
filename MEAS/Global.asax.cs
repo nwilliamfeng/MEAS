@@ -49,12 +49,33 @@ namespace MEAS
             ModelBinders.Binders.Add(typeof(Cart), new CartBinder()); //Page 191
         }
 
-        protected void Application_Error()
+       
+
+        protected void Application_Error(object sender, EventArgs e)
         {
-            var error = Server.GetLastError();
-            var type = error.GetType();
-            System.Diagnostics.Debug.WriteLine(type);
-            System.Diagnostics.Debug.WriteLine(error);   
+
+            var ex = Server.GetLastError().GetBaseException();
+
+            Server.ClearError();
+            var routeData = new RouteData();
+            routeData.Values.Add("controller", "Error");
+            routeData.Values.Add("action", "Index");
+
+            if (ex.GetType() == typeof(HttpException))
+            {
+                var httpException = (HttpException)ex;
+                var code = httpException.GetHttpCode();
+                routeData.Values.Add("status", code);
+            }
+            else
+            {
+                routeData.Values.Add("status", 500);
+            }
+
+            routeData.Values.Add("error", ex);
+
+            IController errorController = new Controllers.ErrorController();
+            errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
         }
 
         private   void SetAutofacContainer()

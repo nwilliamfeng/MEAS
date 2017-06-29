@@ -20,8 +20,8 @@ namespace MEAS
             {
                 base.HandleUnauthorizedRequest(context);
               
-                var exception = new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "请重新登录。");
-                throw exception;
+                //var exception = new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "请重新登录。");
+                //throw exception;
 
                 //   context.Result = this.GetErrorPage(exception ,context );
             }
