@@ -54,28 +54,28 @@ namespace MEAS
         protected void Application_Error(object sender, EventArgs e)
         {
 
-            var ex = Server.GetLastError().GetBaseException();
+            //var ex = Server.GetLastError().GetBaseException();
 
-            Server.ClearError();
-            var routeData = new RouteData();
-            routeData.Values.Add("controller", "Error");
-            routeData.Values.Add("action", "Index");
+            //Server.ClearError();
+            //var routeData = new RouteData();
+            //routeData.Values.Add("controller", "Error");
+            //routeData.Values.Add("action", "Index");
 
-            if (ex.GetType() == typeof(HttpException))
-            {
-                var httpException = (HttpException)ex;
-                var code = httpException.GetHttpCode();
-                routeData.Values.Add("status", code);
-            }
-            else
-            {
-                routeData.Values.Add("status", 500);
-            }
+            //if (ex.GetType() == typeof(HttpException))
+            //{
+            //    var httpException = (HttpException)ex;
+            //    var code = httpException.GetHttpCode();
+            //    routeData.Values.Add("status", code);
+            //}
+            //else
+            //{
+            //    routeData.Values.Add("status", 500);
+            //}
 
-            routeData.Values.Add("error", ex);
+            //routeData.Values.Add("error", ex);
 
-            IController errorController = new Controllers.ErrorController();
-            errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
+            //IController errorController = new Controllers.ErrorController();
+            //errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
         }
 
         private   void SetAutofacContainer()

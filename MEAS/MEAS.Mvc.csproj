@@ -230,7 +230,8 @@
     <Content Include="Views\Admin\Cols.cshtml" />
     <Content Include="Views\Home\Demo.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
-    <Content Include="Views\Error\NotAuthenticated.cshtml" />
+    <Content Include="Views\Error\Unauthenticated.cshtml" />
+    <Content Include="Views\Error\Unauthorized.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

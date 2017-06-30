@@ -17,14 +17,20 @@ namespace MEAS.Controllers
         public ViewResult NotFound()
         {
             Response.StatusCode = 404;  
-            return View("NotFound");
+            return View();
         }
 
-        public ViewResult NotAuthenticated()
-        {
-            
+        public ViewResult Unauthenticated()
+        {            
             Response.StatusCode = 401;
-            return View("NotFound");
+            return View();
+        }
+
+        public ViewResult Unauthorized( )
+        {
+            Response.StatusCode = 403;
+      
+            return View() ;
         }
     }
 }
