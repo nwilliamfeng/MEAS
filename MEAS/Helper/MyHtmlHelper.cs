@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MEAS.Models;
+using System.Web.Mvc.Html;
 
-namespace MEAS.Helper
+namespace MEAS
 {
     public static class MyHtmlHelper
     {
@@ -13,5 +14,12 @@ namespace MEAS.Helper
         {
             return null;
         }
+
+
+        public static MvcForm BeginFormWithHorizontal(this HtmlHelper html, string actionName=null,string controllerName=null)
+        {
+            return html.BeginForm(actionName, controllerName, FormMethod.Post, new { @class = "form-horizontal" });
+        }
+
     }
 }

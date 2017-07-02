@@ -3,29 +3,60 @@
 @using MEAS.Models
 @model LoginViewModel
 @{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+   Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
     ViewBag.Title = "Login";
 }
-<div class="panel panel-body">
+<head>
+
+    <style>
+        .control-label {
+            vertical-align: central;
+            margin: 104px,10px,10px,10px;
+        }
+        .btn{
+            padding:20px,10px;
+            margin:20px,10px;
+        }
+
+        .form-group {
+            margin: 4px,10px,10px,10px;
+        }
+    </style>
+</head>
+<div class="panel panel-info">
     <div class="panel-heading">
         <h2>登录</h2>
     </div>
-    <div class="panel-body">
-        @using (Html.BeginForm())
+    <div class="panel-body  col-md-7">
+        @using (Html.BeginFormWithHorizontal())
         {
+       
             @Html.ValidationSummary()
             <div class="form-group">
-                <label>用户名</label>
-                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                <label class="col-md-2    control-label">用户名</label>
+                <div class="col-md-10" >
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control input-sm" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">密码</label>
+                <div class="col-md-10 ">
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                </div>
             </div>
             <div class="form-group">
-                <label>密码</label>
-                @Html.PasswordFor(x => x.Password,new { @class="form-control"})
+                <div class="col-md-offset-2 col-md-10">
+                    @*<input type="submit" value="登录" class="btn btn-primary" />*@
+                    <button class="btn btn-primary" type="submit" >登录</button>
+                </div>
             </div>
-            <input type="submit" value="登录" class="btn btn-primary"/>
+
         }
     </div>
 </div>
 
- 
+
 
