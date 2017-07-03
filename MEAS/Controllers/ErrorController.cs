@@ -20,9 +20,11 @@ namespace MEAS.Controllers
             return View();
         }
 
-        public ViewResult Unauthenticated()
+        public ViewResult Unauthenticated(string returnUrl)
         {            
             Response.StatusCode = 401;
+            if (!string.IsNullOrEmpty(returnUrl))
+                ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 

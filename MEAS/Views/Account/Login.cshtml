@@ -29,9 +29,9 @@
         <h2>登录</h2>
     </div>
     <div class="panel-body  col-md-7">
-        @using (Html.BeginFormWithHorizontal())
+        @using (Html.BeginForm(null,null,new { returnUrl = ViewBag.ReturnUrl },FormMethod.Post, new { @class = "form-horizontal" }))
         {
-       
+
             @Html.ValidationSummary()
             <div class="form-group">
                 <label class="col-md-2    control-label">用户名</label>

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Web;
+
 using System.Web.Mvc;
-using System.Web.Routing;
-using MEAS.Controllers;
 
 namespace MEAS
 {
-   
     public class CustomAuthorizeAttribute:AuthorizeAttribute
     {
         protected override void HandleUnauthorizedRequest(AuthorizationContext context)
@@ -23,19 +19,18 @@ namespace MEAS
                 //                       { "action", "ActionName" },
                 //                       { "controller", "ControllerName" }
                 //                  });
-
-
                 //var ex = new HttpException((int)System.Net.HttpStatusCode.Forbidden, "此操作没有权限！");                           
                 //context.Result = this.GetErrorPage(ex, context);
+            }
 
-            }
-            else
-            {
-                base.HandleUnauthorizedRequest(context);
-                context.HttpContext.Response.Redirect(@"\Error\Unauthenticated");
-                //var exception = new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "请重新登录。");
-                //context.Result = this.GetErrorPage(exception ,context );  
-            }
+            //由于mvc5开始，加入IAuthenticationFilter接口，分离了原来AuthorizeAuttribute的认证操作，以下代码注释
+            //else
+            //{
+            //    base.HandleUnauthorizedRequest(context);
+            //    context.HttpContext.Response.Redirect(@"\Error\Unauthenticated");
+            //    //var exception = new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "请重新登录。");
+            //    //context.Result = this.GetErrorPage(exception ,context );  
+            //}
         }
 
         private ActionResult  GetErrorPage(Exception ex,AuthorizationContext context)
