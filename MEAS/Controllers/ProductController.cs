@@ -19,9 +19,9 @@ namespace MEAS.Controllers
             this._service = service;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            return List(string category, int page = 1);
         }
 
         public async Task<ActionResult> List(string category,int page=1 )
