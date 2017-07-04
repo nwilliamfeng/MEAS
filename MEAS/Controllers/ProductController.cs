@@ -21,7 +21,9 @@ namespace MEAS.Controllers
 
         public async Task<ActionResult> Index()
         {
-            return List(string category, int page = 1);
+            var category = "Chess";
+            return this.RedirectToAction("List", new {  category }); 
+           // return View();
         }
 
         public async Task<ActionResult> List(string category,int page=1 )

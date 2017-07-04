@@ -14,6 +14,7 @@ namespace MEAS.Binder
     {
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
+            //真实场景是不能放session里的，如果session结束意味着cart将清空
             string sessionkey = "Cart";
             Cart cart = null;
             if (controllerContext.HttpContext.Session != null)
