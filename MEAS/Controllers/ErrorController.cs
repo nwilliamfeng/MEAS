@@ -8,12 +8,13 @@ namespace MEAS.Controllers
 {
     public class ErrorController : Controller
     {
-        // GET: Error
+        // GET: Error-+
         public ActionResult Index()
         {
-            return View("Error");
+            return View();
         }
 
+       
         public ViewResult NotFound()
         {
             Response.StatusCode = 404;  

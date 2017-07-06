@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Web;
 using System.Web.Mvc;
 
 namespace MEAS
@@ -11,9 +11,10 @@ namespace MEAS
             //不推荐抛出异常。https://stackoverflow.com/questions/17148554/asp-net-mvc-4-throw-httpexception-vs-return-httpstatuscoderesult
             if (context.HttpContext.Request.IsAuthenticated)
             {
-               context.HttpContext.Response.Redirect(@"\Error\Unauthorized");
+                throw new HttpException((int)System.Net.HttpStatusCode.Forbidden, "此操作没有权限！");
+                //  context.HttpContext.Response.Redirect(@"\Error\Unauthorized");
 
-     
+
                 //context.Result = new RedirectToRouteResult(
                 //    new RouteValueDictionary {
                 //                       { "action", "ActionName" },

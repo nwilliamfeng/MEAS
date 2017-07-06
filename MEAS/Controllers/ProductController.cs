@@ -9,6 +9,7 @@ using MEAS.Models;
 
 namespace MEAS.Controllers
 {
+    [SessionState( System.Web.SessionState.SessionStateBehavior.Disabled)]
     public class ProductController : Controller
     {
         private IProductService _service;
@@ -30,7 +31,9 @@ namespace MEAS.Controllers
 
         public async Task<ActionResult> List(string category,int page=1 )
         {
-     
+            //int x = 1;
+            //int s = (int)3/(1-x);
+       
             if (category == null)
                 return this.RedirectToAction("Index", "Home");
             var value =TempData["key"];

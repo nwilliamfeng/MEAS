@@ -49,33 +49,38 @@ namespace MEAS
             ModelBinders.Binders.Add(typeof(Cart), new CartBinder()); //Page 191
         }
 
-       
+
 
         protected void Application_Error(object sender, EventArgs e)
         {
+            var ex = Server.GetLastError().GetBaseException();
+            HttpException httpException = ex as HttpException;
+            if (httpException != null)
+            {
+                switch (httpException.GetHttpCode())
+                {
+                    case 404:
+                        Response.Redirect("~/Error/NotFound");
+                        return;
+                    case 403:
+                        Response.Redirect("~/Error/Unauthorized");
+                        return;
+                    case 500:
+                        //  action = "HttpError500";
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-            //var ex = Server.GetLastError().GetBaseException();
-
-            //Server.ClearError();
-            //var routeData = new RouteData();
-            //routeData.Values.Add("controller", "Error");
-            //routeData.Values.Add("action", "Index");
-
-            //if (ex.GetType() == typeof(HttpException))
-            //{
-            //    var httpException = (HttpException)ex;
-            //    var code = httpException.GetHttpCode();
-            //    routeData.Values.Add("status", code);
-            //}
-            //else
-            //{
-            //    routeData.Values.Add("status", 500);
-            //}
-
-            //routeData.Values.Add("error", ex);
-
-            //IController errorController = new Controllers.ErrorController();
-            //errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
+            Controller controller = new Controllers.ErrorController();
+            var routeData = new RouteData();
+            routeData.Values["controller"] = "Error";
+            routeData.Values["action"] = "Index";
+            controller.ViewData.Model = new HandleErrorInfo(ex, " ", " ");
+            Server.ClearError();
+            ((IController)controller).Execute(new RequestContext(new HttpContextWrapper(this.Context), routeData));
+          
         }
 
         private   void SetAutofacContainer()
