@@ -1,22 +1,73 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@*@if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("你好，" + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
+        </ul>
+        }
+    }
+    else
+    {
+        <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    }*@
+<head>
+    <style>
+        .btn-tt {
+            border: 0px;
+            background: unset;
+        }
+    </style>
+</head>
+
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-    @Html.AntiForgeryToken()
+    @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("你好，" + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
-    </ul>
-    }
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("你好，" + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
+        </ul>
+        }*@
+  
+    <li class="dropdown">
+        <form class="navbar-form">
+            <div class="btn-group">
+                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">欢迎您，@User.Identity.Name<span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="../Account/Logout">退出登录</a></li>
+                    <li><a href="#">账户</a></li>
+                </ul>
+            </div>
+        </form>
+    </li>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    <li class="dropdown">
+        <form class="navbar-form">
+            <div class="btn-group">
+                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">你好.登录<span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="../Account/Login">登录</a></li>
+                    <li><a href="#">注册</a></li>
+                </ul>
+            </div>
+        </form>
+    </li>
 }
+<li><a href="..\Product">产品</a></li>
+
+

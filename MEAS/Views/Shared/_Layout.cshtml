@@ -9,7 +9,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+   
 </head>
 <body>
   
@@ -54,7 +54,23 @@
                     <li class="active"><a href="..\Home">主页</a></li>
                     <li><a href="..\Product">产品</a></li>
                     <li><a href="">支持</a></li>
+                    @*<li class="dropdown">
+                       
+                        <form class="navbar-form">
+                            <div class="btn-group">
+                                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">Select an Account<span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Hollywood Account</a></li>
+                                    <li><a href="#">Another Account</a></li>
+                                    <li><a href="#">Yet another Account</a></li>
+                                </ul>
+                            </div>
+                        </form>
+                     
+                    </li>*@
+                    @Html.Partial("_LoginPartial")
                 </ul>
+                 
                 @*@Html.Action("Summary","Cart")*@
                 @{Html.RenderAction("Summary", "Cart");}
             </div>
@@ -62,8 +78,11 @@
     </nav>
     
     <div class="row panel">
-        
-            @RenderBody()             
+        <div class="col-xs-12">
+            @RenderBody()
+            
+        </div>
+                  
    
     </div>
    
