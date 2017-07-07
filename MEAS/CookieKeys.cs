@@ -7,7 +7,7 @@ namespace MEAS
 {
     public class CookieKeys
     {
-        public const string USERID = "userID";
+        public const string USER_NAME = "userName";
 
         public const string TOKEN = "token";
     }

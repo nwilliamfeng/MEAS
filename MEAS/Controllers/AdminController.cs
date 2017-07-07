@@ -31,16 +31,6 @@ namespace MEAS.Controllers
             return View(products.ToPagedList(pageNum, 10));
         }
 
-
-        [Permission(Roles = "1,2,3,4")]
-        public async Task<ActionResult> Index2(int? page)
-        {
-            var pageNum = page ?? 1;
-            var products = await this._productRepository.LoadAll();
-            //   ViewBag.OnePageResult = products.ToPagedList(pageNum,10);
-            return View(products.ToPagedList(pageNum, 10));
-        }
-
         public async Task<ActionResult> Delete(int id)
         {
             var products = await this._productRepository.LoadAll();

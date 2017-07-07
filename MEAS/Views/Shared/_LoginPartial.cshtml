@@ -45,7 +45,7 @@
     <li class="dropdown">
         <form class="navbar-form">
             <div class="btn-group">
-                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">欢迎您，@User.Identity.Name<span class="caret"></span></button>
+                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">欢迎您，@this.User.Identity.GetUserName()<span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a href="../Account/Logout">退出登录</a></li>
                     <li><a href="#">账户</a></li>

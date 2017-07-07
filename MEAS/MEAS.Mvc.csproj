@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DependencyResolverConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Binder\CartBinder.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\IdentityExtensions.cs" />
     <Compile Include="Helper\MyHtmlHelper.cs" />
     <Compile Include="ModelExtensions.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
@@ -170,6 +172,7 @@
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Filters\MyAuthorizeFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helper\UserInfoManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
@@ -262,9 +265,9 @@
       <Project>{6e8974f4-c2bf-43c9-9543-b6bf8257568a}</Project>
       <Name>MEAS.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MEAS.Data.SqlServer\MEAS.Data.SqlServer.csproj">
+    <ProjectReference Include="..\MEAS.Data.MySql\MEAS.Data.MySql.csproj">
       <Project>{04cb1db8-70c0-4d54-853a-ecaf1547a821}</Project>
-      <Name>MEAS.Data.SqlServer</Name>
+      <Name>MEAS.Data.MySql</Name>
     </ProjectReference>
     <ProjectReference Include="..\MEAS.Service\MEAS.Service.csproj">
       <Project>{dec9d363-fc4f-4950-a427-1297ae8ee338}</Project>

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEAS.Core", "MEAS.Core\MEAS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEAS.Service", "MEAS.Service\MEAS.Service.csproj", "{DEC9D363-FC4F-4950-A427-1297AE8EE338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEAS.Data.SqlServer", "MEAS.Data.SqlServer\MEAS.Data.SqlServer.csproj", "{04CB1DB8-70C0-4D54-853A-ECAF1547A821}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEAS.Data.MySql", "MEAS.Data.MySql\MEAS.Data.MySql.csproj", "{04CB1DB8-70C0-4D54-853A-ECAF1547A821}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

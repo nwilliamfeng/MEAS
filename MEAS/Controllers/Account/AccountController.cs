@@ -6,28 +6,26 @@ using System.Web.Mvc;
 using MEAS.Models;
 using System.Web;
 using System.Web.Security;
+using System.Security.Claims;
+using MEAS.Service;
 
 namespace MEAS.Controllers
 {
     public class AccountController : Controller
     {
-        private static Dictionary<string, string> userDicts ;
 
-        public AccountController()
+        private IAccountService _accountService;
+
+        public AccountController(IAccountService accountService)
         {
-            if (userDicts == null)
-                userDicts = new Dictionary<string, string>();
+            this._accountService = accountService;
         }
 
-      
-    
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
-             
-         
+            return View();        
         }
 
         //[HttpPost]
@@ -72,22 +70,22 @@ namespace MEAS.Controllers
         {            
             if (!ModelState.IsValid)
                 return View();
- 
-            var result = this.Authorize(model.UserName, model.Password);
-            if (result)
+            var user =await  this._accountService.Find(model.UserName, model.Password);
+            if (user!=null)
             {
-                var rolestr = string.Join(",", AccountManager.GetRoles(model.UserName));
+                var rolestr = string.Join(",", user.Roles);
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, DateTime.Now.AddSeconds(10), true, rolestr);
                 string encTicket = FormsAuthentication.Encrypt(ticket);
                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                 cookie.Expires = ticket.Expiration;
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
+                await this._accountService.UpdateLogin(user);
+
+         
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }
-
             this.AddError("错误的用户名或密码！");
-
             return View();
         }
 
@@ -116,35 +114,13 @@ namespace MEAS.Controllers
              
         }
 
-     
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //to do dispose...
-            }
-            base.Dispose(disposing);
-        }
- 
+    
         private void AddError(string error)
         {
             ModelState.AddModelError("", error);
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home");
-        }
 
-        private bool Authorize(string name,string password)
-        {
-            return true;
-        }
-
-   
+       
     }
 }

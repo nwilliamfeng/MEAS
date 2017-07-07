@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MEAS.Data.SqlServer
+namespace MEAS.Data.MySql
 {
     public class ProductRepository : IProductRepository
     {
