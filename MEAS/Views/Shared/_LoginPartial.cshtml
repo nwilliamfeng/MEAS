@@ -27,23 +27,11 @@
         }
     </style>
 </head>
+ 
+    @if (Request.IsAuthenticated)
+    {
 
-@if (Request.IsAuthenticated)
-{
-    @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-        {
-        @Html.AntiForgeryToken()
-
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("你好，" + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
-        </ul>
-        }*@
-  
-    <li class="dropdown">
-        <form class="navbar-form">
+        <form class="navbar-right navbar-form">
             <div class="btn-group">
                 <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">欢迎您，@this.User.Identity.GetUserName()<span class="caret"></span></button>
                 <ul class="dropdown-menu">
@@ -52,12 +40,12 @@
                 </ul>
             </div>
         </form>
-    </li>
-}
-else
-{
-    <li class="dropdown">
-        <form class="navbar-form">
+
+    }
+    else
+    {
+
+        <form class="navbar-right navbar-form">
             <div class="btn-group">
                 <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">你好.登录<span class="caret"></span></button>
                 <ul class="dropdown-menu">
@@ -66,8 +54,21 @@ else
                 </ul>
             </div>
         </form>
-    </li>
-}
-<li><a href="..\Product">产品</a></li>
+
+         
+            @*<div class="btn-group">
+                <a href="../Account/Login" class="btn btn-default  dropdown-toggle btn-tt" +>你好.登录</a>
+                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown" >
+                    <span class="caret"></span>
+                    <span class="sr-only"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="../Account/Login">登录</a></li>
+                    <li><a href="#">注册</a></li>
+                </ul>
+            </div>*@
+       
+    }
+ 
 
 

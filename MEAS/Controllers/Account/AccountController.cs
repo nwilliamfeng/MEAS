@@ -96,7 +96,7 @@ namespace MEAS.Controllers
             return View();
         }
 
-        public ActionResult LogOff()
+        public ActionResult LogOut()
         {
             //不能用for，全部清空会报outofmemory异常
             //for (int i = 0; i < Request.Cookies.Count; i++)

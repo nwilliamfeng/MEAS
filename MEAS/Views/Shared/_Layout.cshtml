@@ -1,51 +1,51 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />    
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-   
+
 </head>
 <body>
-  
+
 
     @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("主页", "Index", "Home")</li>
+                        <li>@Html.ActionLink("关于", "About", "Home")</li>
+                        <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("关于", "About", "Home")</li>
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>*@
-     
+        </div>*@
+
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button"  class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <!--3个span做成图标-->
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <a href="..\Home\Index" class="navbar-brand">
-                    <img src="..\favicon.ico" style="height:40%;width:40%;vertical-align:central" alt="Meas"/>
+                    <img src="..\favicon.ico" style="height:40%;width:40%;vertical-align:central" alt="Meas" />
                 </a>
                 <p class="navbar-text"><strong>Meas</strong></p>
             </div>
@@ -54,41 +54,31 @@
                     <li class="active"><a href="..\Home">主页</a></li>
                     <li><a href="..\Product">产品</a></li>
                     <li><a href="">支持</a></li>
-                    @*<li class="dropdown">
-                       
-                        <form class="navbar-form">
-                            <div class="btn-group">
-                                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">Select an Account<span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Hollywood Account</a></li>
-                                    <li><a href="#">Another Account</a></li>
-                                    <li><a href="#">Yet another Account</a></li>
-                                </ul>
-                            </div>
-                        </form>
-                     
-                    </li>*@
-                    @Html.Partial("_LoginPartial")
+                    @*@Html.Partial("_LoginPartial")*@
                 </ul>
-                 
-                @*@Html.Action("Summary","Cart")*@
+
+
+
+
                 @{Html.RenderAction("Summary", "Cart");}
+                @Html.Partial("_LoginPartial")
+
             </div>
         </div>
     </nav>
-    
+
     <div class="row panel">
         <div class="col-xs-12">
             @RenderBody()
-            
+
         </div>
-                  
-   
+
+
     </div>
-   
+
     <footer>
         <p>&copy; @DateTime.Now.Year - Microcomm</p>
     </footer>
-   
+
 </body>
 </html>
