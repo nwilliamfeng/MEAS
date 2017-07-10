@@ -21,9 +21,10 @@ namespace MEAS.Controllers
             return View();
         }
 
+        [ChildActionOnly]
         public ActionResult Demo()
         {
-            return View();
+            return Content("abc");
         }
 
         public ActionResult About()
