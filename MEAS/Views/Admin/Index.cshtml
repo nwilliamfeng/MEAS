@@ -7,7 +7,23 @@
 }
  
 @model IPagedList<Product>
-
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dissmiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>asdfasdfasdfasdf</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dissmiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <h2>All Products</h2>
 
 <div class="panel-body" >
@@ -45,4 +61,12 @@
     <!-- output a paging control that lets the user navigation to the previous page, next page, etc -->
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast);
 </div>
+<script src="~/Scripts/jquery-1.10.2.js"></script> 
+<script src="~/Scripts/bootstrap.min.js"></script>
+ <script>
+     $(document).ready(function () {
+         $('#myModal').modal('show');
+     });
+ </script>
+
 

@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using MEAS.Models;
 using System.Web;
 using System.Web.Security;
-using System.Security.Claims;
 using MEAS.Service;
 
 namespace MEAS.Controllers
@@ -74,7 +73,7 @@ namespace MEAS.Controllers
             if (user!=null)
             {
                 var rolestr = string.Join(",", user.Roles);
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, DateTime.Now.AddSeconds(10), true, rolestr);
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, DateTime.Now.AddSeconds(60), true, rolestr);
                 string encTicket = FormsAuthentication.Encrypt(ticket);
                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                 cookie.Expires = ticket.Expiration;
