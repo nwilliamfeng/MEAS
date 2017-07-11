@@ -3,7 +3,7 @@
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Admin: All Products";
-    //Layout = "~/Views/Shared/_AdminLayout.cshtml";
+   // Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
  
 @model IPagedList<Product>
@@ -62,7 +62,7 @@
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast);
 </div>
 <script src="~/Scripts/jquery-1.10.2.js"></script> 
-<script src="~/Scripts/bootstrap.min.js"></script>
+
  <script>
      $(document).ready(function () {
          $('#myModal').modal('show');
