@@ -43,9 +43,21 @@ namespace MEAS.Controllers
             return View(product);
         }
 
-        public ActionResult Cols()
+        public ActionResult DownLoad(long fileId)
         {
-            return View();  
+            //https://stackoverflow.com/questions/5826649/returning-a-file-to-view-download-in-asp-net-mvc
+            string[] extensions = new string[] { "pdf","png","jpg"};
+            return new FileStreamResult(new System.IO.MemoryStream(document.Data), document.ContentType);
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                // for example foo.bak
+                FileName = document.FileName,
+                // always prompt the user for downloading, set to true if you want 
+                // the browser to try to show the file inline
+                Inline = false,
+            };
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+            return File(document.Data, document.ContentType);
         }
 
         [HttpPost]

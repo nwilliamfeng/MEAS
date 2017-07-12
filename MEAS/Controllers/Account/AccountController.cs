@@ -80,14 +80,12 @@ namespace MEAS.Controllers
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
                 await this._accountService.UpdateLogin(user);
-
-         
+             
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }
             this.AddError("错误的用户名或密码！");
             return View();
         }
-
 
         [AllowAnonymous]
         public ActionResult ForgotPassword()

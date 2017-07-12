@@ -43,6 +43,7 @@
     <Compile Include="Data\IAccountRepository.cs" />
     <Compile Include="Data\IProductRepository.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="FileDocument.cs" />
     <Compile Include="Manufacturer.cs" />
     <Compile Include="MD5Helper.cs" />
     <Compile Include="Product.cs" />
