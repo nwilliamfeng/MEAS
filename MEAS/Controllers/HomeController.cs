@@ -16,16 +16,17 @@ namespace MEAS.Controllers
           
         }
 
+        public ActionResult Demo()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();
         }
 
-        [ChildActionOnly]
-        public ActionResult Demo()
-        {
-            return Content("abc");
-        }
+        
 
         public ActionResult About()
         {

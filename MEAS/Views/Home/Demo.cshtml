@@ -1,0 +1,48 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Demo</title>
+    @*<link href="~/Content/bootstrap.css"   rel="stylesheet"/>*@
+    <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+    <script>
+        //$(document).ready(function () {
+        //    alert("hello world");
+        //});
+        $(".level>a").click(function () {
+            $(this).addClass("current").next().show().parent().siblings().children("a").removeClass("current").next().hidden();
+            return false;
+        })
+    </script>
+</head>
+<body>
+    <div class="box"> 
+        <ul class="dropdown-menu">
+            <li class="level1">
+                <a href="#none" >aaa</a>
+                <ul class="level2">
+                    <li><a href="#none">aa1</a></li>
+                    <li><a href="#none">aa2</a></li>
+                    <li><a href="#none">aa3</a></li>
+                    <li><a href="#none">aa4</a></li>
+                </ul>
+            </li>
+            <li class="level1">
+                <a href="#none">bbb</a>
+                <ul class="level2">
+                    <li><a href="#none">bb1</a></li>
+                    <li><a href="#none">bb2</a></li>
+               
+                </ul>
+            </li>
+        </ul>
+    </div>
+     
+</body>
+</html>
