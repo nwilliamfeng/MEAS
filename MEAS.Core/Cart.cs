@@ -43,7 +43,7 @@ namespace MEAS
 
         public int Quantity { get; set; }
 
-        public int ProductId
+        public long ProductId
         {
             get
             {

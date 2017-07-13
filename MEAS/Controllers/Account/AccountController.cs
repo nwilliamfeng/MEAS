@@ -23,6 +23,10 @@ namespace MEAS.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+           var file= string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+      
+            Console.WriteLine(file);
+            Console.WriteLine();
             ViewBag.ReturnUrl = returnUrl;
             return View();        
         }
