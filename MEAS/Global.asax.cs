@@ -31,7 +31,8 @@ namespace MEAS
 
         protected void Application_Start()
         {
-            DependencyResolverConfig.RegistInstances(); //di注册实例
+            DependencyResolverConfig.RegistInstances(); //di注册实例         
+            AutoMapperMappingConfig.Configure(); //配置AutoMapper
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

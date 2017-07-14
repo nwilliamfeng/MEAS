@@ -31,7 +31,7 @@ namespace MEAS.Controllers
    
      
 
-        public ActionResult DownLoad(long id)
+        public ActionResult Download(long id)
         {
             //https://stackoverflow.com/questions/5826649/returning-a-file-to-view-download-in-asp-net-mvc
 
@@ -51,6 +51,33 @@ namespace MEAS.Controllers
             };
             Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(document.Data, document.ContentType);
+        }
+
+
+        [HttpPost]
+        public ActionResult Upload()
+        {
+            if (Request.Files.Count > 0)
+            {
+                var file = Request.Files[0];
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    //var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
+                    var dir = @"e:\files";
+                    if (Directory.Exists(dir))
+                        Directory.CreateDirectory(dir);
+                    var path = Path.Combine(dir,fileName);
+                    file.SaveAs(path);
+                }
+            }
+
+            return RedirectToAction("UploadFile");
+        }
+
+        public ActionResult UploadFile()
+        {
+            return View();
         }
 
     }

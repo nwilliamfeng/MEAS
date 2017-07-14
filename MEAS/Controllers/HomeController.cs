@@ -13,16 +13,18 @@ namespace MEAS.Controllers
 
         public HomeController( )
         {
-          
+         
         }
 
         public ActionResult Demo()
         {
-            return View();
+            return Content("");
         }
 
         public ActionResult Index()
         {
+            // ViewBag.Text = @"<H><H2>abcded</H2></H>";
+            ViewBag.Text = @"This text contains<br />a line break";
             return View();
         }
 
