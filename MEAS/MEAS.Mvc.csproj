@@ -162,6 +162,7 @@
     <Compile Include="Filters\AuthenticateAttribute.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Filters\CustomHandleErrorAttribute.cs" />
+    <Compile Include="Filters\ThrottleAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
