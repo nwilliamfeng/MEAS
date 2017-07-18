@@ -11,7 +11,7 @@ namespace MEAS.Controllers
         // GET: OutputCache
         public ActionResult Index()
         {
-            return this.RedirectToAction("Time");
+            return this.RedirectToAction("Time");  
         }
 
         //测试缓存
