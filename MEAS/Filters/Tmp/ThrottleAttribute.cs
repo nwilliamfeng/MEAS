@@ -8,6 +8,9 @@ using System.Net;
 
 namespace MEAS
 {
+    /// <summary>
+    /// 可以用outputcache 代替
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class ThrottleAttribute : ActionFilterAttribute
     {

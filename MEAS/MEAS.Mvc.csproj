@@ -146,8 +146,9 @@
     <Compile Include="App_Start\DependencyResolverConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="AutoMapperMappingConfig.cs" />
+    <Compile Include="App_Start\AutoMapperMappingConfig.cs" />
     <Compile Include="Binder\CartBinder.cs" />
+    <Compile Include="Binder\TrimStringBinder.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -162,7 +163,7 @@
     <Compile Include="Filters\AuthenticateAttribute.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Filters\CustomHandleErrorAttribute.cs" />
-    <Compile Include="Filters\ThrottleAttribute.cs" />
+    <Compile Include="Filters\Tmp\ThrottleAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -174,7 +175,7 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PagingResult.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
-    <Compile Include="Filters\MyAuthorizeFilter.cs" />
+    <Compile Include="Filters\Tmp\MyAuthorizeFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\UserInfoManager.cs" />
   </ItemGroup>

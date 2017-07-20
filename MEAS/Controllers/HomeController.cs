@@ -14,11 +14,13 @@ namespace MEAS.Controllers
         public HomeController( )
         {
          
+            Console.WriteLine(System.Configuration.ConfigurationManager.ConnectionStrings);
         }
 
         public ActionResult Demo()
         {
-            return Content("");
+            return Content(""); 
+       
         }
 
         public ActionResult Index()

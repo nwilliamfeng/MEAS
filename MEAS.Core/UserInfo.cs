@@ -17,6 +17,16 @@ namespace MEAS
 
         public string Password { get; set; }
 
-        public string[] Roles { get; set; }
+        public string RoleString { get; set; }
+
+        public string[] Roles
+        {
+            get
+            {
+                if (RoleString == null)
+                    return new string[] { };
+                return RoleString.Split(',');
+            }
+        }
     }
 }

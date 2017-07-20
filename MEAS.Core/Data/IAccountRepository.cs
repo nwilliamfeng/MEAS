@@ -10,6 +10,10 @@ namespace MEAS.Data
     {
         Task<UserInfo> Find(string loginName,string password);
 
+        Task<bool> AppendUser(UserInfo user);
+
+       // Task<bool> RemoveUser(UserInfo user);
+
         Task<IEnumerable<UserInfo>> LoadAll();
     }
 }

@@ -38,9 +38,11 @@ namespace MEAS
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ModelBinders.Binders.Add(typeof(Cart), new CartBinder()); //Page 191
+            ModelBinders.Binders.Add(typeof(string), new TrimStringBinder());
+         
         }
 
-
+        
 
         protected void Application_Error(object sender, EventArgs e)
         {

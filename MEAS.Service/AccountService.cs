@@ -46,6 +46,8 @@ namespace MEAS.Service
         public AccountService(IAccountRepository repository)
         {
             this._repository = repository;
+            UserInfo ui = new UserInfo { LoginName = "loginname", Password = "1111", RoleString = "1,2,3", UserName = "name" };
+            this._repository.AppendUser(ui);
         }
 
         public async Task<IEnumerable<UserInfo>> All()
