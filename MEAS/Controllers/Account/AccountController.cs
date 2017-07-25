@@ -20,13 +20,10 @@ namespace MEAS.Controllers
             this._accountService = accountService;
         }
 
-        [AllowAnonymous]
+ 
         public ActionResult Login(string returnUrl)
         {
            var file= string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
-      
-            Console.WriteLine(file);
-            Console.WriteLine();
             ViewBag.ReturnUrl = returnUrl;
             return View();        
         }
@@ -77,17 +74,21 @@ namespace MEAS.Controllers
             if (user!=null)
             {
                 var rolestr = string.Join(",", user.Roles);
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, DateTime.Now.AddSeconds(60), true, rolestr);
+                var mins = FormsAuthentication.Timeout.TotalMinutes;
+                //if (mins < 5)
+                //    mins = 60;
+                mins = 1;
+                var timeout = DateTime.Now.AddMinutes(mins); //从webconfig配置文件获取
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, timeout, true, rolestr);
                 string encTicket = FormsAuthentication.Encrypt(ticket);
                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                 cookie.Expires = ticket.Expiration;
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
-                await this._accountService.UpdateLogin(user);
-             
+                await this._accountService.UpdateLogin(user);             
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }
-            this.AddError("错误的用户名或密码！");
+            this.ModelState.AddModelError(string.Empty ,"错误的用户名或密码！");
             return View();
         }
 
@@ -112,16 +113,31 @@ namespace MEAS.Controllers
 
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
-             
+          
+        }
+
+        [Authenticate]
+        [CustomAuthorize(Roles = "1,2,3")]
+        public ActionResult ResetPassword()
+        {       
+            return View(new ResetPasswordViewModel {  LoginName= User.Identity.Name, UserName=User.Identity.GetUserName()});
+        }
+
+        [Authenticate]
+        [CustomAuthorize(Roles ="1,2,3")]
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel resetPassword)
+        {
+            var user =await this._accountService.Find(resetPassword.LoginName ,resetPassword.OldPassword);
+             if(user==null )
+                this.ModelState.AddModelError(string.Empty, "输入的旧密码错误。");
+            if (!this.ModelState.IsValid)
+                return RedirectToAction("ResetPassword");
+            return RedirectToAction("LogOut");
         }
 
     
-        private void AddError(string error)
-        {
-            ModelState.AddModelError("", error);
-        }
-
-
+  
        
     }
 }

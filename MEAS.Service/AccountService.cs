@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using MEAS.Data;
@@ -12,8 +11,6 @@ namespace MEAS.Service
     {
         private IAccountRepository _repository;
         private static ConcurrentDictionary<string, UserInfo> userInfoDictionary =new ConcurrentDictionary<string, UserInfo> ();
-
-
 
         public async Task<bool> UpdateLogin(UserInfo user)
         {
@@ -46,8 +43,6 @@ namespace MEAS.Service
         public AccountService(IAccountRepository repository)
         {
             this._repository = repository;
-            UserInfo ui = new UserInfo { LoginName = "loginname", Password = "1111", RoleString = "1,2,3", UserName = "name" };
-            this._repository.AppendUser(ui);
         }
 
         public async Task<IEnumerable<UserInfo>> All()
@@ -59,7 +54,11 @@ namespace MEAS.Service
         {
             var user = userInfoDictionary.Values.FirstOrDefault(x => (x.LoginName.Equals(loginName, StringComparison.CurrentCultureIgnoreCase) && x.Password == password));
             if (user == null)
-                return await this._repository.Find(loginName, password);
+            {
+                user=  await this._repository.Find(loginName, password);
+                if (user != null)
+                    userInfoDictionary[loginName] = user;
+            }
             return user;
         }
 
@@ -72,6 +71,23 @@ namespace MEAS.Service
                     return null;
                 return userInfoDictionary[key].UserName;
             });
+        }
+
+        public async Task<bool> RemoveUser(UserInfo user)
+        {
+            var result= await this._repository.RemoveUser(user);
+            if (result)
+                userInfoDictionary.TryRemove(user.LoginName, out user);
+            return result;
+        }
+
+        public async Task<bool> ModifyPassword(string loginName, string password, string newPassword)
+        {
+            var old =  userInfoDictionary[loginName];
+            if (old == null)
+                return false;
+            old.Password = newPassword;
+            return await this._repository.UpdateUser(old);
         }
     }
 }

@@ -12,7 +12,9 @@ namespace MEAS.Data
 
         Task<bool> AppendUser(UserInfo user);
 
-       // Task<bool> RemoveUser(UserInfo user);
+        Task<bool> RemoveUser(UserInfo user);
+
+        Task<bool> UpdateUser(UserInfo user);
 
         Task<IEnumerable<UserInfo>> LoadAll();
     }

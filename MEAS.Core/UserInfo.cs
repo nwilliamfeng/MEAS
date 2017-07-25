@@ -8,7 +8,7 @@ namespace MEAS
 {
     public sealed class UserInfo
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
 
         public string LoginName { get; set; }

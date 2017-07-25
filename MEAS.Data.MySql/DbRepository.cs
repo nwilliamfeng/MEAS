@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.Common;
 using System.Configuration;
+using Dapper;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
@@ -23,9 +24,7 @@ namespace MEAS
             var connection = ConfigurationManager.ConnectionStrings["MySqlConnection"].ConnectionString;
             return new MySqlConnection(connection); 
         }
-
-         
-
+ 
 
         protected void InitizeInsertCommand(DbCommand cmd, string table)
         {
@@ -53,9 +52,18 @@ namespace MEAS
             if (columns.Length > 0)
                 columns = columns.TrimEnd(',');
             cmd.CommandText = string.Format("Update  {0} Set {1} where {2}={3}", table, columns, ID, id);
+        
         }
 
- 
+     
+
+
+        protected async Task<bool> Delete(int id, string table)
+        {
+            var delete = string.Format("DELETE FROM {0} WHERE ({1}=@{1})", table, ID);
+            return await this.CreateConnection().ExecuteAsync(delete, new { id }) > 0;
+        }
+
 
     }
 }

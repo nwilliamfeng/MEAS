@@ -17,8 +17,8 @@ namespace MEAS.Data.MySql
 
         public async Task<UserInfo> Find(string loginName, string password)
         {
-            var query = string.Format("select * from {0} where {1}=@{1} and  {2}=@{2} ", TABLE, LOGIN_NAME, USR_PASSWORD);
-            var results = (await this.CreateConnection().QueryAsync<UserInfo>(query, new { LOGIN_NAME = loginName, USR_PASSWORD = password }));
+            var query = string.Format("select * from {0} where {1}=@{1} and {2}=@{2}", TABLE, LOGIN_NAME, USR_PASSWORD);
+            var results = (await this.CreateConnection().QueryAsync<UserInfo>(query, new { loginName,  password }));
             return results.FirstOrDefault();
         }
 
@@ -29,27 +29,22 @@ namespace MEAS.Data.MySql
 
         public async Task<bool> AppendUser(UserInfo user)
         {
+            var insert = string.Format("Insert into {0} Values (@{1},@{2},@{3},@{4},@{5})", TABLE, ID, LOGIN_NAME, USR_NAME, USR_PASSWORD, ROLE_STRING);
+            var result = await this.CreateConnection().ExecuteAsync(insert, new { user.Id, user.LoginName, user.UserName, user.Password, user.RoleString }) > 0;
+            if (result)
+                user.Id = await this.CreateConnection().QueryFirstAsync<int>(string.Format("select max(id) from {0}", TABLE));
+            return result;
+        }
 
-            //  var id = connection.Query<int>(sql, new { Stuff = mystuff }).Single();
-            try
-            {
+        public async Task<bool> RemoveUser(UserInfo user)
+        {
+            return await this.Delete(user.Id, TABLE);
+        }
 
-
-                var insert = string.Format("Insert into {0} Values (@{1},@{2},@{3},@{4},@{5})", TABLE, ID, LOGIN_NAME, USR_NAME, USR_PASSWORD, ROLE_STRING);
-                var result = await this.CreateConnection().ExecuteAsync(insert, new { user.Id, user.LoginName, user.UserName,  user.Password, user.RoleString }) > 0;
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return false;
-            }
-            //  var insert = string.Format("Insert {0}({1},{2},{3},{4},{5}) Values (@{1},@{2},@{3},@{4},@{5}); select SCOPE_IDENTITY as bigint",  TABLE,ID, LOGIN_NAME, USR_NAME, USR_PASSWORD, ROLE_STRING);
-            //var id = (await this.CreateConnection().QueryAsync<long>(insert, new {ID=user.Id, LOGIN_NAME = user.LoginName, USR_NAME = user.UserName, USR_PASSWORD = user.Password, ROLE_STRING = user.RoleString }))
-            //    .Single() ;
-            //if (id > 0)
-            //    user.Id = id;
-            //return id > 0;
+        public async Task<bool> UpdateUser(UserInfo user)
+        {
+            string sql =string.Format( "UPDATE {0} SET {2} = @{2}, {3}=@{3},{4}=@{4} WHERE {1} = @{1}",TABLE,ID, USR_NAME,USR_PASSWORD,ROLE_STRING);
+            return await this.CreateConnection().ExecuteAsync(sql, new { user.Id, user.UserName, user.Password, user.RoleString }) > 0;
         }
     }
 }

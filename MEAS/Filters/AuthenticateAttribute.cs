@@ -29,7 +29,6 @@ namespace MEAS
                                        { "controller", "Error" },
                                        { "returnUrl",filterContext.HttpContext.Request.RawUrl}
                                   });
-                //filterContext.HttpContext.Response.Redirect(@"\Error\Unauthenticated");
             }
         
         }

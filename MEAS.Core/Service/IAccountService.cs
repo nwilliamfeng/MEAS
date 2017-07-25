@@ -14,6 +14,13 @@ namespace MEAS.Service
 
         Task<bool> UpdateLogin(UserInfo user);
 
+        Task<bool> RemoveUser(UserInfo user);
+
+        Task<bool> ModifyPassword(string loginName,string password,string newPassword);
+
+
+
+      
         Task<string> GetUserName(string loginName);
 
         Task<bool> UpdateLogout(string loginName);
