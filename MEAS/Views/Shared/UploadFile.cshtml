@@ -1,0 +1,31 @@
+﻿@model FileViewModel
+@{
+    Layout = null; 
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    
+    <link  type="text/css" href="~/Content/bootstrap.css" rel="stylesheet"/>
+</head>
+<body>
+    <div> 
+       
+        @*@using (Html.BeginForm("Upload", "File", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="FileUpload" />
+            <input type="submit" name="Submit" id="Submit" value="Upload" />
+        }*@
+        @Html.ValidationSummary()
+       
+        @using (Html.BeginForm("Upload", "File",new {returnUrl=ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.TextBoxFor(m => m.File, new { type = "file" })
+            <input type="submit" name="Submit" id="Submit" value="Upload" />
+        }
+    </div>
+</body>
+</html>

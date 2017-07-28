@@ -50,33 +50,53 @@ namespace MEAS.Controllers
                 Inline = false,
             };
             Response.AppendHeader("Content-Disposition", cd.ToString());
-            return File(document.Data, document.ContentType);
+            return File(document.Data, document.ContentType); 
         }
 
+
+        //[HttpPost]  
+        //public ActionResult Upload()
+        //{
+        //    if (Request.Files.Count > 0)
+        //    {
+        //        var file = Request.Files[0];
+        //        if (file != null && file.ContentLength > 0)
+        //        {
+        //            var fileName = Path.GetFileName(file.FileName);
+        //            //var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
+        //            var dir = @"e:\files";
+        //            if (Directory.Exists(dir))
+        //                Directory.CreateDirectory(dir);
+        //            var path = Path.Combine(dir, fileName);
+        //            file.SaveAs(path);
+        //            return Content("文件上传成功!");
+        //        }
+        //    }
+        //    return Content("文件上传失败!");
+        //}
 
         [HttpPost]
-        public ActionResult Upload()
+        public ActionResult Upload(FileViewModel vm,string returnUrl)
         {
-            if (Request.Files.Count > 0)
+            if (ModelState.IsValid)
             {
-                var file = Request.Files[0];
-                if (file != null && file.ContentLength > 0)
-                {
-                    var fileName = Path.GetFileName(file.FileName);
-                    //var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
-                    var dir = @"e:\files";
-                    if (Directory.Exists(dir))
-                        Directory.CreateDirectory(dir);
-                    var path = Path.Combine(dir,fileName);
-                    file.SaveAs(path);
-                }
+                var fileName = Path.GetFileName(vm.File.FileName);
+                var dir = @"e:\files";
+                if (Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+                var path = Path.Combine(dir, fileName);
+                vm.File.SaveAs(path);
+                return Content("文件上传成功!");
             }
+            return Redirect(returnUrl);
 
-            return RedirectToAction("UploadFile");
+            
         }
 
+        [ChildActionOnly]
         public ActionResult UploadFile()
         {
+            ViewBag.ReturnUrl = this.Request.FilePath;
             return View();
         }
 

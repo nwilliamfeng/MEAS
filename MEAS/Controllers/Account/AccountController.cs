@@ -20,7 +20,6 @@ namespace MEAS.Controllers
             this._accountService = accountService;
         }
 
- 
         public ActionResult Login(string returnUrl)
         {
            var file= string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
@@ -92,6 +91,7 @@ namespace MEAS.Controllers
             return View();
         }
 
+ 
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
@@ -113,7 +113,6 @@ namespace MEAS.Controllers
 
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
-          
         }
 
         [Authenticate]
@@ -133,9 +132,12 @@ namespace MEAS.Controllers
                 this.ModelState.AddModelError(string.Empty, "输入的旧密码错误。");
             if (!this.ModelState.IsValid)
                 return RedirectToAction("ResetPassword");
-            return RedirectToAction("LogOut");
+            return RedirectToAction("LogOut"); 
         }
 
+   
+     
+       
     
   
        

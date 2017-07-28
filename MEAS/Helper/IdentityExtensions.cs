@@ -15,7 +15,6 @@ namespace MEAS
             if (identity == null)
                 return null;
            return DependencyResolver.Current.GetService<IAccountService>().GetUserName(identity.Name).Result;
-           // return  HttpContext.Current.Response.Cookies[CookieKeys.USER_NAME]
         }
     }
 }

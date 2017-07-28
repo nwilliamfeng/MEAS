@@ -23,5 +23,7 @@ namespace MEAS.Models
 
         [Display(Name = "记住我?")]
         public bool RememberMe { get; set; }
+
+       
     }
 }
