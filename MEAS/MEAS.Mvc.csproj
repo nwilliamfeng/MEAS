@@ -167,7 +167,8 @@
     <Compile Include="Controllers\OutputCacheController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\NavController.cs" />
-    <Compile Include="Helper\HttpPostedFileExtensionsAttribute.cs" />
+    <Compile Include="Helper\Mvc\HttpPostedFileExtensionsAttribute.cs" />
+    <Compile Include="Helper\Mvc\RequireRequestValueAttribute.cs" />
     <Compile Include="Models\File\FileViewModel.cs" />
     <Compile Include="Filters\AuthenticateAttribute.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
@@ -178,7 +179,6 @@
     </Compile>
     <Compile Include="Helper\IdentityExtensions.cs" />
     <Compile Include="Helper\MyHtmlHelper.cs" />
-    <Compile Include="Helper\ModelExtensions.cs" />
     <Compile Include="Models\Account\ResetPasswordViewModel.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\IPagingInfo.cs" />
@@ -201,6 +201,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\MeasWebConfig.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -135,9 +135,17 @@ namespace MEAS.Controllers
             return RedirectToAction("LogOut"); 
         }
 
-   
-     
-       
+        [RequireRequestValue("idx")]
+        public ActionResult GetItem(int idx)
+        {
+            return Content(idx.ToString());
+        }
+
+        [RequireRequestValue("name")]
+        public ActionResult GetItem(string name)
+        {
+            return Content(name);
+        }
     
   
        
