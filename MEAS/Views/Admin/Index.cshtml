@@ -7,6 +7,9 @@
 }
  
 @model IPagedList<Product>
+<div>
+    @{Html.RenderAction("UploadFile", "File");}
+</div>
 <div class="modal" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -44,7 +47,7 @@
                     <td class="text-right">@product.Id</td>
                     <td class="text-right">@Html.ActionLink(@product.Name, "Edit", new { productId = product.Id })</td>
                     <td class="text-right">@product.Price</td>
-                    <td class="text-right">@Html.ActionLink("Delete", "Delete", new { id = product.Id })</td>
+                    <td class="text-right">@Html.ActionLink("Delete", "Delete", new { id = product.Id },new {onclick= "return confirm('你确定要删除此产品?');" })</td>
                 </tr>
             }
              @*@foreach(var product in Model)

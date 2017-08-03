@@ -21,9 +21,9 @@ namespace MEAS.Models
         [Display(Name = "登录密码")]
         public string Password { get; set; }
 
-        [Display(Name = "记住我?")]
+        [System.Web.Script.Serialization.ScriptIgnore]
+        [Display(Name = "记住我?")] 
         public bool RememberMe { get; set; }
 
-       
     }
 }

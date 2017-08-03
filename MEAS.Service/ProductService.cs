@@ -15,8 +15,15 @@ namespace MEAS.Service
             this._rp = rp;
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            return await this._rp.Delete(id);
+        }
+
         public async Task<IEnumerable<Product>> FindWithCategory(string category)
         {
+            if (string.IsNullOrEmpty(category))
+                return await this._rp.LoadAll();
             return await this._rp.FindWithCategory(category);
         }
 

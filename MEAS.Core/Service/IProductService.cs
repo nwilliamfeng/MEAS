@@ -11,5 +11,7 @@ namespace MEAS.Service
         Task<Product> FindWithId(int id);
 
         Task<IEnumerable<Product>> FindWithCategory(string category);
+
+        Task<bool> Delete(int id);
     }
 }

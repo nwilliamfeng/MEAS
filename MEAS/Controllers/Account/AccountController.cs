@@ -22,10 +22,15 @@ namespace MEAS.Controllers
 
         public ActionResult Login(string returnUrl)
         {
-           var file= string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+            if (this.User.Identity.IsAuthenticated) //如果已经登录成功，则返回到指定的页面
+                return this.RedirectToAction("Index","Home"); //之后会移到个人页面
+            
             ViewBag.ReturnUrl = returnUrl;
             return View();        
+           
         }
+
+      
 
         //[HttpPost]
         //[AllowAnonymous]
@@ -84,13 +89,15 @@ namespace MEAS.Controllers
                 cookie.Expires = ticket.Expiration;
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
-                await this._accountService.UpdateLogin(user);             
+                await this._accountService.UpdateLogin(user);
                 return Redirect(returnUrl ?? Url.Action("Index", "Home"));
             }
             this.ModelState.AddModelError(string.Empty ,"错误的用户名或密码！");
             return View();
+    
         }
 
+     
  
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -120,6 +127,7 @@ namespace MEAS.Controllers
         public ActionResult ResetPassword()
         {       
             return View(new ResetPasswordViewModel {  LoginName= User.Identity.Name, UserName=User.Identity.GetUserName()});
+            
         }
 
         [Authenticate]

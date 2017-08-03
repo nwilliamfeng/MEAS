@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
-using MEAS.Data;
 using PagedList;
+using MEAS.Service;
 
 
 namespace MEAS.Controllers
@@ -14,11 +14,11 @@ namespace MEAS.Controllers
     [Authenticate]
     public class AdminController : Controller
     {
-        private IProductRepository _productRepository;
+        private IProductService _productService;
 
-        public AdminController(IProductRepository productRepository)
+        public AdminController(IProductService productService)
         {
-            this._productRepository = productRepository;
+            this._productService = productService;
         }
     
 
@@ -26,20 +26,25 @@ namespace MEAS.Controllers
         public async Task<ActionResult> Index(int? page)
         {
             var pageNum = page ?? 1;
-            var products = await this._productRepository.LoadAll();
+            var products = await this._productService.FindWithCategory(null);
          //   ViewBag.OnePageResult = products.ToPagedList(pageNum,10);
             return View(products.ToPagedList(pageNum, 10));
+
         }
 
         public async Task<ActionResult> Delete(int id)
         {
-            var products = await this._productRepository.LoadAll();
-            return View(products);
+            //var products = await this._productRepository.LoadAll();
+            //return View(products);
+            var result= await this._productService.Delete(id);
+     
+                return this.Redirect(this.Request.UrlReferrer.ToString());
+     
         }
 
         public async Task<ActionResult> Edit(int productId)
         {
-            var product = await this._productRepository.FindWithId(productId);
+            var product = await this._productService.FindWithId(productId);
             return View(product);
         }
 

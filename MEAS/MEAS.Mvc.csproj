@@ -167,6 +167,7 @@
     <Compile Include="Controllers\OutputCacheController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\NavController.cs" />
+    <Compile Include="Controllers\Test\AccountController.cs" />
     <Compile Include="Helper\Mvc\ControllerExtensions.cs" />
     <Compile Include="Helper\Mvc\HttpPostedFileExtensionsAttribute.cs" />
     <Compile Include="Helper\Mvc\RequireRequestValueAttribute.cs" />

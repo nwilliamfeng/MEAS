@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace MEAS.Controllers
 {
+    [Authenticate]
     public class FileController : Controller
     {
         private static List<FileDocument> files;
@@ -16,7 +17,7 @@ namespace MEAS.Controllers
             if (files == null)
             {
                 files = new List<FileDocument>();
-                long idx = 1;
+                int idx = 1;
                 var dir = @"e:\files";
                 if (Directory.Exists(dir))
                     foreach (var fileName in Directory.GetFiles(dir))
@@ -30,8 +31,8 @@ namespace MEAS.Controllers
         }
    
      
-
-        public ActionResult Download(long id)
+        [Authorize(Roles ="1,2,3")]
+        public ActionResult Download(int id)
         {
             //https://stackoverflow.com/questions/5826649/returning-a-file-to-view-download-in-asp-net-mvc
 
@@ -76,7 +77,8 @@ namespace MEAS.Controllers
         //}
 
         [HttpPost]
-        public ActionResult Upload(FileViewModel vm,string returnUrl)
+        [Authorize(Roles ="1,2,3")]
+        public ActionResult Upload(FileViewModel vm)
         {
             if (ModelState.IsValid)
             {
@@ -86,17 +88,17 @@ namespace MEAS.Controllers
                     Directory.CreateDirectory(dir);
                 var path = Path.Combine(dir, fileName);
                 vm.File.SaveAs(path);
-                return Content("文件上传成功!");
+                return Content("文件上传成功!"); //之后需要以弹框显示而不是返回页面
             }
-            return Redirect(returnUrl);
-
-            
+            //   return Redirect(returnUrl);
+       
+            return Redirect(Request.UrlReferrer.ToString());//如果失败返回上一个操作
         }
 
         [ChildActionOnly]
+        [Authorize(Roles = "1,2,3")]
         public ActionResult UploadFile()
         {
-            ViewBag.ReturnUrl = this.Request.FilePath;
             return View();
         }
 
