@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using AutoMapper;
+using MEAS.Service;
 
 namespace MEAS
 {
@@ -12,20 +11,13 @@ namespace MEAS
     {
         public static void Configure()
         {
-            //see social project...
-            ConfigureProfile1();
-            ConfigureProfile2();
-            //...
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<EntityToDaoMappingProfile>();
+                x.AddProfile<DaoToEntityMappingProfile>();
+            });
         }
 
-        private static void ConfigureProfile1()
-        {
-
-        }
-
-        private static void ConfigureProfile2()
-        {
-
-        }
+       
     }
 }

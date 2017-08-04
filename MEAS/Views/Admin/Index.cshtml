@@ -7,30 +7,30 @@
 }
  
 @model IPagedList<Product>
-<div>
+@*<div>
     @{Html.RenderAction("UploadFile", "File");}
-</div>
-<div class="modal" id="myModal">
+</div>*@
+<head>
+    <style>
+        .div-center {
+            vertical-align:central;
+            text-align: center;
+        }
+    </style>
+   
+</head>
+<h2>All Products</h2>
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" type="button" data-dissmiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>asdfasdfasdfasdf</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dissmiss="modal">关闭</button>
-            </div>
+            <div id='myModalContent'></div>
         </div>
     </div>
 </div>
-<h2>All Products</h2>
+<div class="panel-body  panel-primary" >
+   @{ var modal_para = new { data_modal="" };}
 
-<div class="panel-body" >
-   
     <table class="table table-striped table-condensed table-bordered" >
         <thead>
             <tr>
@@ -47,7 +47,25 @@
                     <td class="text-right">@product.Id</td>
                     <td class="text-right">@Html.ActionLink(@product.Name, "Edit", new { productId = product.Id })</td>
                     <td class="text-right">@product.Price</td>
-                    <td class="text-right">@Html.ActionLink("Delete", "Delete", new { id = product.Id },new {onclick= "return confirm('你确定要删除此产品?');" })</td>
+                    
+                    <!--此句采用js回调浏览器的对话框来显示对话框-->
+                    @*<td class="text-right">@Html.ActionLink("Delete", "Delete", new { id = product.Id },new {onclick= "return confirm('你确定要删除此产品?');" })</td>*@
+                    @*<td>@Html.ActionLink("删除", "Delete", new { id = product.Id }, new { data_modal = "" })</td>*@
+
+                    <td   align="center" width="20px">
+                        <div class="btn-group div-center ">
+                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("详细", "Details", new { id = product.Id }, modal_para)</li>
+                                <li>@Html.ActionLink("编辑", "Edit", new { id = product.Id }, modal_para)</li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("删除", "Delete", new { id = product.Id }, modal_para)</li>
+                            </ul>
+                        </div>
+                    </td>
+                     
                 </tr>
             }
              @*@foreach(var product in Model)
@@ -62,14 +80,11 @@
         </tbody>
     </table>
     <!-- output a paging control that lets the user navigation to the previous page, next page, etc -->
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast);
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
-<script src="~/Scripts/jquery-1.10.2.js"></script> 
-
- <script>
-     $(document).ready(function () {
-         $('#myModal').modal('show');
-     });
- </script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modalform")
+}
 
 

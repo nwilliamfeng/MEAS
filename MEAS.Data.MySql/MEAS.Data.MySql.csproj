@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AccountRepository.cs" />
     <Compile Include="DbRepository.cs" />
+    <Compile Include="TorqueWrenchMeasureTestRepository.cs" />
     <Compile Include="ProductRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

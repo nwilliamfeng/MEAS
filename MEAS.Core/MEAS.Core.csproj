@@ -40,19 +40,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cart.cs" />
-    <Compile Include="Company.cs" />
+    <Compile Include="Data\Dao\DaoBase.cs" />
+    <Compile Include="Data\Dao\MeasureTestDaoBase.cs" />
+    <Compile Include="Data\Dao\TorqueWrenchMeasureTestDao.cs" />
     <Compile Include="Data\IAccountRepository.cs" />
+    <Compile Include="Data\ITorqueWrenchMeasureTestRepository.cs" />
     <Compile Include="Data\IProductRepository.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="FileDocument.cs" />
-    <Compile Include="Manufacturer.cs" />
     <Compile Include="Helper\MD5Helper.cs" />
+    <Compile Include="Service\ITorqueWrenchMeasureTestService.cs" />
+    <Compile Include="TorqueWrenchMeasureTest.cs" />
+    <Compile Include="MeasureTestBase.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IAccountService.cs" />
     <Compile Include="Service\IOrderProcessor.cs" />
     <Compile Include="Service\IProductService.cs" />
-    <Compile Include="Service\IManufacturerService.cs" />
     <Compile Include="ShippingDetails.cs" />
     <Compile Include="Helper\StreamExtension.cs" />
     <Compile Include="UserInfo.cs" />

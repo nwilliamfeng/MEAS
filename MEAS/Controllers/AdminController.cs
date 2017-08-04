@@ -34,17 +34,25 @@ namespace MEAS.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            //var products = await this._productRepository.LoadAll();
+
             //return View(products);
-            var result= await this._productService.Delete(id);
-     
-                return this.Redirect(this.Request.UrlReferrer.ToString());
-     
+            //   var result= await this._productService.Delete(id);
+
+            //      return this.Redirect(this.Request.UrlReferrer.ToString());
+           var product=  await this._productService.FindWithId(id);
+            return PartialView("_DeleteProduct",product);
         }
 
-        public async Task<ActionResult> Edit(int productId)
+        [HttpPost, ActionName("Delete")]
+        public async Task<ActionResult> DeleteConfirm(int id)
         {
-            var product = await this._productService.FindWithId(productId);
+            var result = await this._productService.Delete(id);
+            return Json(new { success = true });
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            var product = await this._productService.FindWithId(id);
             return View(product);
         }
 

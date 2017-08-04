@@ -15,7 +15,7 @@ namespace MEAS
 
         public decimal Price { get; set; }
 
-        public Manufacturer Manufacturer { get; set; }
+        public string Manufacturer { get; set; }
 
         public string Category { get; set; }
     }
