@@ -29,7 +29,7 @@ namespace MEAS.Controllers
             var products = await this._productService.FindWithCategory(null);
          //   ViewBag.OnePageResult = products.ToPagedList(pageNum,10);
             return View(products.ToPagedList(pageNum, 10));
-
+        
         }
 
         public async Task<ActionResult> Delete(int id)

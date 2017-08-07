@@ -13,7 +13,7 @@ namespace MEAS.Service
         public EntityToDaoMappingProfile()
         {
 
-            this.CreateMap<TorqueWrenchMeasureTest, TorqueWrenchMeasureTestDao>();
+            this.CreateMap<TorqueWrenchMeasure, TorqueWrenchMeasureDao>();
         }
 
         public override string ProfileName

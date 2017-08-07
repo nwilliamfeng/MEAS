@@ -159,7 +159,7 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\Measure\TorqueWrenchController.cs" />
+    <Compile Include="Controllers\Torque\WrenchController.cs" />
     <Compile Include="Controllers\OutputCacheController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\NavController.cs" />
@@ -281,11 +281,12 @@
     <None Include="Views\Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="Views\Wrench\Index.cshtml" />
+    <Content Include="Views\Wrench\_Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\File\" />
-    <Folder Include="Views\OutputCache\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
