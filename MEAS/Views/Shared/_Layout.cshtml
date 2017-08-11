@@ -13,6 +13,14 @@
 </head>
 <body>
 
+    <!-- modal placeholder-->
+    <div id='myModal' class='modal fade in'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>
 
     @*<div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -44,7 +52,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="..\Home\Index" class="navbar-brand">           
+                <a href="..\Home\Index" class="navbar-brand">
                     <img src="..\favicon.ico" style="height:40%;width:40%;vertical-align:central" alt="Meas" />
                 </a>
                 <p class="navbar-text"><strong>Meas</strong></p>
@@ -56,9 +64,6 @@
                     <li><a href="">支持</a></li>
                     @*@Html.Partial("_LoginPartial")*@
                 </ul>
-
-
-
 
                 @{Html.RenderAction("Summary", "Cart");}
                 @Html.Partial("_LoginPartial")
@@ -80,7 +85,9 @@
         <p>&copy; @DateTime.Now.Year - Microcomm</p>
     </footer>
     @Scripts.Render("~/bundles/jquery")
-   @Scripts.Render("~/bundles/bootstrap")
-   @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modalform")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

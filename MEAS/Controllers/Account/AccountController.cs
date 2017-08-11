@@ -22,15 +22,19 @@ namespace MEAS.Controllers
 
         public ActionResult Login(string returnUrl)
         {
+            if (this.HttpContext.Request.UrlReferrer == null)
+            {
+                return this.RedirectToAction("Index","Home");
+            }
             if (this.User.Identity.IsAuthenticated) //如果已经登录成功，则返回到指定的页面
                 return this.RedirectToAction("Index","Home"); //之后会移到个人页面
             
             ViewBag.ReturnUrl = returnUrl;
-            return View();        
-           
+            //   return View();        
+            return this.PartialView("_Login");
         }
 
-      
+  
 
         //[HttpPost]
         //[AllowAnonymous]
@@ -71,9 +75,10 @@ namespace MEAS.Controllers
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
-        {            
+        {
+
             if (!ModelState.IsValid)
-                return View();
+                return PartialView("_Login");
             var user =await  this._accountService.Find(model.UserName, model.Password);
             if (user!=null)
             {
@@ -90,10 +95,12 @@ namespace MEAS.Controllers
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
                 await this._accountService.UpdateLogin(user);
-                return Redirect(returnUrl ?? Url.Action("Index", "Home"));
+                return Json(new { success = true });
+                //  return Redirect(returnUrl ?? Url.Action("Index", "Home"));
+                
             }
             this.ModelState.AddModelError(string.Empty ,"错误的用户名或密码！");
-            return View();
+            return PartialView("_Login",model);
     
         }
 

@@ -34,6 +34,13 @@ namespace MEAS
             //}
         }
 
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            //to do... store sessiondata，log etc. see https://stackoverflow.com/questions/6860686/extend-authorizeattribute-override-authorizecore-or-onauthorization
+            base.OnAuthorization(filterContext);
+        }
+
+
         private ActionResult  GetErrorPage(Exception ex,AuthorizationContext context)
         {            
             HandleErrorInfo errorinfo = new HandleErrorInfo(ex, context.ActionDescriptor.ControllerDescriptor.ControllerName, context.ActionDescriptor.ActionName);

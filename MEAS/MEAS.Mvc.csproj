@@ -275,6 +275,7 @@
     <Content Include="Views\Home\Demo.cshtml" />
     <Content Include="Views\Shared\UploadFile.cshtml" />
     <Content Include="Views\Admin\_DeleteProduct.cshtml" />
+    <Content Include="Views\Account\_Login.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
