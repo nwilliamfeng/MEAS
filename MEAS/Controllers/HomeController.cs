@@ -24,18 +24,13 @@ namespace MEAS.Controllers
         }
 
         public ActionResult Index()
-        {
-            // ViewBag.Text = @"<H><H2>abcded</H2></H>"; 
-       
+        {               
             ViewBag.Text = @"This text contains<br />a line break";
+        
             return View();
         }
 
-        [Throttle(Name = "Temp", Message = "You must wait {n} seconds before accessing this url again.", Seconds = 5)]
-        public ActionResult Temp()
-        {
-            return Content("temp executed "+DateTime.Now .ToLongTimeString());
-        }
+   
        
 
         public ActionResult About()

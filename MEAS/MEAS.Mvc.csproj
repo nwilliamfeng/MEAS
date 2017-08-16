@@ -164,9 +164,13 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\Test\TestController.cs" />
+    <Compile Include="Helper\ControllerExtension.cs" />
+    <Compile Include="Helper\Mvc\JsonNetResult.cs" />
     <Compile Include="Helper\Mvc\ControllerExtensions.cs" />
     <Compile Include="Helper\Mvc\HttpPostedFileExtensionsAttribute.cs" />
     <Compile Include="Helper\Mvc\RequireRequestValueAttribute.cs" />
+    <Compile Include="Models\Mapping\ViewModelToEntityMappingProfile.cs" />
+    <Compile Include="Models\Mapping\EntityToViewModelMappingProfile.cs" />
     <Compile Include="Models\File\FileViewModel.cs" />
     <Compile Include="Filters\AuthenticateAttribute.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
@@ -184,6 +188,7 @@
     <Compile Include="Models\PagingResult.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Filters\Tmp\MyAuthorizeFilter.cs" />
+    <Compile Include="Models\Account\UserInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\UserInfoManager.cs" />
   </ItemGroup>
@@ -276,6 +281,7 @@
     <Content Include="Views\Shared\UploadFile.cshtml" />
     <Content Include="Views\Admin\_DeleteProduct.cshtml" />
     <Content Include="Views\Account\_Login.cshtml" />
+    <Content Include="Views\Account\UserProfile.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -14,7 +14,7 @@ namespace MEAS
         {
             if (identity == null)
                 return null;
-           return DependencyResolver.Current.GetService<IAccountService>().GetUserName(identity.Name).Result;
+            return DependencyResolver.Current.GetService<IAccountService>().GetCurrentUser().Result?.UserName;
         }
     }
 }
