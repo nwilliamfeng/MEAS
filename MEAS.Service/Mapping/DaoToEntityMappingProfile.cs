@@ -8,9 +8,9 @@ namespace MEAS.Service
     {
         public DaoToEntityMappingProfile()
         {
-            this.CreateMap<TorqueWrenchMeasure, TorqueWrenchMeasureDao>();
             this.CreateMap<TorqueWrenchMeasureDao, TorqueWrenchMeasure>();
-            this.CreateMap<UserInfoDao, UserInfo>().AfterMap((a, b) => b.Roles = a.Roles?.Split(',')); 
+            this.CreateMap<UserInfoDao, UserInfo>().AfterMap((a, b) => b.Roles = a.Roles?.Split(','));
+            this.CreateMap<UserProfileDao, UserProfile>();
         }
 
         public override string ProfileName

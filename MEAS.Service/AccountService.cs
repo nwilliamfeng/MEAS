@@ -11,8 +11,15 @@ namespace MEAS.Service
     public class AccountService : IAccountService
     {
         private IAccountRepository _repository;
+        private IUserProfileRepository _profileRepository;
         private static ConcurrentDictionary<string, UserInfo> userInfoDictionary =new ConcurrentDictionary<string, UserInfo> ();
 
+        public AccountService(IAccountRepository repository, IUserProfileRepository profileRepository)
+        {
+            this._repository = repository;
+            this._profileRepository = profileRepository;
+            this.InitizeUserInfos();
+        }
 
         private UserInfo ToEntity(UserInfoDao dao)
         {
@@ -65,11 +72,7 @@ namespace MEAS.Service
             });
         }
 
-        public AccountService(IAccountRepository repository)
-        {
-            this._repository = repository;
-            this.InitizeUserInfos();
-        }
+       
 
         public async Task<IEnumerable<UserInfo>> All()
         {
@@ -126,6 +129,11 @@ namespace MEAS.Service
                 return false;
             old.Password = newPassword;
             return await this._repository.UpdateUser(this.ToDao(old));
+        }
+
+        public async Task<UserProfile> GetProfile(int id)
+        {
+            var dao =await this._profileRepository.Find(id);
         }
     }
 }

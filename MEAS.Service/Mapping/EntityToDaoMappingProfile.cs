@@ -19,6 +19,7 @@ namespace MEAS.Service
                  if (a.Roles != null)
                      b.Roles = string.Join(",", a.Roles);
              });
+            this.CreateMap<UserProfile, UserProfileDao>();
         }
 
         public override string ProfileName
