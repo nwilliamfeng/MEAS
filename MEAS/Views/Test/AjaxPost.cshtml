@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AjaxPost</title>
+  
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript">
+        $(function()
+        {
+            var data = {
+                model: {
+                    UserName: 'aaa',
+                    Password: 'bbb',
+                   
+                }
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/test/ajaxpost/",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    // Do something interesting here.
+                }
+            });
+        })
+
+    </script>
+</head>
+<body>
+    <div> 
+    </div>
+</body>
+</html>

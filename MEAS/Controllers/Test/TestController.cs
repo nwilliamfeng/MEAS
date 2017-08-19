@@ -12,6 +12,8 @@ using Newtonsoft.Json.Serialization;
 
 namespace MEAS.Controllers
 {
+     
+
     public class TestController : Controller
     {
  
@@ -20,7 +22,21 @@ namespace MEAS.Controllers
         
         }
 
-       
+        
+       [ HttpPost ] 
+        public JsonResult AjaxPost(LoginViewModel model)
+        {
+            Console.WriteLine(model);
+            return Json("df",JsonRequestBehavior.AllowGet);
+        }
+
+    
+        public ActionResult AjaxPost( )
+        {
+
+            return View();
+        }
+
 
         public ActionResult TestJson()
         {

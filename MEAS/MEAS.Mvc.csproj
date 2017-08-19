@@ -276,6 +276,7 @@
     <Content Include="Views\Shared\UploadFile.cshtml" />
     <Content Include="Views\Admin\_DeleteProduct.cshtml" />
     <Content Include="Views\Account\_Login.cshtml" />
+    <Content Include="Views\Test\AjaxPost.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
