@@ -10,6 +10,8 @@ namespace MEAS.Service
     {
         Task<UserInfo> Find(string loginName,string password);
 
+        Task<UserProfile> GetProfile(int id);
+    
         Task<IEnumerable<UserInfo>> All();
 
         Task<bool> UpdateLogin(UserInfo user);
@@ -18,10 +20,7 @@ namespace MEAS.Service
 
         Task<bool> ModifyPassword(string loginName,string password,string newPassword);
 
-
-
-      
-        Task<string> GetUserName(string loginName);
+        Task<UserInfo> GetCurrentUser();
 
         Task<bool> UpdateLogout(string loginName);
     }

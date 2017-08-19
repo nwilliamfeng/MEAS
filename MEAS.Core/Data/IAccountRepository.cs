@@ -8,14 +8,14 @@ namespace MEAS.Data
 {
     public interface IAccountRepository
     {
-        Task<UserInfo> Find(string loginName,string password);
+        Task<UserInfoDao> Find(string loginName,string password);
 
-        Task<bool> AppendUser(UserInfo user);
+        Task<bool> AppendUser(UserInfoDao user);
 
-        Task<bool> RemoveUser(UserInfo user);
+        Task<bool> RemoveUser(UserInfoDao user);
 
-        Task<bool> UpdateUser(UserInfo user);
+        Task<bool> UpdateUser(UserInfoDao user);
 
-        Task<IEnumerable<UserInfo>> LoadAll();
+        Task<IEnumerable<UserInfoDao>> LoadAll();
     }
 }

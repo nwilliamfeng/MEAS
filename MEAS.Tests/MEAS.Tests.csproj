@@ -90,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\UserProfileTableTest.cs" />
     <Compile Include="Data\UserTableTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />

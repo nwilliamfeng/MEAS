@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MEAS.Models;
 using System.Web;
 using System.Web.Security;
+using AutoMapper;
 using MEAS.Service;
 
 namespace MEAS.Controllers
@@ -17,7 +18,7 @@ namespace MEAS.Controllers
 
         public AccountController(IAccountService accountService)
         {
-            this._accountService = accountService;
+            this._accountService = accountService; 
         }
 
         public ActionResult Login(string returnUrl)
@@ -30,7 +31,8 @@ namespace MEAS.Controllers
                 return this.RedirectToAction("Index","Home"); //之后会移到个人页面
             
             ViewBag.ReturnUrl = returnUrl;
-            //   return View();        
+            
+     
             return this.PartialView("_Login");
         }
 
@@ -100,33 +102,49 @@ namespace MEAS.Controllers
                 
             }
             this.ModelState.AddModelError(string.Empty ,"错误的用户名或密码！");
-            return PartialView("_Login",model);
+            return PartialView("_Login");
     
         }
 
-     
- 
+  
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
+        [Authenticate]
         public ActionResult LogOut()
-        {
-            //不能用for，全部清空会报outofmemory异常
-            //for (int i = 0; i < Request.Cookies.Count; i++)
-            //{
-            //    HttpCookie cookie = new HttpCookie(Request.Cookies[i].Name);
-            //    cookie.Expires = DateTime.Now;//cookie将马上过期
-            //    this.Response.Cookies.Add(cookie);
-            //}
-            //HttpCookie cookie = new HttpCookie(CookieKeys.USERID); 
-            //cookie.Expires = DateTime.Now.AddDays(-1);//cookie将马上过期
-            //this.Response.Cookies.Add(cookie);
-
+        {       
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
+            
+        }
+
+        [Authenticate]
+        public async Task<ActionResult> UserProfile()
+        {
+       
+            this.SaveUrlRefferUrlToTempData();
+           var user=await this._accountService.GetCurrentUser();
+            if (user == null)
+                throw new InvalidOperationException("无法找到当前用户。");
+            var vm = Mapper.Map<UserInfoViewModel>(user);
+            return View(vm);
+        }
+
+        [Authenticate]
+        [HttpPost]
+        public ActionResult UserProfile(UserInfoViewModel user)
+        {
+
+            if (!this.ModelState.IsValid)
+                return View();
+            //if (!this.TempData.ContainsKey("userProfileReturnUrl"))
+            //    return RedirectToAction("Index","Home");     //跳转逻辑暂时不用，之后由js完成
+
+            //return this.Redirect(this.TempData["userProfileReturnUrl"].ToString());
+            return Content("保存成功");
         }
 
         [Authenticate]
