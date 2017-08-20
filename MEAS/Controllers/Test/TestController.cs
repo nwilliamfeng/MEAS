@@ -27,6 +27,8 @@ namespace MEAS.Controllers
         public JsonResult AjaxPost(LoginViewModel model)
         {
             Console.WriteLine(model);
+
+
             return Json("df",JsonRequestBehavior.AllowGet);
         }
 
