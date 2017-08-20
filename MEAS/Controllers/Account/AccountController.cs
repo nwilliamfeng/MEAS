@@ -31,12 +31,12 @@ namespace MEAS.Controllers
                 return this.RedirectToAction("Index","Home"); //之后会移到个人页面
             
             ViewBag.ReturnUrl = returnUrl;
-            
-     
-            return this.PartialView("_Login");
+
+            return View();
+          //  return this.PartialView("_Login");
         }
 
-  
+
 
         //[HttpPost]
         //[AllowAnonymous]
@@ -74,20 +74,51 @@ namespace MEAS.Controllers
         //    return View();
         //}
 
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        //{
+
+        //    if (!ModelState.IsValid)
+        //        return PartialView("_Login");
+        //    var user =await  this._accountService.Find(model.UserName, model.Password);
+        //    if (user!=null)
+        //    {
+        //        var rolestr = string.Join(",", user.Roles);
+        //        var mins = FormsAuthentication.Timeout.TotalMinutes;
+        //        //if (mins < 5)
+        //        //    mins = 60;
+        //        mins = 1;
+        //        var timeout = DateTime.Now.AddMinutes(mins); //从webconfig配置文件获取
+        //        FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, timeout, true, rolestr);
+        //        string encTicket = FormsAuthentication.Encrypt(ticket);
+        //        HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+        //        cookie.Expires = ticket.Expiration;
+        //        cookie.HttpOnly = true;
+        //        this.Response.Cookies.Add(cookie);
+        //        await this._accountService.UpdateLogin(user);
+        //        return Json(new { success = true });
+        //        //  return Redirect(returnUrl ?? Url.Action("Index", "Home"));
+
+        //    }
+        //    this.ModelState.AddModelError(string.Empty ,"错误的用户名或密码！");
+        //    return PartialView("_Login");
+
+        //}
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
 
             if (!ModelState.IsValid)
-                return PartialView("_Login");
-            var user =await  this._accountService.Find(model.UserName, model.Password);
-            if (user!=null)
+                return View();
+            var user = await this._accountService.Find(model.UserName, model.Password);
+            if (user != null)
             {
                 var rolestr = string.Join(",", user.Roles);
                 var mins = FormsAuthentication.Timeout.TotalMinutes;
-                //if (mins < 5)
-                //    mins = 60;
+           
                 mins = 1;
                 var timeout = DateTime.Now.AddMinutes(mins); //从webconfig配置文件获取
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, timeout, true, rolestr);
@@ -97,16 +128,16 @@ namespace MEAS.Controllers
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
                 await this._accountService.UpdateLogin(user);
-                return Json(new { success = true });
-                //  return Redirect(returnUrl ?? Url.Action("Index", "Home"));
-                
+         
+               return Redirect(returnUrl ?? Url.Action("Index", "Home"));
+
             }
-            this.ModelState.AddModelError(string.Empty ,"错误的用户名或密码！");
-            return PartialView("_Login");
-    
+            this.ModelState.AddModelError(string.Empty, "错误的用户名或密码！");
+            return View();
+
         }
 
-  
+
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {

@@ -39,12 +39,18 @@
 
 <div class="panel panel-info col-md-6 col-md-offset-3 panel-x">
     <div>
-        <h2>登录</h2>
+        <h2>登录with ajax</h2>
     </div>
-   
+    <div id="result"></div>
     <div class="panel-body">
-        @using (Html.BeginForm(null, null, new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
-            {
+        @using (Ajax.BeginForm(null, null, new { returnUrl = ViewBag.ReturnUrl }
+           , new AjaxOptions
+           {
+               //UpdateTargetId = "result",
+               HttpMethod = "post"
+           }
+            , new { @class = "form-horizontal" }))
+        {
             @Html.ValidationSummary()
             <div class="form-group">
                 @*<label class="col-md-2    control-label">用户名</label>*@

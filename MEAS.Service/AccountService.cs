@@ -133,7 +133,8 @@ namespace MEAS.Service
 
         public async Task<UserProfile> GetProfile(int id)
         {
-            var dao =await this._profileRepository.Find(id);
+             var dao =await this._profileRepository.Find(id);
+            return null;
         }
     }
 }

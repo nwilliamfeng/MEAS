@@ -281,6 +281,7 @@
     <Content Include="Views\Shared\UploadFile.cshtml" />
     <Content Include="Views\Admin\_DeleteProduct.cshtml" />
     <Content Include="Views\Account\_Login.cshtml" />
+    <Content Include="Views\Account\Login2 - 复制.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
