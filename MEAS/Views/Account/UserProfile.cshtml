@@ -1,65 +1,91 @@
 ﻿@using MEAS.Models
-@model UserInfoViewModel
+@model UserProfileViewModel
 
+@{ 
+    byte[] photo = Model.Avatar;
+    string imageSrc = null;
+    if (photo != null)
+    {
+        string base64String = Convert.ToBase64String(photo);
+        imageSrc = string.Format("data:image/png;base64,{0}", base64String);
+    }
+}
 
 <div>
     <h2>@Model.UserName 的信息</h2>
 </div>
 
 <div class="panel-body">
-    @using (Html.BeginForm(null, null, new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
-    {
 
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    @Html.ValidationSummary()
-                </div>
-            </div>
-            <!--登录名-->
-            <div class="form-group">
-                @Html.LabelFor(model => model.LoginName, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.LoginName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.LoginName)
-                </div>
-            </div>
+    <div class="form-horizontal">
+      
+        <!--头像-->
+        <div class="form-group">
+            <div class="form-group col-md-3"></div>
 
-            <!--用户名-->
-            <div class="form-group">
-                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.UserName)
-                </div>
-            </div>
+            <img class="form-group col-md-1" src="@imageSrc" alt="头像" border="0" height="70" width="70" />
 
-            <!--移动电话-->
-            <div class="form-group">
-                @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Mobile)
-                </div>
-            </div>
+            <div class="form-group col-md-8">
+                <div>
+                    @using (Html.BeginForm("UpdateAvatar", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(x => x.Id)
+                        @Html.TextBoxFor(m => m.AvatarUploadFile.File, new { type = "file" ,@class= "btn btn-primary"})
+                        <button class="btn btn-primary" type="submit" >更换头像</button>
+                    }
 
-            <!--邮箱地址-->
-            <div class="form-group">
-                @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EmailAddress)
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-3 col-md-9">
-                    <button class="btn btn-primary" type="submit">保存</button>
                 </div>
             </div>
         </div>
-    }
+        <!--登录名-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.LoginName, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.LoginName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LoginName)
+            </div>
+        </div>
+
+        <!--用户名-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserName)
+            </div>
+        </div>
+
+        <!--移动电话-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mobile)
+            </div>
+        </div>
+
+
+
+        <!--邮箱地址-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EmailAddress)
+            </div>
+        </div>
+
+
+    </div>
+
 </div>
+
+
+
+
+
+
+ 
 
 
 @section Scripts

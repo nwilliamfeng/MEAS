@@ -3,6 +3,7 @@
 
 namespace MEAS
 {
+
     public  class UserProfileDao
     {
         public int Id { get; set; }

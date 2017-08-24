@@ -11,7 +11,7 @@ namespace MEAS
         public EntityToViewModelMappingProfile()
         {
 
-            this.CreateMap<UserInfo, UserInfoViewModel>();
+            this.CreateMap<UserProfile, UserProfileViewModel>();
         }
 
         public override string ProfileName

@@ -7,6 +7,7 @@ using MEAS.Service;
 
 namespace MEAS.Controllers
 {
+     
     public class HomeController : Controller
     {
        
@@ -17,12 +18,7 @@ namespace MEAS.Controllers
             Console.WriteLine(System.Configuration.ConfigurationManager.ConnectionStrings);
         }
 
-        public ActionResult Demo()
-        {
-            return Content(""); 
-       
-        }
-
+        
         public ActionResult Index()
         {               
             ViewBag.Text = @"This text contains<br />a line break";
@@ -30,7 +26,7 @@ namespace MEAS.Controllers
             return View();
         }
 
-   
+    
        
 
         public ActionResult About()

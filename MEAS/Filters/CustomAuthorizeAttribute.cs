@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace MEAS
 {
@@ -11,9 +12,8 @@ namespace MEAS
             //不推荐抛出异常。https://stackoverflow.com/questions/17148554/asp-net-mvc-4-throw-httpexception-vs-return-httpstatuscoderesult
             if (context.HttpContext.Request.IsAuthenticated)
             {
-                throw new HttpException((int)System.Net.HttpStatusCode.Forbidden, "此操作没有权限！");
-                //  context.HttpContext.Response.Redirect(@"\Error\Unauthorized");
-
+                //throw new HttpException((int)System.Net.HttpStatusCode.Forbidden, "此操作没有权限！");
+                //context.HttpContext.Response.Redirect(@"\Error\Unauthorized");
 
                 //context.Result = new RedirectToRouteResult(
                 //    new RouteValueDictionary {
@@ -22,16 +22,30 @@ namespace MEAS
                 //                  });
                 //var ex = new HttpException((int)System.Net.HttpStatusCode.Forbidden, "此操作没有权限！");                           
                 //context.Result = this.GetErrorPage(ex, context);
-            }
 
-            //由于mvc5开始，加入IAuthenticationFilter接口，分离了原来AuthorizeAuttribute的认证操作，以下代码注释
-            //else
-            //{
-            //    base.HandleUnauthorizedRequest(context);
-            //    context.HttpContext.Response.Redirect(@"\Error\Unauthenticated");
-            //    //var exception = new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "请重新登录。");
-            //    //context.Result = this.GetErrorPage(exception ,context );  
-            //}
+                context.Result = new RedirectToRouteResult(
+                     new RouteValueDictionary {
+                                       { "action", "Unauthorized" },
+                                       { "controller", "Error" },
+                                       { "returnUrl",context.HttpContext.Request.UrlReferrer}
+                                   });
+
+            }
+            else
+            {
+                base.HandleUnauthorizedRequest(context);
+                context.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary {
+                                       { "action", "Unauthenticated" },
+                                       { "controller", "Error" },
+                                       { "returnUrl",context.HttpContext.Request.RawUrl}
+                                  });
+
+                //context.HttpContext.Response.Redirect(@"\Error\Unauthenticated");
+                //var exception = new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "请重新登录。");
+                //context.Result = this.GetErrorPage(exception, context);
+                //throw new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "未登录。");
+            }
         }
 
         public override void OnAuthorization(AuthorizationContext filterContext)

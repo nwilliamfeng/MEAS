@@ -31,7 +31,7 @@ namespace MEAS.Controllers
         }
    
      
-        [Authorize(Roles ="1,2,3")]
+        [CustomAuthorize(Roles ="1,2,3")]
         public ActionResult Download(int id)
         {
             //https://stackoverflow.com/questions/5826649/returning-a-file-to-view-download-in-asp-net-mvc
@@ -77,7 +77,7 @@ namespace MEAS.Controllers
         //}
 
         [HttpPost]
-        [Authorize(Roles ="1,2,3")]
+        [CustomAuthorize(Roles ="1,2,3")]
         public ActionResult Upload(FileViewModel vm)
         {
             if (ModelState.IsValid)
@@ -96,7 +96,7 @@ namespace MEAS.Controllers
         }
 
         [ChildActionOnly]
-        [Authorize(Roles = "1,2,3")]
+        [CustomAuthorize(Roles = "1,2,3")]
         public ActionResult UploadFile()
         {
             return View();

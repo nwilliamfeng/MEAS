@@ -21,6 +21,7 @@ namespace MEAS.Controllers
             this._accountService = accountService; 
         }
 
+        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             if (this.HttpContext.Request.UrlReferrer == null)
@@ -35,6 +36,14 @@ namespace MEAS.Controllers
             return View();
           //  return this.PartialView("_Login");
         }
+
+
+        [CustomAuthorize]
+        public ActionResult MyAccount()
+        {       
+            return Content("abc");
+        }
+
 
 
 
@@ -144,7 +153,7 @@ namespace MEAS.Controllers
             return View();
         }
 
-        [Authenticate]
+        [CustomAuthorize]
         public ActionResult LogOut()
         {       
             FormsAuthentication.SignOut();
@@ -152,41 +161,35 @@ namespace MEAS.Controllers
             
         }
 
-        [Authenticate]
+        [CustomAuthorize]
         public async Task<ActionResult> UserProfile()
         {
        
             this.SaveUrlRefferUrlToTempData();
-           var user=await this._accountService.GetCurrentUser();
-            if (user == null)
+            var user = await this._accountService.GetCurrentUser();
+           var profile=await this._accountService.GetProfile(user.Id);
+            if (profile == null)
                 throw new InvalidOperationException("无法找到当前用户。");
-            var vm = Mapper.Map<UserInfoViewModel>(user);
-            return View(vm);
+            return View(Mapper.Map<UserProfileViewModel>(profile));
         }
 
-        [Authenticate]
+        [CustomAuthorize]
         [HttpPost]
-        public ActionResult UserProfile(UserInfoViewModel user)
+        public async Task<ActionResult> UpdateAvatar(UserProfileViewModel model)
         {
-
-            if (!this.ModelState.IsValid)
-                return View();
-            //if (!this.TempData.ContainsKey("userProfileReturnUrl"))
-            //    return RedirectToAction("Index","Home");     //跳转逻辑暂时不用，之后由js完成
-
-            //return this.Redirect(this.TempData["userProfileReturnUrl"].ToString());
-            return Content("保存成功");
+            if (model == null || model.AvatarUploadFile == null || model.AvatarUploadFile.File == null)
+                return Content("头像文件为空，上传失败。");
+            var logo= model.AvatarUploadFile.File.InputStream.ToBytes();
+            var result=await this._accountService.UpdateAvatar(model.Id, logo);
+            return Content( result?"更新头像成功!":"更新头像失败!");
         }
 
-        [Authenticate]
         [CustomAuthorize(Roles = "1,2,3")]
         public ActionResult ResetPassword()
         {       
-            return View(new ResetPasswordViewModel {  LoginName= User.Identity.Name, UserName=User.Identity.GetUserName()});
-            
+            return View(new ResetPasswordViewModel {  LoginName= User.Identity.Name, UserName=User.Identity.GetUserName()});            
         }
 
-        [Authenticate]
         [CustomAuthorize(Roles ="1,2,3")]
         [HttpPost]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel resetPassword)

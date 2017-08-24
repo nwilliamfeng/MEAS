@@ -23,5 +23,7 @@ namespace MEAS.Service
         Task<UserInfo> GetCurrentUser();
 
         Task<bool> UpdateLogout(string loginName);
+
+        Task<bool> UpdateAvatar(int userId,byte[] avatar);
     }
 }

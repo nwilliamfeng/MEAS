@@ -10,6 +10,8 @@ namespace MEAS.Data
     {
         Task<UserInfoDao> Find(string loginName,string password);
 
+        Task<UserInfoDao> Find(int id);
+
         Task<bool> AppendUser(UserInfoDao user);
 
         Task<bool> RemoveUser(UserInfoDao user);

@@ -1,18 +1,23 @@
-﻿
-@{
+﻿@{
     Layout = null;
     ViewBag.Title = "Unauthorized";
 }
 <head>
-    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
 </head>
 
-<h2>抱歉，您未经授权，不能执行此操作。@Html.ActionLink("返回主页","Index","Home")
-    
- </h2>
 
- 
-    
- 
+@if (!string.IsNullOrEmpty(ViewBag.ReturnUrl))
+{
+    <h2>抱歉，您未经授权，不能执行此操作。<a href=@Url.Content(ViewBag.ReturnUrl)>返回</a>  </h2>
+}
+else
+{
+    <h2>抱歉，您未经授权，不能执行此操作。@Html.ActionLink("返回主页", "Index", "Home")</h2>
+}
+
+
+
+
 
 

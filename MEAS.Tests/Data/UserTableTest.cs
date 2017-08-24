@@ -11,7 +11,7 @@ namespace MEAS.Tests.Data
     public class UserTableTest
     {
         [TestMethod]
-        public  async Task TestAppend()
+        public  async Task TestAppendUser()
         {
             IAccountRepository rp = new AccountRepository();
             var user = new UserInfoDao { LoginName = "login", Password = "1111", Roles = "1,2,3" ,UserName="user"};

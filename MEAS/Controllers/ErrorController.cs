@@ -29,10 +29,10 @@ namespace MEAS.Controllers
             return View();
         }
 
-        public ViewResult Unauthorized( )
+        public ViewResult Unauthorized(string returnUrl )
         {
             Response.StatusCode = 403;
-      
+            ViewBag.ReturnUrl = returnUrl;
             return View() ;
         }
     }

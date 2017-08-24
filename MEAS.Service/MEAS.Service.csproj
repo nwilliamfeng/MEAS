@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
+    <Compile Include="Mapping\OtherMappingProfile.cs" />
     <Compile Include="Mapping\EntityToDaoMappingProfile.cs" />
     <Compile Include="Mapping\DaoToEntityMappingProfile.cs" />
     <Compile Include="OrderProcessor.cs" />

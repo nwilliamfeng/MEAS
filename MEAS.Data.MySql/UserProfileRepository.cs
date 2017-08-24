@@ -24,8 +24,8 @@ namespace MEAS.Data
 
         public async Task<UserProfileDao> Find(int userId)
         {
-            var query = string.Format("select * from {0} where {1}=@{1}", TABLE, ID);
-            var results = (await this.CreateConnection().QueryAsync<UserProfileDao>(query, new { userId }));
+            var query = string.Format("select * from {0} where {1}={2}", TABLE, ID,userId);
+            var results = (await this.CreateConnection().QueryAsync<UserProfileDao>(query));
             return results.FirstOrDefault();
         }
 

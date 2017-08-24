@@ -10,33 +10,34 @@ namespace MEAS.Service
 {
     public class AccountService : IAccountService
     {
-        private IAccountRepository _repository;
+        private IAccountRepository _userRepository;
         private IUserProfileRepository _profileRepository;
         private static ConcurrentDictionary<string, UserInfo> userInfoDictionary =new ConcurrentDictionary<string, UserInfo> ();
 
         public AccountService(IAccountRepository repository, IUserProfileRepository profileRepository)
         {
-            this._repository = repository;
+            this._userRepository = repository;
             this._profileRepository = profileRepository;
             this.InitizeUserInfos();
         }
 
-        private UserInfo ToEntity(UserInfoDao dao)
+        private UserInfo ToUserEntity(UserInfoDao dao)
         {
             return Mapper.Map<UserInfo>(dao);
         }
 
-        private UserInfoDao ToDao(UserInfo entity)
+        private UserInfoDao ToUserDao(UserInfo entity)
         {
             return Mapper.Map<UserInfoDao>(entity);
         }
+ 
 
         private  void InitizeUserInfos()
         {
             if (userInfoDictionary == null)
             {
                 userInfoDictionary = new ConcurrentDictionary<string, UserInfo>();
-                var users =  this._repository.LoadAll().Result.Select(x=>this.ToEntity(x));
+                var users =  this._userRepository.LoadAll().Result.Select(x=>this.ToUserEntity(x));
                 users.ToList().ForEach(x =>
                 {
                     userInfoDictionary.TryAdd(x.LoginName.ToUpper(), x);
@@ -76,8 +77,8 @@ namespace MEAS.Service
 
         public async Task<IEnumerable<UserInfo>> All()
         {
-            var daos= await this._repository.LoadAll();
-            return daos.Select(x => this.ToEntity(x));
+            var daos= await this._userRepository.LoadAll();
+            return daos.Select(x => this.ToUserEntity(x));
         }
 
         public async Task<UserInfo> Find(string loginName, string password)
@@ -85,10 +86,10 @@ namespace MEAS.Service
             var user = userInfoDictionary.Values.FirstOrDefault(x => (x.LoginName.Equals(loginName, StringComparison.CurrentCultureIgnoreCase) && x.Password == password));
             if (user == null)
             {
-                var dao=  await this._repository.Find(loginName, password);
+                var dao=  await this._userRepository.Find(loginName, password);
                 if (dao != null)
                 {
-                    user = this.ToEntity(dao);
+                    user = this.ToUserEntity(dao);
                     userInfoDictionary[loginName] = user;
                 }
             }
@@ -116,7 +117,7 @@ namespace MEAS.Service
 
         public async Task<bool> RemoveUser(UserInfo user)
         {
-            var result= await this._repository.RemoveUser(this.ToDao(user));
+            var result= await this._userRepository.RemoveUser(this.ToUserDao(user));
             if (result)
                 userInfoDictionary.TryRemove(user.LoginName, out user);
             return result;
@@ -128,13 +129,23 @@ namespace MEAS.Service
             if (old == null)
                 return false;
             old.Password = newPassword;
-            return await this._repository.UpdateUser(this.ToDao(old));
+            return await this._userRepository.UpdateUser(this.ToUserDao(old));
         }
 
         public async Task<UserProfile> GetProfile(int id)
         {
-             var dao =await this._profileRepository.Find(id);
-            return null;
+            var user = await this._userRepository.Find(id);
+             var pd =await this._profileRepository.Find(id);
+             var profile =Mapper.Map<UserProfile>(pd);
+            Mapper.Map(this.ToUserEntity(user), profile);
+            return profile;
+        }
+
+        public async Task<bool> UpdateAvatar(int userId, byte[] avatar)
+        {
+            var profile = await this._profileRepository.Find(userId);
+            profile.Avatar = avatar;
+            return await this._profileRepository.Update(profile);
         }
     }
 }

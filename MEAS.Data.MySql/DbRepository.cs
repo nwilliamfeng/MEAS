@@ -16,46 +16,75 @@ namespace MEAS
     {
         
         protected const string ID = "Id";
-       
+
+
+        public bool IsTableExist()
+        {
+            //sqlserver:  string sql =string.Format( "SELECT * FROM dbo.SysObjects WHERE ID = object_id(N'[{0}]') AND OBJECTPROPERTY(ID, 'IsTable') = 1",TableName);
+
+            var conn = this.CreateConnection();
+            var sql = string.Format("select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='{0}' and TABLE_NAME='{1}'", conn.Database, this.TableName);
+            Console.WriteLine(sql); 
+            return !string.IsNullOrEmpty( conn.QuerySingle<string>(sql));
+        }
+        
+
        
 
-        protected DbConnection CreateConnection()
+        protected IDbConnection CreateConnection()
+        {
+            return NewConnection();
+        }
+
+        public static IDbConnection NewConnection()
         {
             var connection = ConfigurationManager.ConnectionStrings["MySqlConnection"].ConnectionString;
-            return new MySqlConnection(connection); 
+            return new MySqlConnection(connection);
         }
- 
 
-        protected void InitizeInsertCommand(DbCommand cmd, string table)
+       
+
+        //protected void InitizeInsertCommand(DbCommand cmd, string table)
+        //{
+
+      
+        //    string columns = null;
+        //    string values = null;
+        //    foreach (DbParameter p in cmd.Parameters)
+        //    {
+        //        columns += "[" + p.ParameterName + "],";
+        //        values += "@" + p.ParameterName + ",";
+        //    }
+        //    if (columns.Length > 0)
+        //    {
+        //        columns = columns.TrimEnd(',');
+        //        values = values.TrimEnd(',');
+        //    }
+        //    cmd.CommandText = string.Format("Insert into {0}({1}) values({2})", table, columns, values);
+        //}
+
+
+        //protected void InitizeUpdateCommand(DbCommand cmd, string table, int id)
+        //{
+        //    string columns = null;
+        //    foreach (DbParameter p in cmd.Parameters)
+        //        columns += string.Format("{0} = @{0},", p.ParameterName);
+        //    if (columns.Length > 0)
+        //        columns = columns.TrimEnd(',');
+        //    cmd.CommandText = string.Format("Update  {0} Set {1} where {2}={3}", table, columns, ID, id);
+
+        //}
+
+
+        protected virtual string TableName
         {
-            string columns = null;
-            string values = null;
-            foreach (DbParameter p in cmd.Parameters)
+            get
             {
-                columns += "[" + p.ParameterName + "],";
-                values += "@" + p.ParameterName + ",";
+                var tn = this.GetType().Name;
+                var endwith = "Repository";
+                return tn.EndsWith(endwith) ? tn.Replace(endwith, "s") : tn;
             }
-            if (columns.Length > 0)
-            {
-                columns = columns.TrimEnd(',');
-                values = values.TrimEnd(',');
-            }
-            cmd.CommandText = string.Format("Insert into {0}({1}) values({2})", table, columns, values);
         }
-
-         
-        protected void InitizeUpdateCommand(DbCommand cmd, string table, int id)
-        {
-            string columns = null;
-            foreach (DbParameter p in cmd.Parameters)
-                columns += string.Format("{0} = @{0},", p.ParameterName);
-            if (columns.Length > 0)
-                columns = columns.TrimEnd(',');
-            cmd.CommandText = string.Format("Update  {0} Set {1} where {2}={3}", table, columns, ID, id);
-        
-        }
-
-     
 
 
         protected async Task<bool> Delete(int id, string table)

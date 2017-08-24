@@ -27,6 +27,7 @@ namespace MEAS.Service
             get { return "EntityToDaoMappingProfile"; }
         }
 
+      
        
     }
 }
