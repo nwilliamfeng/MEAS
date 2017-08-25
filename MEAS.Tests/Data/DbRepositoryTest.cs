@@ -18,6 +18,7 @@ namespace MEAS.Tests.Data
             UserProfileRepository rp = new UserProfileRepository();
            
             Assert.IsTrue(rp.IsTableExist());
+
      
         }
 

@@ -12,8 +12,8 @@ namespace MEAS
         public string Code { get; set; }
 
   
-        public DateTime TestDate { get; set; }
+        public DateTime MeasureTime { get; set; }
 
-        public string Tester { get; set; }
+        public UserInfo User { get; set; }
     }
 }

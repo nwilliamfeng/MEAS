@@ -29,6 +29,11 @@ namespace MEAS
         }
         
 
+        protected int GetInsertedId()
+        {
+           return   this.CreateConnection().QueryFirst<int>(string.Format("select max(id) from {0}", TableName));
+        }
+
        
 
         protected IDbConnection CreateConnection()

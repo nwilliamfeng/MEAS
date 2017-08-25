@@ -9,11 +9,11 @@ namespace MEAS.Data
     [Serializable]
     public class MeasureDaoBase:DaoBase
     {
-        public string Code { get; set; }
+        public string TestCode { get; set; }
 
   
         public DateTime TestDate { get; set; }
 
-        public string Tester { get; set; }
+        public UserInfoDao Tester { get; set; }
     }
 }
