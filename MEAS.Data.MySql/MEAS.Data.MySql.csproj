@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AccountRepository.cs" />
     <Compile Include="DbRepository.cs" />
+    <Compile Include="MySqlExtensions.cs" />
     <Compile Include="UserProfileRepository.cs" />
     <Compile Include="TorqueWrenchMeasureRepository.cs" />
     <Compile Include="ProductRepository.cs" />

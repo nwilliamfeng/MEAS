@@ -15,5 +15,10 @@ namespace MEAS.Data
         public int TotalCount { get; private set; }
 
         public IEnumerable<T> Data { get; private set; }
+
+        public static  SearchResult<T> Empty
+        {
+            get { return new SearchResult<T>(new T[] { }, 0); }
+        }
     }
 }

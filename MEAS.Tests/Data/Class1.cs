@@ -25,6 +25,8 @@ namespace MEAS.Tests.Data
             //     return a;
             // }, splitOn: "CustomerId,DetailId");
 
+
+
             var result = connection.Query<Order, Customer, Order>(sql, (a, b) =>
             {
                 a.Customer = b;
@@ -41,7 +43,7 @@ namespace MEAS.Tests.Data
         {
             SqlConnection connection = new SqlConnection(connstr);
              var sql = string.Format("select t.*,u.*,x.* from (orders as t  inner join customers as u on t.customerid = u.id) inner join orderdetails as x on t.detailId= x.id where t.id ={0}",2);
-
+         
             var result = connection.Query<Order, Customer,OrderDetail, Order>(sql, (a, b,c) =>
              {
                  a.Customer = b;
@@ -67,14 +69,29 @@ namespace MEAS.Tests.Data
                     Console.WriteLine(order);
                 var count = reader.ReadSingle<int>();
                 Console.WriteLine("the count " + count);             
-            }
+            }            
+        }
 
-              
+
+        public void DoTest4()
+        {
+            SqlConnection connection = new SqlConnection(connstr);
+      
+            var sql = @"select  count(*)  from orders";
+          var count =  connection.ExecuteScalar<int>(sql);
+            Console.WriteLine("count "+count); 
+        }
+
+
+        public void DoTest5()
+        {
+            CategoryRepository cr = new Tests.CategoryRepository();
+            cr.LoadAll();
         }
 
     }
 
-     
+
    
 
     public class Customer

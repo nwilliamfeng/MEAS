@@ -40,28 +40,48 @@ namespace MEAS.Tests.Data
         public void TestFindWithId2()
         {
             TestDb td = new Data.TestDb();
-            td.DoTest3();
+            td.DoTest4();
         }
 
-        //[TestMethod]
-        //public async Task TestLoadAll()
-        //{
-        //    AccountRepository rp = new AccountRepository();
-        //    var result = await rp.LoadAll();
-        //    foreach(var user in result)
-        //    Console.WriteLine(result);
-        //    Assert.IsTrue(result.Count()>0);
-        //}
 
-        //[TestMethod]
-        //public async Task TestDelete()
-        //{
-        //    AccountRepository rp = new AccountRepository();
-        //    var user = new UserInfoDao { LoginName = "login", Password = "1111", Roles = "1,2,3", UserName = "user" };
-        //    await rp.AppendUser(user);
-        //   var result =await rp.RemoveUser(user);
-        //    Assert.IsTrue(result);
-        //}
+        [TestMethod]
+        public async Task TestPage()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
+            var result = await rp.Find(new DateTime(2017, 8, 25), new DateTime(2017, 8, 27), 2, 0);
+            sw.Stop();
+            Console.WriteLine("cost "+sw.ElapsedMilliseconds);
+            foreach (var d in result.Data)
+                d.Dump();
+            Console.WriteLine("count "+ result.TotalCount);
+        }
+
+        [TestMethod]
+        public async Task TestQueryCode()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
+            var result = await rp.FindWithCode("017/8/25");
+            sw.Stop();
+            Console.WriteLine("cost " + sw.ElapsedMilliseconds);
+            foreach (var d in result.Data)
+                d.Dump();
+            Console.WriteLine("count " + result.TotalCount);
+        }
+
+
+
+        [TestMethod]
+        public async Task TestDelete()
+        {
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
+
+            var result = await rp.Delete(11);
+            Assert.IsTrue(result);
+        }
 
         //[TestMethod]
         //public async Task TestUpdate()

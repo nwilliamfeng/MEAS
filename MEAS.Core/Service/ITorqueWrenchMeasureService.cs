@@ -7,7 +7,7 @@ namespace MEAS.Service
 {
     public interface ITorqueWrenchMeasureService
     {
-        Task<IEnumerable<TorqueWrenchMeasure>> FindWithCode(string code);
+        Task<SearchResult<TorqueWrenchMeasure>> FindWithCode(string code,int pagesize=3,int pageIdx=0);
 
         Task<bool> Delete(int id);
 

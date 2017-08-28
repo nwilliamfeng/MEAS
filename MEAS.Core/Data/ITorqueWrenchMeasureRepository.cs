@@ -9,7 +9,7 @@ namespace MEAS.Data
 
         Task<bool> Add(TorqueWrenchMeasureDao measure);
 
-        Task<IEnumerable<TorqueWrenchMeasureDao>> FindWithCode(string code);
+        Task<SearchResult<TorqueWrenchMeasureDao>> FindWithCode(string code,int pagesize=3,int pageidx=0);
 
         Task<bool> Delete(int id);
 

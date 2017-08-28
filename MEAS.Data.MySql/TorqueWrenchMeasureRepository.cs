@@ -12,26 +12,33 @@ namespace MEAS.Data.MySql
         private string Col_tsterId = "TesterId";
         private string Col_tstDate = "TestDate";
 
-        public TorqueWrenchMeasureRepository()
+        public async Task<bool> Delete(int id)
         {
-          
+            var result = await this.CreateConnection().ExecuteAsync(string.Format("delete from {0} where id=@a",TableName), new { a = id });
+            return result== 1;
         }
 
-        public Task<bool> Delete(int id)
+        public Task<SearchResult<TorqueWrenchMeasureDao>> FindWithCode(string code, int pagesize = 3, int pageIdx = 0)
         {
             return Task.Run(() =>
             {
-               
-                return true;
-            });
-        }
-
-        public Task<IEnumerable<TorqueWrenchMeasureDao>> FindWithCode(string code)
-        {
-            return Task.Run<IEnumerable<TorqueWrenchMeasureDao>>(() =>
-            {
-                return new TorqueWrenchMeasureDao[] { };
-            });
+                if (string.IsNullOrEmpty(code))
+                    return SearchResult<TorqueWrenchMeasureDao>.Empty;
+                var connection = this.CreateConnection();
+                var sql1 = string.Format("select * from {0} t  join users u on t.testerid = u.id where {1} like @a", TableName, Col_tstcode).Page(pagesize, pageIdx);
+                var sql2 = string.Format("select Count(*) from {0}  where {1} like @a", TableName, Col_tstcode);
+                var sql = sql1.JoinSql(sql2);
+                using (var reader = connection.QueryMultiple(sql, new { a = "%" + code + "%" }))
+                {
+                    var daos = reader.Read<TorqueWrenchMeasureDao, UserInfoDao, TorqueWrenchMeasureDao>((a, b) =>
+                    {
+                        a.Tester = b;
+                        return a;
+                    });
+                    var total = reader.ReadFirstOrDefault<int>(); //读取总的记录数
+                    return new SearchResult<TorqueWrenchMeasureDao>(daos, total);
+                }
+            });          
         }
 
         public async Task<TorqueWrenchMeasureDao> FindWithId(int id)
@@ -43,43 +50,38 @@ namespace MEAS.Data.MySql
             {
                 a.Tester = b;
                 return a;
-            })  ;
-       
+            });       
             return result.FirstOrDefault();
         }
 
-        public async Task<SearchResult<TorqueWrenchMeasureDao>> Find(DateTime start, DateTime end, int pagesize = 3, int pageIdx = 0)
+        public Task<SearchResult<TorqueWrenchMeasureDao>> Find(DateTime start, DateTime end, int pagesize = 3, int pageIdx = 0)
         {
-
-            var connection = this.CreateConnection();
-            var sql = string.Format("select * from {0} t  join users u on t.testerid = u.id  LIMIT @a, @b  select count(*) from {0}", TableName);
-            IEnumerable<TorqueWrenchMeasureDao> daos = null;
-            using (var reader = connection.QueryMultiple(sql, new { a = pagesize * pageIdx, b = pagesize }))
+            return Task.Run(() =>
             {
-                daos = await reader.Read<TorqueWrenchMeasureDao,>();
-                var total = await reader.ReadSingleAsync<int>();
-            }
-
-            var sql = string.Format("SELECT * FROM {0} LIMIT @a, @b", TableName);
-                 //if (pageIdx < 0 || pagesize < 1)
-                 //    return new SearchResult<TorqueWrenchMeasureDao>(new TorqueWrenchMeasureDao[] { },0);
-                 //var daos = lst.Where(x => x.TestDate > start && x.TestDate < end).ToList();
-                 //var data = daos.Skip(pagesize * (pageIdx)).Take(pagesize).ToList();
-                 //foreach (var d in data)
-                 //    System.Diagnostics.Debug.WriteLine(d);
-                 //return new SearchResult<TorqueWrenchMeasureDao>(data, daos.Count);
-            return new SearchResult<TorqueWrenchMeasureDao>(new TorqueWrenchMeasureDao[] { }, 0);
+                var connection = this.CreateConnection();
+                var sql1 = string.Format("select * from {0} t  join users u on t.testerid = u.id where {1}>=@a and {1}<=@b ", TableName, Col_tstDate).Page(pagesize, pageIdx);
+                var sql2 = string.Format("select Count(*) from {0} where {1}>=@a and {1}<=@b", TableName, Col_tstDate);
+                var sql = sql1.JoinSql(sql2);              
+                using (var reader = connection.QueryMultiple(sql, new { a = start, b = end }))
+                {
+                    var daos = reader.Read<TorqueWrenchMeasureDao, UserInfoDao, TorqueWrenchMeasureDao>((a, b) =>
+                    {
+                        a.Tester = b;
+                        return a;
+                    });
+                    var total = reader.ReadFirstOrDefault<int>(); //读取总的记录数
+                    return new SearchResult<TorqueWrenchMeasureDao>(daos, total);
+                }               
+            });
         }
 
         public async Task<bool> Add(TorqueWrenchMeasureDao measure)
         {
-
             var sql = string.Format("insert into {0} values(@a,@b,@c,@d)", this.TableName);
             var result = await this.CreateConnection().ExecuteAsync(sql, new { a = measure.Id, b = measure.TestCode, c = measure.Tester.Id, d = measure.TestDate })==1;
             if (result)
                 measure.Id = this.GetInsertedId();
             return result;
-
         }
 
         public async Task<bool> Update(TorqueWrenchMeasureDao measure)

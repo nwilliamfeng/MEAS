@@ -28,10 +28,12 @@ namespace MEAS.Service
             return new SearchResult<TorqueWrenchMeasure>(sr.Data.Select(x => Mapper.Map<TorqueWrenchMeasure>(x)), sr.TotalCount);
         }
 
-        public async Task<IEnumerable<TorqueWrenchMeasure>> FindWithCode(string code)
+        public async Task<SearchResult<TorqueWrenchMeasure>> FindWithCode(string code, int pagesize = 3, int pageIdx = 0)
         {
-            var daos= await this._testRepository.FindWithCode(code);
-            return daos.Select(x => Mapper.Map<TorqueWrenchMeasure>(x));
+            var result= await this._testRepository.FindWithCode(code);
+            var tws = result.Data.Select(x => Mapper.Map<TorqueWrenchMeasure>(x));
+            return new SearchResult<TorqueWrenchMeasure>(tws, result.TotalCount);
+ 
         }
 
         public async Task<TorqueWrenchMeasure> FindWithId(int id)
