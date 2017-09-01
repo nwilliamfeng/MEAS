@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
-using AutoMapper;
 using MEAS.Data;
-
+using AutoMapper;
+ 
 namespace MEAS.Service
 {
     public class AccountService : IAccountService
@@ -21,23 +21,14 @@ namespace MEAS.Service
             this.InitizeUserInfos();
         }
 
-        private UserInfo ToUserEntity(UserInfoDao dao)
-        {
-            return Mapper.Map<UserInfo>(dao);
-        }
-
-        private UserInfoDao ToUserDao(UserInfo entity)
-        {
-            return Mapper.Map<UserInfoDao>(entity);
-        }
- 
+       
 
         private  void InitizeUserInfos()
         {
             if (userInfoDictionary == null)
             {
                 userInfoDictionary = new ConcurrentDictionary<string, UserInfo>();
-                var users =  this._userRepository.LoadAll().Result.Select(x=>this.ToUserEntity(x));
+                var users =  this._userRepository.LoadAll().Result;
                 users.ToList().ForEach(x =>
                 {
                     userInfoDictionary.TryAdd(x.LoginName.ToUpper(), x);
@@ -77,8 +68,7 @@ namespace MEAS.Service
 
         public async Task<IEnumerable<UserInfo>> All()
         {
-            var daos= await this._userRepository.LoadAll();
-            return daos.Select(x => this.ToUserEntity(x));
+            return await this._userRepository.LoadAll();
         }
 
         public async Task<UserInfo> Find(string loginName, string password)
@@ -86,12 +76,9 @@ namespace MEAS.Service
             var user = userInfoDictionary.Values.FirstOrDefault(x => (x.LoginName.Equals(loginName, StringComparison.CurrentCultureIgnoreCase) && x.Password == password));
             if (user == null)
             {
-                var dao=  await this._userRepository.Find(loginName, password);
-                if (dao != null)
-                {
-                    user = this.ToUserEntity(dao);
+                 user=  await this._userRepository.Find(loginName, password);
+                if (user != null)
                     userInfoDictionary[loginName] = user;
-                }
             }
             return user;
         }
@@ -117,7 +104,7 @@ namespace MEAS.Service
 
         public async Task<bool> RemoveUser(UserInfo user)
         {
-            var result= await this._userRepository.RemoveUser(this.ToUserDao(user));
+            var result= await this._userRepository.RemoveUser(user);
             if (result)
                 userInfoDictionary.TryRemove(user.LoginName, out user);
             return result;
@@ -129,16 +116,16 @@ namespace MEAS.Service
             if (old == null)
                 return false;
             old.Password = newPassword;
-            return await this._userRepository.UpdateUser(this.ToUserDao(old));
+            return await this._userRepository.UpdateUser(old);
         }
 
         public async Task<UserProfile> GetProfile(int id)
         {
             var user = await this._userRepository.Find(id);
              var pd =await this._profileRepository.Find(id);
-             var profile =Mapper.Map<UserProfile>(pd);
-            Mapper.Map(this.ToUserEntity(user), profile);
-            return profile;
+          
+            Mapper.Map(user, pd);
+            return pd;
         }
 
         public async Task<bool> UpdateAvatar(int userId, byte[] avatar)

@@ -9,7 +9,7 @@ namespace MEAS.Tests
 {
     public static class Extension
     {
-        public static void Dump(this TorqueWrenchMeasureDao dao)
+        public static void Dump(this TorqueWrenchMeasure dao)
         {
             Console.WriteLine(dao.Id +"   "+dao.TestCode +"   "+dao.TestDate);
             if (dao.Tester != null)

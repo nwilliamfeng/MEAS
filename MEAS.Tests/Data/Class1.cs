@@ -89,8 +89,28 @@ namespace MEAS.Tests.Data
             cr.LoadAll();
         }
 
+
+        public void DoTest6()
+        {
+            SqlConnection connection = new SqlConnection(connstr);
+            var sql = "select t.*,u.* from orders as t  join customers as u on t.customerid = u.id";
+
+            var result = connection.Query<Order, Customer, Order>(sql, (a, b) =>
+            {
+                a.Customer = b;
+
+                return a;
+            }, splitOn: "customerId");
+           
+         
+            if (result != null)
+                foreach (var d in result)
+                    Console.WriteLine(d.ToString());
+        }
+
     }
 
+    
 
    
 

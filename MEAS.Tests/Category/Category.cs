@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dapper;
 using MEAS.Data.MySql;
+using System.Transactions;
 
 namespace MEAS.Tests
 {
@@ -31,6 +32,8 @@ namespace MEAS.Tests
         
 
         public string Title { get; set; }
+
+        public string Text { get; set; }
  
     }
 
@@ -66,6 +69,24 @@ namespace MEAS.Tests
             });
         }
 
+
+        public void Insert(Category category)
+        {
+          
+            var sql1 = @"insert categorys values(@a) SELECT  SCOPE_IDENTITY()";
+            var sql2 = @"insert articles values(@a,@b,@c,@d)";
+            using (var t =new TransactionScope())
+            {
+                var conn = new SqlConnection(connstr);
+                var article = category.Articles.First();
+                var id = conn.QueryFirstOrDefault<int>(sql1, new { a = category.Title});
+                category.Id = id;
+                var count = conn.Execute(sql2, new {a=article.Id, b = category.Id, c = article.Title, d= article.Text });
+                t.Complete();
+            }
+              
+           
+        }
        
 
 

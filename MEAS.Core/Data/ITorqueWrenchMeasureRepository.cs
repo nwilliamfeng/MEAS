@@ -7,16 +7,16 @@ namespace MEAS.Data
     public interface ITorqueWrenchMeasureRepository
     {
 
-        Task<bool> Add(TorqueWrenchMeasureDao measure);
+        Task<bool> Add(TorqueWrenchMeasure measure);
 
-        Task<SearchResult<TorqueWrenchMeasureDao>> FindWithCode(string code,int pagesize=3,int pageidx=0);
+        Task<SearchResult<TorqueWrenchMeasure>> FindWithCode(string code,int pagesize=3,int pageidx=0);
 
         Task<bool> Delete(int id);
 
-        Task<TorqueWrenchMeasureDao> FindWithId(int id);
+        Task<TorqueWrenchMeasure> FindWithId(int id);
 
-        Task<bool> Update(TorqueWrenchMeasureDao measure);
+        Task<bool> Update(TorqueWrenchMeasure measure);
 
-        Task<SearchResult<TorqueWrenchMeasureDao>> Find(DateTime start, DateTime end, int pagesize = 3, int pageidx = 0);
+        Task<SearchResult<TorqueWrenchMeasure>> Find(DateTime start, DateTime end, int pagesize = 3, int pageidx = 0);
     }
 }

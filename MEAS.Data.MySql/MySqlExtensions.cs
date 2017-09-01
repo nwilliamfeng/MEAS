@@ -45,7 +45,7 @@ namespace MEAS.Data.MySql
                     lookup.Add(a.Id, parent = a);
                 process(parent, b);
                 return parent;
-            }).AsQueryable();
+            });
             var resultList = lookup.Values;
             return resultList;
         }

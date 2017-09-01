@@ -19,7 +19,7 @@ namespace MEAS.Tests.Data
             var users = await accountRepository.LoadAll();
             Assert.IsTrue(users.Any());
            
-            var measure = new TorqueWrenchMeasureDao { TestCode = DateTime.Now.ToShortDateString(), TestDate = DateTime.Now, Tester = users.First() };
+            var measure = new TorqueWrenchMeasure { TestCode = DateTime.Now.ToShortDateString(), TestDate = DateTime.Now, Tester = users.First() };
             var result = await rp.Add(measure);
            
             Assert.IsTrue(result);
@@ -34,13 +34,6 @@ namespace MEAS.Tests.Data
             if (result != null)
                 result.Dump();
             Assert.IsTrue(result!=null);
-        }
-
-        [TestMethod]
-        public void TestFindWithId2()
-        {
-            TestDb td = new Data.TestDb();
-            td.DoTest4();
         }
 
 

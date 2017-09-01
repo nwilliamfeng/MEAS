@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using MEAS.Service;
+using MEAS.Data;
 
 namespace MEAS
 {

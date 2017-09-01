@@ -5,13 +5,13 @@ namespace MEAS.Data
 {
     public interface IUserProfileRepository
     {
-        Task<UserProfileDao> Find(int userId);
+        Task<UserProfile> Find(int userId);
 
-        Task<bool> Append(UserProfileDao user);
+        Task<bool> Append(UserProfile user);
 
-        Task<bool> Remove(UserProfileDao user);
+        Task<bool> Remove(UserProfile user);
 
-        Task<bool> Update(UserProfileDao user);
+        Task<bool> Update(UserProfile user);
 
        
     }

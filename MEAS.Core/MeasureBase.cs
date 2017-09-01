@@ -9,11 +9,11 @@ namespace MEAS
     [Serializable]
     public class MeasureBase:Entity
     {
-        public string Code { get; set; }
+        public string TestCode { get; set; }
 
   
-        public DateTime MeasureTime { get; set; }
+        public DateTime TestDate { get; set; }
 
-        public UserInfo User { get; set; }
+        public UserInfo Tester { get; set; }
     }
 }

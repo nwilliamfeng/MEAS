@@ -15,11 +15,11 @@ namespace MEAS.Data.MySql
         private const string ROLE_STRING = "Roles";
         private const string LOGIN_NAME = "LoginName";
 
-        public async Task<UserInfoDao> Find(string loginName, string password)
+        public async Task<UserInfo> Find(string loginName, string password)
         {
             var query = string.Format("select * from {0} where {1}=@{1} and {2}=@{2}", TableName, LOGIN_NAME, USR_PASSWORD);
-            var results = (await this.CreateConnection().QueryAsync<UserInfoDao>(query, new { loginName,  password }));
-            return results.FirstOrDefault();
+            var result = await this.CreateConnection().QueryFirstOrDefaultAsync<UserInfoDao>(query, new { loginName,  password });
+            return result?.ToEntity();
         }
 
         protected override string TableName
@@ -30,18 +30,20 @@ namespace MEAS.Data.MySql
             }
         }
 
-        public async Task<IEnumerable<UserInfoDao>> LoadAll()
+        public async Task<IEnumerable<UserInfo>> LoadAll()
         {
-            return await CreateConnection().QueryAsync<UserInfoDao>(string.Format("select * from {0} ", TableName)); 
+            var lst= await CreateConnection().QueryAsync<UserInfoDao>(string.Format("select * from {0} ", TableName));
+            return lst.ToEntity();
         }
 
-        public async Task<bool> AppendUser(UserInfoDao user)
+        public async Task<bool> AppendUser(UserInfo user)
         {
             //注意在mysql中不能在一条语句中执行插入和返回，sqlserver可以 ：https://stackoverflow.com/questions/8270205/how-do-i-perform-an-insert-and-return-inserted-identity-with-dapper/8270264#8270264
             //mysql 参考：https://stackoverflow.com/questions/8477398/invalid-cast-when-returning-mysql-last-insert-id-using-dapper-net
 
+            var dao = user.ToDao();
             string sql = string.Format("insert into {0}  values(@a,@b,@c,@d,@e)", TableName);
-            var result = await this.CreateConnection().ExecuteAsync(sql, new { a = user.Id, b = user.LoginName, c = user.UserName, d = user.Password, e = user.Roles }) > 0;
+            var result = await this.CreateConnection().ExecuteAsync(sql, new { a = dao.Id, b = dao.LoginName, c = dao.UserName, d = dao.Password, e = dao.Roles }) > 0;
 
             //var insert = string.Format("Insert into {0} Values (@{1},@{2},@{3},@{4},@{5})", TABLE, ID, LOGIN_NAME, USR_NAME, USR_PASSWORD, ROLE_STRING);
             //var result = await this.CreateConnection().ExecuteAsync(insert, new { user.Id, user.LoginName, user.UserName, user.Password, user.Roles }) > 0;
@@ -53,20 +55,22 @@ namespace MEAS.Data.MySql
 
         }
 
-        public async Task<bool> RemoveUser(UserInfoDao user)
+        public async Task<bool> RemoveUser(UserInfo user)
         {
             return await this.Delete(user.Id, TableName);
         }
 
-        public async Task<bool> UpdateUser(UserInfoDao user)
+        public async Task<bool> UpdateUser(UserInfo user)
         {
+            var dao = user.ToDao();
             string sql =string.Format( "UPDATE {0} SET {2} = @{2}, {3}=@{3},{4}=@{4} WHERE {1} = @{1}",TableName,ID, USR_NAME,USR_PASSWORD,ROLE_STRING);
-            return await this.CreateConnection().ExecuteAsync(sql, new { user.Id, user.UserName, user.Password, user.Roles }) > 0;
+            return await this.CreateConnection().ExecuteAsync(sql, new { dao.Id, dao.UserName, dao.Password, dao.Roles }) > 0;
         }
 
-        public async Task<UserInfoDao> Find(int id)
-        {
-             return await CreateConnection().QueryFirstOrDefaultAsync<UserInfoDao>(string.Format("select * from {0} where id={1}", TableName,id));
+        public async Task<UserInfo> Find(int id)
+        {         
+             var dao= await CreateConnection().QueryFirstOrDefaultAsync<UserInfoDao>(string.Format("select * from {0} where id={1}", TableName,id));
+            return dao?.ToEntity();
         }
     }
 }

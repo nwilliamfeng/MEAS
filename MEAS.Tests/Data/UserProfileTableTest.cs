@@ -15,7 +15,7 @@ namespace MEAS.Tests.Data
         public  async Task TestAppendProfile()
         {
             IUserProfileRepository rp = new UserProfileRepository();
-            var user = new UserProfileDao { Id=32, EmailAddress="ff@163.com", Mobile="12323423435",Phone="43654454" };
+            var user = new UserProfile { Id=32, EmailAddress="ff@163.com", Mobile="12323423435",Phone="43654454" };
             using (var stream = File.Open(@"e:\photos\avatar1.png", FileMode.Open))
             {
                user.Avatar= stream.ToBytes();
@@ -50,7 +50,7 @@ namespace MEAS.Tests.Data
         public async Task TestDelete()
         {
             AccountRepository rp = new AccountRepository();
-            var user = new UserInfoDao { LoginName = "login", Password = "1111", Roles = "1,2,3", UserName = "user" };
+            var user = new UserInfo { LoginName = "login", Password = "1111", Roles = new string[] { "2", "4" }, UserName = "user" };
             await rp.AppendUser(user);
            var result =await rp.RemoveUser(user);
             Assert.IsTrue(result);
@@ -61,7 +61,7 @@ namespace MEAS.Tests.Data
         {
             AccountRepository rp = new AccountRepository();
             var user = await rp.Find("test", "1111");
-            user.Roles = "1,2,3,4,5,6";
+            user.Roles = new string[] { "1", "2", "3", "7" };
             user.Password = "1234";
             var result =await rp.UpdateUser(user);
             Assert.IsTrue(result);

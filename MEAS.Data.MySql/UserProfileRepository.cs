@@ -13,7 +13,7 @@ namespace MEAS.Data
         private const string MOBILE = "Mobile";
         private const string EMAIL_ADDRESS = "EmailAddress";
 
-        public async Task<bool> Append(UserProfileDao user)
+        public async Task<bool> Append(UserProfile user)
         {
             var insert = string.Format("Insert into {0} Values (@{1},@{2},@{3},@{4},@{5})", TABLE, ID, PHONE, MOBILE, EMAIL_ADDRESS, AVATAR);
             var result = await this.CreateConnection().ExecuteAsync(insert, new { user.Id, user.Phone, user.Mobile, user.EmailAddress, user.Avatar }) > 0;
@@ -22,27 +22,23 @@ namespace MEAS.Data
             return result;
         }
 
-        public async Task<UserProfileDao> Find(int userId)
+        public async Task<UserProfile> Find(int userId)
         {
             var query = string.Format("select * from {0} where {1}={2}", TABLE, ID,userId);
             var results = (await this.CreateConnection().QueryAsync<UserProfileDao>(query));
-            return results.FirstOrDefault();
+            return results.FirstOrDefault()?.ToEntity();
         }
 
-        public async Task<bool> Remove(UserProfileDao user)
+        public async Task<bool> Remove(UserProfile user)
         {
             return await this.Delete(user.Id, TABLE);
         }
 
-        public async Task<bool> Update(UserProfileDao user)
+        public async Task<bool> Update(UserProfile user)
         {
             string sql = string.Format("UPDATE {0} SET {2} = @{2}, {3}=@{3},{4}=@{4},{5}=@{5} WHERE {1} = @{1}", TABLE, ID, PHONE, MOBILE, EMAIL_ADDRESS,AVATAR);
             return await this.CreateConnection().ExecuteAsync(sql, new { user.Id, user.Phone , user.Mobile , user.EmailAddress ,user.Avatar }) > 0;
         }
 
-      
-       
-
-       
     }
 }

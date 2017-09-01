@@ -40,11 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cart.cs" />
-    <Compile Include="Data\Dao\DaoBase.cs" />
-    <Compile Include="Data\Dao\MeasureDaoBase.cs" />
-    <Compile Include="Data\Dao\TorqueWrenchMeasureDao.cs" />
-    <Compile Include="Data\Dao\UserInfoDao.cs" />
-    <Compile Include="Data\Dao\UserProfileDao.cs" />
     <Compile Include="Data\IUserProfileRepository.cs" />
     <Compile Include="Data\IAccountRepository.cs" />
     <Compile Include="Data\ITorqueWrenchMeasureRepository.cs" />
