@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using Autofac.Integration.Mvc;
 using Autofac;
 using MEAS.Service;
-using MEAS.Data.MySql;
+using MEAS.Data.SqlClient;
 
 namespace MEAS
 {

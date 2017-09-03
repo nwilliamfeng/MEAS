@@ -23,6 +23,7 @@ namespace MEAS.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserInfoMap());
+            modelBuilder.Configurations.Add(new UserProfileMap());
             base.OnModelCreating(modelBuilder);
         }
 

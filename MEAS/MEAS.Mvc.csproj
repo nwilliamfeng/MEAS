@@ -307,9 +307,9 @@
       <Project>{6e8974f4-c2bf-43c9-9543-b6bf8257568a}</Project>
       <Name>MEAS.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MEAS.Data.MySql\MEAS.Data.MySql.csproj">
-      <Project>{04cb1db8-70c0-4d54-853a-ecaf1547a821}</Project>
-      <Name>MEAS.Data.MySql</Name>
+    <ProjectReference Include="..\MEAS.Data.SqlClient\MEAS.Data.SqlClient.csproj">
+      <Project>{64f701fb-ae72-4d38-bfd7-d3885c06a8ed}</Project>
+      <Name>MEAS.Data.SqlClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\MEAS.Service\MEAS.Service.csproj">
       <Project>{dec9d363-fc4f-4950-a427-1297ae8ee338}</Project>
