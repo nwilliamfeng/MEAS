@@ -10,7 +10,9 @@ namespace MEAS.Service
     {
         Task<UserInfo> Find(string loginName,string password);
 
-        Task<UserProfile> GetProfile(int id);
+        Task<UserInfo> GetDetail(int id);
+
+     
     
         Task<IEnumerable<UserInfo>> All();
 

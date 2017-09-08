@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MEAS.Data;
+using System.Reflection;
 
 namespace MEAS.Tests
 {
@@ -16,6 +17,16 @@ namespace MEAS.Tests
             {
                 Console.WriteLine(dao.Tester.Id+"  "+dao.Tester.LoginName+"  "+dao.Tester.Password ); 
             }
+        }
+
+        public static void Dump(this UserInfo user)
+        {
+            Console.WriteLine("********************user info ********************************"); 
+            user.GetType().GetProperties().ToList().ForEach(x =>
+            {
+                Console.WriteLine(x.Name+":"+x.GetValue(user));
+            });
+            Console.WriteLine("********************end********************************");
         }
     }
 }

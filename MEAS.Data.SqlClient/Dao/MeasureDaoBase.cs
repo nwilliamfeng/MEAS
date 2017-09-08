@@ -15,5 +15,10 @@ namespace MEAS.Data
         public DateTime TestDate { get; set; }
 
         public UserInfoDao Tester { get; set; }
+
+        /// <summary>
+        /// 获取或设置时间戳
+        /// </summary>
+        public byte[] Timestamp { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace MEAS.Data.SqlClient.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201709021235340_mig3"; }
+            get { return "201709040614027_mig3"; }
         }
         
         string IMigrationMetadata.Source

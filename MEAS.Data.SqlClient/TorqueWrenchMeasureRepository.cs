@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace MEAS.Data.MySql
+namespace MEAS.Data.SqlClient
 {
     public class TorqueWrenchMeasureRepository :ITorqueWrenchMeasureRepository
     {   
@@ -20,7 +20,7 @@ namespace MEAS.Data.MySql
             {
                
                     return   SearchResult<TorqueWrenchMeasure>.Empty;
-         
+            
             });          
         }
 

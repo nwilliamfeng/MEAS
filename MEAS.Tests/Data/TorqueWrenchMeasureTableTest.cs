@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MEAS.Data;
-using MEAS.Data.MySql;
+using MEAS.Data.SqlClient;
 using System.Diagnostics;
 
 namespace MEAS.Tests.Data

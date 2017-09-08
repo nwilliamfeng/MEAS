@@ -167,7 +167,7 @@ namespace MEAS.Controllers
        
             this.SaveUrlRefferUrlToTempData();
             var user = await this._accountService.GetCurrentUser();
-           var profile=await this._accountService.GetProfile(user.Id);
+           var profile=await this._accountService.GetDetail(user.Id);
             if (profile == null)
                 throw new InvalidOperationException("无法找到当前用户。");
             return View(Mapper.Map<UserProfileViewModel>(profile));

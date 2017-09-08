@@ -10,7 +10,7 @@ namespace MEAS.Data
     {
         Task<UserInfo> Find(string loginName,string password);
 
-        Task<UserInfo> Find(int id);
+        Task<UserInfo> Find(int id,bool fullLoad=false);
 
         Task<bool> AppendUser(UserInfo user);
 

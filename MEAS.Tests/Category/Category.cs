@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dapper;
-using MEAS.Data.MySql;
+using MEAS.Data.SqlClient;
 using System.Transactions;
 
 namespace MEAS.Tests
@@ -60,13 +60,14 @@ namespace MEAS.Tests
             //    }).AsQueryable();
             //var resultList = lookup.Values;
             //return resultList;
-   
-            return conn.QueryOneToMany<Category, Article>("select c.*,a.Id,a.Title from categorys c join articles a on c.Id=a.CategoryId", (a, b) =>
-            {
-                if (a.Articles == null)
-                    a.Articles = new List<Article>();
-                a.Articles.Add(b);
-            });
+
+            //return conn.QueryOneToMany<Category, Article>("select c.*,a.Id,a.Title from categorys c join articles a on c.Id=a.CategoryId", (a, b) =>
+            //{
+            //    if (a.Articles == null)
+            //        a.Articles = new List<Article>();
+            //    a.Articles.Add(b);
+            //});
+            return null;
         }
 
 

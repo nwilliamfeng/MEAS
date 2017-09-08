@@ -15,5 +15,7 @@ namespace MEAS
         public DateTime TestDate { get; set; }
 
         public UserInfo Tester { get; set; }
+
+        public byte[] Timestamp { get; set; }
     }
 }

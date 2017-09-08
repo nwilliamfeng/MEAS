@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.1.1\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
@@ -40,6 +44,14 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -101,7 +113,6 @@
     <Compile Include="Data\Class1.cs" />
     <Compile Include="Data\DbRepositoryTest.cs" />
     <Compile Include="Category\CategoryTableTest.cs" />
-    <Compile Include="Data\UserProfileTableTest.cs" />
     <Compile Include="Data\TorqueWrenchMeasureTableTest.cs" />
     <Compile Include="Data\UserTableTest.cs" />
     <Compile Include="Extension.cs" />
@@ -119,9 +130,9 @@
       <Project>{6e8974f4-c2bf-43c9-9543-b6bf8257568a}</Project>
       <Name>MEAS.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MEAS.Data.MySql\MEAS.Data.MySql.csproj">
-      <Project>{04cb1db8-70c0-4d54-853a-ecaf1547a821}</Project>
-      <Name>MEAS.Data.MySql</Name>
+    <ProjectReference Include="..\MEAS.Data.SqlClient\MEAS.Data.SqlClient.csproj">
+      <Project>{64f701fb-ae72-4d38-bfd7-d3885c06a8ed}</Project>
+      <Name>MEAS.Data.SqlClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\MEAS\MEAS.Mvc.csproj">
       <Project>{CC5667E0-C1AA-4D21-9004-62495EB466E2}</Project>

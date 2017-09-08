@@ -16,7 +16,7 @@ namespace MEAS
             {
                 x.AddProfile<EntityToDaoMappingProfile>();
                 x.AddProfile<DaoToEntityMappingProfile>();
-                x.AddProfile<OtherMappingProfile>();
+           
                 x.AddProfile<ViewModelToEntityMappingProfile>();
                 x.AddProfile<EntityToViewModelMappingProfile>();
             });

@@ -9,7 +9,7 @@ namespace MEAS.Data.SqlClient.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(MEAS.Data.SqlServerDbContext context)

@@ -5,30 +5,14 @@ using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MEAS.Data;
 using Dapper;
-using MEAS.Data.MySql;
+using MEAS.Data.SqlClient;
 
 namespace MEAS.Tests.Data
 {
     [TestClass]
     public class  DbRepositoryTest
     {
-        [TestMethod]
-        public  void TestAppendProfile()
-        {
-            UserProfileRepository rp = new UserProfileRepository();
-           
-            Assert.IsTrue(rp.IsTableExist());
-
-     
-        }
-
-        [TestMethod]
-       public void TestSum()
-        {
-            var count = DbRepository.NewConnection().QuerySingle<int>("select count(*) from users");
-            Console.WriteLine(count);
-            Assert.IsTrue(count>0);
-        }
+      
 
         [TestMethod]
         public void Test()

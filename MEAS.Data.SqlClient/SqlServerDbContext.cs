@@ -13,17 +13,21 @@ namespace MEAS.Data
 
         public SqlServerDbContext() : base("name=sqlserverconnstr")
         {
-
+        
         }
 
     
         public DbSet<UserInfoDao> Users { get; set; }
+
+       
+        public DbSet<TorqueWrenchMeasureDao> TorqueWrenchMeasures { get; set; }
        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserInfoMap());
-            modelBuilder.Configurations.Add(new UserProfileMap());
+  
+            modelBuilder.Configurations.Add(new TorqueWrenchMeasureMap());
             base.OnModelCreating(modelBuilder);
         }
 

@@ -49,24 +49,6 @@ namespace MEAS.Data
             return Mapper.Map<UserInfoDao>(entity);
         }
 
-        public static IEnumerable<UserProfile> ToEntity(this IEnumerable<UserProfileDao> daos)
-        {
-            return daos.Select(x => Mapper.Map<UserProfile>(x));
-        }
-
-        public static IEnumerable<UserProfileDao> ToDao(this IEnumerable<UserProfile> entitys)
-        {
-            return entitys.Select(x => Mapper.Map<UserProfileDao>(x));
-        }
-
-        public static UserProfile ToEntity(this UserProfileDao dao)
-        {
-            return Mapper.Map<UserProfile>(dao);
-        }
-
-        public static UserProfileDao ToDao(this UserProfile entity)
-        {
-            return Mapper.Map<UserProfileDao>(entity);
-        }
+        
     }
 }

@@ -8,16 +8,17 @@ namespace MEAS.Data.SqlClient.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Users",
+                "dbo.TorqueWrenchMeasures",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        LoginName = c.String(),
-                        UserName = c.String(),
-                        Password = c.String(),
-                        Roles = c.String(),
+                        TestCode = c.String(),
+                        TestDate = c.DateTime(nullable: false),
+                        TeserId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Users", t => t.TeserId)
+                .Index(t => t.TeserId);
             
             CreateTable(
                 "dbo.UserProfiles",
@@ -35,8 +36,10 @@ namespace MEAS.Data.SqlClient.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.TorqueWrenchMeasures", "TeserId", "dbo.Users");
+            DropIndex("dbo.TorqueWrenchMeasures", new[] { "TeserId" });
             DropTable("dbo.UserProfiles");
-            DropTable("dbo.Users");
+            DropTable("dbo.TorqueWrenchMeasures");
         }
     }
 }

@@ -3,13 +3,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MEAS.Data;
-using MEAS.Data.MySql;
+using MEAS.Data.SqlClient;
+using AutoMapper;
 
 namespace MEAS.Tests.Data
 {
     [TestClass]
     public class UserTableTest
     {
+        static UserTableTest()
+        {
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<EntityToDaoMappingProfile>();
+                x.AddProfile<DaoToEntityMappingProfile>();
+
+                x.AddProfile<ViewModelToEntityMappingProfile>();
+                x.AddProfile<EntityToViewModelMappingProfile>();
+            });
+        }
+
         [TestMethod]
         public  async Task TestAppendUser()
         {
@@ -35,8 +48,8 @@ namespace MEAS.Tests.Data
         {
             AccountRepository rp = new AccountRepository();
             var result = await rp.LoadAll();
-            foreach(var user in result)
-            Console.WriteLine(result);
+            foreach (var user in result)
+                user.Dump();
             Assert.IsTrue(result.Count()>0);
         }
 

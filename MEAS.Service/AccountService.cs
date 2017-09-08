@@ -11,13 +11,13 @@ namespace MEAS.Service
     public class AccountService : IAccountService
     {
         private IAccountRepository _userRepository;
-        private IUserProfileRepository _profileRepository;
+       
         private static ConcurrentDictionary<string, UserInfo> userInfoDictionary =new ConcurrentDictionary<string, UserInfo> ();
 
-        public AccountService(IAccountRepository repository, IUserProfileRepository profileRepository)
+        public AccountService(IAccountRepository repository )
         {
             this._userRepository = repository;
-            this._profileRepository = profileRepository;
+        
             this.InitizeUserInfos();
         }
 
@@ -119,20 +119,20 @@ namespace MEAS.Service
             return await this._userRepository.UpdateUser(old);
         }
 
-        public async Task<UserProfile> GetProfile(int id)
+        public async Task<UserInfo> GetDetail(int id)
         {
-            var user = await this._userRepository.Find(id);
-             var pd =await this._profileRepository.Find(id);
-          
-            Mapper.Map(user, pd);
-            return pd;
+            return await this._userRepository.Find(id,true);       
         }
+
+        
 
         public async Task<bool> UpdateAvatar(int userId, byte[] avatar)
         {
-            var profile = await this._profileRepository.Find(userId);
-            profile.Avatar = avatar;
-            return await this._profileRepository.Update(profile);
+            var user = await this._userRepository.Find(userId,true);
+            user.Avatar = avatar;
+            return await this._userRepository.UpdateUser(user);
         }
+
+     
     }
 }

@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cart.cs" />
-    <Compile Include="Data\IUserProfileRepository.cs" />
     <Compile Include="Data\IAccountRepository.cs" />
     <Compile Include="Data\ITorqueWrenchMeasureRepository.cs" />
     <Compile Include="Data\IProductRepository.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="ShippingDetails.cs" />
     <Compile Include="Helper\StreamExtension.cs" />
     <Compile Include="UserInfo.cs" />
-    <Compile Include="UserProfile.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

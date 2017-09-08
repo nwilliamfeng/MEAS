@@ -52,26 +52,23 @@
   <ItemGroup>
     <Compile Include="AccountRepository.cs" />
     <Compile Include="DaoExtensions.cs" />
-    <Compile Include="Mapping\DaoToEntityMappingProfile.cs" />
-    <Compile Include="Mapping\EntityToDaoMappingProfile.cs" />
-    <Compile Include="Mapping\UserProfileMap.cs" />
+    <Compile Include="Mapping\AutoMapper\DaoToEntityMappingProfile.cs" />
+    <Compile Include="Mapping\AutoMapper\EntityToDaoMappingProfile.cs" />
+    <Compile Include="Mapping\TorqueWrenchMeasureMap.cs" />
     <Compile Include="Mapping\UserInfoMap.cs" />
     <Compile Include="Dao\DaoBase.cs" />
     <Compile Include="Dao\MeasureDaoBase.cs" />
     <Compile Include="Dao\TorqueWrenchMeasureDao.cs" />
     <Compile Include="Dao\UserInfoDao.cs" />
-    <Compile Include="Dao\UserProfileDao.cs" />
-    <Compile Include="Migrations\201709021235340_mig3.cs" />
-    <Compile Include="Migrations\201709021235340_mig3.Designer.cs">
-      <DependentUpon>201709021235340_mig3.cs</DependentUpon>
+    <Compile Include="Migrations\201709040614027_mig3.cs" />
+    <Compile Include="Migrations\201709040614027_mig3.Designer.cs">
+      <DependentUpon>201709040614027_mig3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Mapping\OtherMappingProfile.cs" />
     <Compile Include="ProductRepository.cs" />
     <Compile Include="SqlServerDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TorqueWrenchMeasureRepository.cs" />
-    <Compile Include="UserProfileRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -84,8 +81,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709021235340_mig3.resx">
-      <DependentUpon>201709021235340_mig3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709040614027_mig3.resx">
+      <DependentUpon>201709040614027_mig3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
