@@ -34,9 +34,9 @@ namespace MEAS.Data
          
             
             
-            Property(x => x.Timestamp)
-                .IsRequired()
-                .IsRowVersion(); //时间戳可以用rowversion或者IsConcurrencyToken
+            //Property(x => x.Timestamp)
+            //    .IsRequired()
+            //    .IsRowVersion(); //时间戳可以用rowversion或者IsConcurrencyToken
             // Property(x => x.Timestamp).IsRequired().IsConcurrencyToken();
             ToTable("TorqueWrenchMeasures");
         }

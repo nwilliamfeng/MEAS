@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace MEAS.Data
 {
@@ -24,8 +25,10 @@ namespace MEAS.Data
 
         public string Phone { get; set; }
 
+        [StringLength(11,MinimumLength =11)]
         public string Mobile { get; set; }
 
+        
         public string EmailAddress { get; set; }
 
     }

@@ -17,7 +17,7 @@ namespace MEAS.Data
             Property(x => x.LoginName).HasColumnOrder(2).IsRequired().HasMaxLength(12);
             Property(x => x.UserName).HasColumnOrder(3).IsRequired().HasMaxLength(12);
             Property(x => x.Password).HasColumnOrder(4).IsRequired().HasMaxLength(15);
-         
+      
             //table  
             ToTable("Users");
         }

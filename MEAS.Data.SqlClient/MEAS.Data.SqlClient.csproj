@@ -60,9 +60,9 @@
     <Compile Include="Dao\MeasureDaoBase.cs" />
     <Compile Include="Dao\TorqueWrenchMeasureDao.cs" />
     <Compile Include="Dao\UserInfoDao.cs" />
-    <Compile Include="Migrations\201709040614027_mig3.cs" />
-    <Compile Include="Migrations\201709040614027_mig3.Designer.cs">
-      <DependentUpon>201709040614027_mig3.cs</DependentUpon>
+    <Compile Include="Migrations\201709090121184_mig4.cs" />
+    <Compile Include="Migrations\201709090121184_mig4.Designer.cs">
+      <DependentUpon>201709090121184_mig4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ProductRepository.cs" />
@@ -81,8 +81,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709040614027_mig3.resx">
-      <DependentUpon>201709040614027_mig3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709090121184_mig4.resx">
+      <DependentUpon>201709090121184_mig4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

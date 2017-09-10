@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MEAS.Data
 {
     [Serializable]
     public class MeasureDaoBase:DaoBase
     {
+        [Index(IsUnique =true)]
         public string TestCode { get; set; }
 
   
@@ -16,9 +18,6 @@ namespace MEAS.Data
 
         public UserInfoDao Tester { get; set; }
 
-        /// <summary>
-        /// 获取或设置时间戳
-        /// </summary>
-        public byte[] Timestamp { get; set; }
+        
     }
 }
