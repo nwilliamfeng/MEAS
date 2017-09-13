@@ -10,23 +10,28 @@ namespace MEAS.Tests
 {
     public static class Extension
     {
-        public static void Dump(this TorqueWrenchMeasure dao)
+        
+        public static void Dump(this object obj)
         {
-            Console.WriteLine(dao.Id +"   "+dao.TestCode +"   "+dao.TestDate);
-            if (dao.Tester != null)
+            Console.WriteLine(string.Format("******************** {0} ********************************",obj.GetType().Name));
+            obj.GetType().GetProperties().ToList().ForEach(x =>
             {
-                Console.WriteLine(dao.Tester.Id+"  "+dao.Tester.LoginName+"  "+dao.Tester.Password ); 
-            }
+                var ov = x.GetValue(obj);
+                if (ov is Entity)
+                    ov.Dump();
+                else
+                    Console.WriteLine(x.Name + ":" +ov);
+            });
+            Console.WriteLine(string.Format("******************** {0} ********************************",obj.GetType().Name));
         }
 
-        public static void Dump(this UserInfo user)
+
+        public static string DumpTimestamp(this byte[] timestamp)
         {
-            Console.WriteLine("********************user info ********************************"); 
-            user.GetType().GetProperties().ToList().ForEach(x =>
-            {
-                Console.WriteLine(x.Name+":"+x.GetValue(user));
-            });
-            Console.WriteLine("********************end********************************");
+            string s = null;
+            foreach (var t in timestamp)
+                s += t.ToString();
+            return s;
         }
     }
 }

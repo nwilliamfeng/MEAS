@@ -52,17 +52,20 @@
   <ItemGroup>
     <Compile Include="AccountRepository.cs" />
     <Compile Include="DaoExtensions.cs" />
+    <Compile Include="EntityFrameworkExtenion.cs" />
+    <Compile Include="EnvironmentRepository.cs" />
     <Compile Include="Mapping\AutoMapper\DaoToEntityMappingProfile.cs" />
     <Compile Include="Mapping\AutoMapper\EntityToDaoMappingProfile.cs" />
     <Compile Include="Mapping\TorqueWrenchMeasureMap.cs" />
+    <Compile Include="Mapping\EnvironmentMap.cs" />
     <Compile Include="Mapping\UserInfoMap.cs" />
     <Compile Include="Dao\DaoBase.cs" />
     <Compile Include="Dao\MeasureDaoBase.cs" />
     <Compile Include="Dao\TorqueWrenchMeasureDao.cs" />
     <Compile Include="Dao\UserInfoDao.cs" />
-    <Compile Include="Migrations\201709090121184_mig4.cs" />
-    <Compile Include="Migrations\201709090121184_mig4.Designer.cs">
-      <DependentUpon>201709090121184_mig4.cs</DependentUpon>
+    <Compile Include="Migrations\201709130618452_kdff.cs" />
+    <Compile Include="Migrations\201709130618452_kdff.Designer.cs">
+      <DependentUpon>201709130618452_kdff.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ProductRepository.cs" />
@@ -81,8 +84,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709090121184_mig4.resx">
-      <DependentUpon>201709090121184_mig4.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709130618452_kdff.resx">
+      <DependentUpon>201709130618452_kdff.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

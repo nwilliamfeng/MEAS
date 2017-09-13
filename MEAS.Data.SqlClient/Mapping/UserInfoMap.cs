@@ -12,14 +12,14 @@ namespace MEAS.Data
     {
         public UserInfoMap()
         {
-            HasKey(x => x.Id);
-            Property(x => x.Id).HasColumnOrder(1).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+          //  HasKey(x => x.Id);
+         //   Property(x => x.Id).HasColumnOrder(1).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
             Property(x => x.LoginName).HasColumnOrder(2).IsRequired().HasMaxLength(12);
             Property(x => x.UserName).HasColumnOrder(3).IsRequired().HasMaxLength(12);
             Property(x => x.Password).HasColumnOrder(4).IsRequired().HasMaxLength(15);
       
             //table  
-            ToTable("Users");
+            //ToTable("Users");
         }
     }
 }

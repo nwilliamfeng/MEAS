@@ -20,6 +20,8 @@ namespace MEAS
             return this.Id == (obj as Entity).Id;
         }
 
+        public byte[] Timestamp { get; set; }
+
         public override int GetHashCode()
         {
             return  this.Id.GetHashCode();

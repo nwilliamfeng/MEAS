@@ -14,31 +14,41 @@ namespace MEAS.Data
     {
         public TorqueWrenchMeasureMap()
         {
-            HasKey(x => x.Id); //主键
-            Property(x => x.Id)
-                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
-                .HasColumnOrder(1);
+            //HasKey(x => x.Id); //主键
+            //Property(x => x.Id)
+            //    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
+            //    .HasColumnOrder(1);
 
             Property(x => x.TestCode)
-                .HasMaxLength(10)
-                .HasColumnOrder(2)
-                .HasColumnAnnotation("Idx_TestCode", new IndexAnnotation(new IndexAttribute { IsUnique=true}));
+                .HasColumnAnnotation("Idx_TestCode", new IndexAnnotation(new IndexAttribute { IsUnique = true }));
 
-            Property(x => x.TestDate).HasColumnType("datetime2").HasColumnOrder(3);
+            //   Property(x => x.TestDate).HasColumnType("datetime2").HasColumnOrder(3);
 
             //https://stackoverflow.com/questions/5421707/ef-4-1-difference-between-withmany-and-withoptional?rq=1
-              HasRequired(x => x.Tester)
+            //HasRequired(x => x.Tester)
+            //    .WithOptional()
+            //    .Map(x => x.MapKey("TeserId"))
+            //    .WillCascadeOnDelete(false);
+
+            HasRequired(x => x.Environment)
                 .WithOptional()
-                .Map(x => x.MapKey("TeserId"))
+                .Map(x => x.MapKey("EnvironmentId"))
                 .WillCascadeOnDelete(false);
-         
-            
-            
+
+            Property(x => x.Checker).IsOptional();
+
+            // HasOptional(x => x.Checker) //此处用optional是为了新建实例时Checker无需赋值，所以对应的表字段应该是nullable 
+            //    .WithOptionalDependent()    
+            //.Map(x => x.MapKey("CheckerId"))
+            //.WillCascadeOnDelete(false);
+
+ 
+
             //Property(x => x.Timestamp)
             //    .IsRequired()
             //    .IsRowVersion(); //时间戳可以用rowversion或者IsConcurrencyToken
             // Property(x => x.Timestamp).IsRequired().IsConcurrencyToken();
-            ToTable("TorqueWrenchMeasures");
+            //ToTable("TorqueWrenchMeasures");
         }
     }
 }

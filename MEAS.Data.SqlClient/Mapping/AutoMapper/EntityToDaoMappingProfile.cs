@@ -14,6 +14,7 @@ namespace MEAS.Data
         {
 
             this.CreateMap<TorqueWrenchMeasure, TorqueWrenchMeasureDao>();
+       
             this.CreateMap<UserInfo, UserInfoDao>().AfterMap((a, b) =>
              {
                  if (a.Roles != null)

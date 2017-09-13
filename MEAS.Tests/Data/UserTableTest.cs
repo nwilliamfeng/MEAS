@@ -27,9 +27,12 @@ namespace MEAS.Tests.Data
         public  async Task TestAppendUser()
         {
             IAccountRepository rp = new AccountRepository();
-            var user = new UserInfo { LoginName = "login", Password = "1111", Roles = new string[] { "2", "4" }, UserName="user"};
+            var user = new UserInfo { LoginName = "login4", Password = "1111", Roles = new string[] { "2", "4" }, UserName="user4"};
+            user.Dump();
             var result =await rp.AppendUser(user);
             Assert.IsTrue(result);
+            Console.WriteLine("after inserted..."); 
+            user.Dump();
             Assert.IsTrue(user.Id > 0);
         }
 
@@ -71,6 +74,18 @@ namespace MEAS.Tests.Data
             user.Roles = new string[] { "2","4"};
             user.Password = "1234";
             var result =await rp.UpdateUser(user);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public async Task TestModifyPassword()
+        {
+            AccountRepository rp = new AccountRepository();
+            var user = await rp.Find("login2", "1111");
+            user.Dump();
+
+
+            var result = await rp.ModifyPassword(user.Id, "1234");
             Assert.IsTrue(result);
         }
     }

@@ -12,10 +12,14 @@ namespace MEAS
         public string TestCode { get; set; }
 
   
-        public DateTime TestDate { get; set; }
+     
 
-        public UserInfo Tester { get; set; }
+        public string Tester { get; set; }
 
-        public byte[] Timestamp { get; set; }
+        public string Checker { get; set; }
+
+        public Environment Environment { get; set; }
+
+
     }
 }

@@ -16,6 +16,8 @@ namespace MEAS.Data
 
         Task<bool> RemoveUser(UserInfo user);
 
+        Task<bool> ModifyPassword(int id, string newPassword);
+
         Task<bool> UpdateUser(UserInfo user);
 
         Task<IEnumerable<UserInfo>> LoadAll();
