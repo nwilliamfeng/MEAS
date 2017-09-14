@@ -7,13 +7,13 @@ namespace MEAS.Data.SqlClient.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class kdff : IMigrationMetadata
+    public sealed partial class food : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(kdff));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(food));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709130618452_kdff"; }
+            get { return "201709140712193_food"; }
         }
         
         string IMigrationMetadata.Source

@@ -113,6 +113,7 @@
     <Compile Include="Data\Class1.cs" />
     <Compile Include="Data\DbRepositoryTest.cs" />
     <Compile Include="Category\CategoryTableTest.cs" />
+    <Compile Include="Data\CustomerTableTest.cs" />
     <Compile Include="Data\TorqueWrenchMeasureTableTest.cs" />
     <Compile Include="Data\UserTableTest.cs" />
     <Compile Include="Extension.cs" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MEAS
 {
-    public abstract class Entity
+    public abstract class Entity:IEntity
     {
         public int Id { get; set; }
 

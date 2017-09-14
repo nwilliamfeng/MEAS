@@ -16,7 +16,6 @@ namespace MEAS.Data
             Property(x => x.Id).HasColumnOrder(1).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
             Property(x => x.Time).HasColumnOrder(2).IsRequired().HasColumnType("datetime2");
             Property(x => x.Humidity).HasColumnOrder(3).IsRequired();
-
             Property(x => x.Temperature).HasColumnOrder(4).IsRequired();
             Property(x => x.Address).HasColumnOrder(5).IsRequired();
             Property(x => x.Timestamp)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MEAS.Data;
 using System.Reflection;
+using System.Collections;
 
 namespace MEAS.Tests
 {
@@ -19,6 +20,7 @@ namespace MEAS.Tests
                 var ov = x.GetValue(obj);
                 if (ov is Entity)
                     ov.Dump();
+             
                 else
                     Console.WriteLine(x.Name + ":" +ov);
             });

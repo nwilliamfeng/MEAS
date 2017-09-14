@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MEAS.Data
 {
-    public abstract class DaoBase
+    public abstract class DaoBase:IEntity
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(Order =0)]

@@ -39,6 +39,10 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ICustomerRepository.cs" />
+    <Compile Include="Data\ICustomerContactRepository.cs" />
+    <Compile Include="Domain\Customer.cs" />
+    <Compile Include="Domain\CustomerContact.cs" />
     <Compile Include="Data\IEnvironmentRepository.cs" />
     <Compile Include="Domain\Cart.cs" />
     <Compile Include="Data\IAccountRepository.cs" />
@@ -49,6 +53,7 @@
     <Compile Include="Domain\Environment.cs" />
     <Compile Include="Domain\FileDocument.cs" />
     <Compile Include="Helper\MD5Helper.cs" />
+    <Compile Include="IEntity.cs" />
     <Compile Include="Service\ITorqueWrenchMeasureService.cs" />
     <Compile Include="Domain\TorqueWrenchMeasure.cs" />
     <Compile Include="Domain\MeasureBase.cs" />
@@ -62,7 +67,7 @@
     <Compile Include="Domain\UserInfo.cs" />
     <Compile Include="Domain\TorqueWrench.cs" />
     <Compile Include="Domain\TorqueWrenchMeasureSetting.cs" />
-    <Compile Include="Domain\TorqueWrenchProductInfo.cs" />
+    <Compile Include="Domain\TorqueWrenchProduct.cs" />
     <Compile Include="WorkDirection.cs" />
   </ItemGroup>
   <ItemGroup />

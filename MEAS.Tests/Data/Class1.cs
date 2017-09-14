@@ -114,17 +114,17 @@ namespace MEAS.Tests.Data
 
    
 
-    public class Customer
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
+    //public class Customer
+    //{
+    //    public int Id { get; set; }
+    //    public string Name { get; set; }
+    //    public int Age { get; set; }
 
-        public override string ToString()
-        {
-            return string.Format("id:{0},name{1},age{2}", Id, Name, Age);
-        }
-    }
+    //    public override string ToString()
+    //    {
+    //        return string.Format("id:{0},name{1},age{2}", Id, Name, Age);
+    //    }
+    //}
 
     public class Order
     {

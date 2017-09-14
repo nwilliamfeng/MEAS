@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace MEAS
 {
-    public sealed class TorqueWrenchProductInfo:Entity
+    public sealed class TorqueWrenchProduct:Entity
     {
-        public string Type { get; set; }
+        public string Model { get; set; }
 
         public string Manufacturer { get; set; }
 
