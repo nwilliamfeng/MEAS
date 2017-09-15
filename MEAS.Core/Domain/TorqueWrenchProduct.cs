@@ -17,7 +17,7 @@ namespace MEAS
         public double MaxRange { get; set; }
         
         public WorkDirection WorkDirection { get; set; }
- 
 
+    
     }
 }

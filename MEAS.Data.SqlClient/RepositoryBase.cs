@@ -24,7 +24,7 @@ namespace MEAS.Data.SqlClient
                     entity.Timestamp = ev.Timestamp;
                 }
 
-                return count == 1;
+                return count >0;
             }
         }
 
@@ -47,7 +47,7 @@ namespace MEAS.Data.SqlClient
                 ds.Attach(ev);
                 ds.Remove(ev);
                 var count = await db.SaveChangesAsync();
-                return count == 1;
+                return count >0;
             }
         }
 

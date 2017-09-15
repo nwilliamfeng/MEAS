@@ -12,7 +12,8 @@ namespace MEAS.Data
 
         Task<bool> Update(Customer  contact);
 
-        Task<bool> Remove(int id);
+    
+        Task<bool> Remove(Customer customer);
 
         Task<SearchResult<Customer>> Find(string name,int pageSize=5,int pageNumber=0);
 

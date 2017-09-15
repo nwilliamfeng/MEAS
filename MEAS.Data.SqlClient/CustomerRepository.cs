@@ -23,7 +23,7 @@ namespace MEAS.Data.SqlClient
                     customer.Timestamp = ev.Timestamp;
                 }
              
-                return count == 1;
+                return count >0;
             }
         }
 
@@ -32,6 +32,32 @@ namespace MEAS.Data.SqlClient
             using (var db = new SqlServerDbContext())
             {
                 return await db.Customers.Include(x => x.Contacts).FirstOrDefaultAsync(x => x.Id == id);
+            }
+        }
+
+
+        public override async Task<bool> Remove(int id)
+        {
+            using (var db = new SqlServerDbContext())
+            {
+                //考虑到级联删除，如果使用基类方法仅attachcustomer的话ef会报错
+                Customer customer = db.Customers.Include(x => x.Contacts).FirstOrDefault(x => x.Id == id);
+                db.Customers.Remove(customer);
+                var count = await db.SaveChangesAsync();
+                return count > 0;
+            }
+        }
+
+        public  async Task<bool> Remove(Customer customer)
+        {
+            using (var db = new SqlServerDbContext())
+            {
+                db.Customers.Attach(customer);
+                foreach (var c in customer.Contacts)
+                    db.CustomerContacts.Attach(c);
+                db.Customers.Remove(customer);
+                var count = await db.SaveChangesAsync();
+                return count > 0;
             }
         }
 
@@ -51,45 +77,80 @@ namespace MEAS.Data.SqlClient
             });
         }
 
-        //public async Task<bool> Remove(int id)
+
+
+        //public override async Task<bool> Update(Customer customer)
         //{
-        //    using (var db = new SqlServerDbContext())
+        //    using (var dc = new SqlServerDbContext())
         //    {
-        //        Environment ev = new Environment { Id = id };
-        //        db.Environments.Attach(ev);
-        //        db.Environments.Remove(ev);
-        //        var count = await db.SaveChangesAsync();
-        //        return count == 1;
+        //        dc.Configuration.ValidateOnSaveEnabled = false;
+        //        var original = dc.Customers.Include(x => x.Contacts).Single(x => x.Id == customer.Id);
+
+        //        //删除不存在的contact
+        //        original.Contacts.Where(x => !customer.Contacts.Contains(x)).ToList().ForEach(x =>
+        //          {
+        //              dc.CustomerContacts.Attach(x);
+        //              dc.Entry(x).State = EntityState.Deleted;
+        //          });
+        //        //添加新增的contact
+        //        customer.Contacts.Where(x => x.Id == 0).ToList()
+        //            .ForEach(x =>
+        //            {
+        //                dc.CustomerContacts.Add(x);
+        //               // dc.Entry(x).State = EntityState.Added;
+
+        //            });
+
+        //        original.Contacts.ToList().ForEach(x =>
+        //        {
+        //            dc.Entry(x).State = EntityState.Detached;
+        //        });
+
+
+        //         dc.Entry(original).CurrentValues.SetValues(customer);
+
+        //        var result = await dc.SaveChangesAsync();
+        //        return result > 0;
         //    }
         //}
 
-        public override async Task<bool> Update(Customer  customer)
+        
+
+
+        public override async Task<bool> Update(Customer customer)
         {
             using (var dc = new SqlServerDbContext())
             {
                 dc.Configuration.ValidateOnSaveEnabled = false;
-                var original = dc.Customers.Include(x => x.Contacts).Single(x => x.Id == customer.Id);
+                var exiting = dc.Customers.Include(x => x.Contacts).Single(x => x.Id == customer.Id);
+          
+          
+                var addContacts = customer.Contacts.Where(x => x.Id == 0).ToList(); //此处一定要转成tolist！！
+                var deletedContacts = exiting.Contacts.Where(x => !customer.Contacts.Contains(x)).ToList(); //此处一定要转成tolist！！
 
-                //删除不存在的contact
-                original.Contacts.Where(x => !customer.Contacts.Contains(x)).ToList().ForEach(x =>
-                  {
-                      dc.CustomerContacts.Attach(x);
-                      dc.Entry(x).State = EntityState.Deleted;
-                  });
+                var updatedContacts =exiting.Contacts.Where(x => customer.Contacts.Contains(x)).ToList();//此处一定要转成tolist！！
 
-                customer.Contacts.Where(x => x.Id == 0).ToList()
-                    .ForEach(x =>
-                    {
-                    });
-                //if (!original.Contacts.Count<customer.c)  
-                //{
-                //    dc.Environments.Attach(curr.Environment); //如果不attach，则ef会让db自动添加一个实例
-                //    original.Environment = curr.Environment;
-                //}
-        
-                dc.Entry(original).CurrentValues.SetValues(customer);
+               
+                addContacts.ForEach(t =>  //添加新建的
+                {
+                    t.Company = exiting; //此处必须要置上existing，否则，ef会重新创建一个customer
+                    dc.Entry(t).State = EntityState.Added;
+                });
+
+                foreach (var t in updatedContacts) //更新
+                {
+                    var entry = dc.Entry(t);
+                    entry.CurrentValues.SetValues(customer.Contacts.FirstOrDefault(x => x.Id == t.Id));
+                    entry.State = EntityState.Modified;
+                }
+
+                deletedContacts.ToList().ForEach(t => dc.CustomerContacts.Remove(t)); //删除不存在的
+
+                 dc.Entry(exiting).CurrentValues.SetValues(customer);
+
                 var result = await dc.SaveChangesAsync();
                 return result > 0;
+                
             }
         }
     }

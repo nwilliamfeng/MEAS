@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Data\ICustomerRepository.cs" />
     <Compile Include="Data\ICustomerContactRepository.cs" />
+    <Compile Include="Data\ITorqueWrenchRepository.cs" />
+    <Compile Include="Data\ITorqueWrenchProductRepository.cs" />
     <Compile Include="Domain\Customer.cs" />
     <Compile Include="Domain\CustomerContact.cs" />
     <Compile Include="Data\IEnvironmentRepository.cs" />

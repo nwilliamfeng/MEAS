@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountRepository.cs" />
+    <Compile Include="Mapping\TorqueWrenchMap.cs" />
+    <Compile Include="Mapping\TorqueWrenchProductMap.cs" />
+    <Compile Include="TorqueWrenchProductRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
     <Compile Include="DaoExtensions.cs" />
     <Compile Include="EntityFrameworkExtenion.cs" />

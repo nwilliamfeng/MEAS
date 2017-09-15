@@ -57,7 +57,7 @@ namespace MEAS.Tests.Data
         public async Task TestRemoveCustomerContact()
         {
             ICustomerRepository rp = new CustomerRepository();
-            Customer customer = await rp.Find(1);
+            Customer customer = await rp.Find(3);
 
             customer.Contacts.Remove(customer.Contacts.Last());
             var result = await rp.Update(customer);
@@ -72,13 +72,21 @@ namespace MEAS.Tests.Data
         public async Task TestAddCustomerContact()
         {
             ICustomerRepository rp = new CustomerRepository();
-            Customer customer = await rp.Find(1);
-            customer.Contacts.Add(new CustomerContact { Company = customer, LastName = "四", FirstName = "李" });
-            customer.Contacts.Add(new CustomerContact { Company = customer, LastName = "粑粑", FirstName = "周" });
+            Customer customer = await rp.Find(4);
+            customer.Address = "keen";
+            customer.Contacts.First().LastName = "aaa";
+            customer.Contacts.ElementAt(1).FirstName = "bbb";
+            customer.Contacts.Remove(customer.Contacts.Last());
+            customer.Contacts.Add(new CustomerContact { Company = customer, LastName = "五", FirstName = "赵" });
+        //    customer.Contacts.Add(new CustomerContact { Company = customer, LastName = "粑粑", FirstName = "周" });
+           // customer.Contacts.Add(new CustomerContact { Company = customer, LastName = "三", FirstName = "王" });
+           
+          
+
             var result = await rp.Update(customer);
-            customer.Dump();
-            foreach (var d in customer.Contacts)
-                d.Dump();
+            //customer.Dump();
+            //foreach (var d in customer.Contacts)
+            //    d.Dump();
             Assert.IsTrue(result);
 
         }
@@ -116,11 +124,19 @@ namespace MEAS.Tests.Data
 
 
         [TestMethod]
+        public async Task TestDeleteCustomerWithId()
+        {
+            CustomerRepository rp = new CustomerRepository();            
+            var result = await rp.Remove(1);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
         public async Task TestDeleteCustomer()
         {
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository(EnvironmentRepository);
-            
-            var result = await rp.Delete(5);
+            ICustomerRepository rp = new CustomerRepository();
+            var customer = await rp.Find(2);
+            var result = await rp.Remove(customer);
             Assert.IsTrue(result);
         }
 

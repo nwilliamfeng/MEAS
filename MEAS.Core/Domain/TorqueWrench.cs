@@ -15,6 +15,6 @@ namespace MEAS
         public DateTime ManufactureDate { get; set; }
 
         public CustomerContact Owner { get; set; }
-
+ 
     }
 }
