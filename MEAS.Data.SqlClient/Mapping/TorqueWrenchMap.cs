@@ -19,32 +19,32 @@ namespace MEAS.Data
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
                 .HasColumnOrder(1);
 
-            Property(x => x.TestCode)
-                .HasColumnAnnotation("Idx_TestCode", new IndexAnnotation(new IndexAttribute { IsUnique = true }));
-
-            //   Property(x => x.TestDate).HasColumnType("datetime2").HasColumnOrder(3);
-
-         
-
             HasRequired(x => x.Product)
                 .WithOptional()
                 .Map(x => x.MapKey("ProductId"))
                 .WillCascadeOnDelete(false);
 
-            Property(x => x.Checker).IsOptional();
 
-            // HasOptional(x => x.Checker) //此处用optional是为了新建实例时Checker无需赋值，所以对应的表字段应该是nullable 
-            //    .WithOptionalDependent()    
-            //.Map(x => x.MapKey("CheckerId"))
-            //.WillCascadeOnDelete(false);
+            //Property(x => x.SerialNumber).IsRequired()
+            //    .HasColumnAnnotation(IndexAnnotation.AnnotationName,new IndexAnnotation(
+            //new IndexAttribute("Idx_SerialNumber") {IsUnique = true, Order=1 }));       
 
- 
+            Property(x => x.SerialNumber).IsRequired();
+             
 
-            //Property(x => x.Timestamp)
-            //    .IsRequired()
-            //    .IsRowVersion(); //时间戳可以用rowversion或者IsConcurrencyToken
-            // Property(x => x.Timestamp).IsRequired().IsConcurrencyToken();
-            //ToTable("TorqueWrenchMeasures");
+            Property(x => x.ManufactureDate).HasColumnType("datetime2").HasColumnOrder(3).IsOptional();
+
+            HasRequired(x => x.Owner)
+                   .WithOptional()
+                   .Map(x => x.MapKey("OwnerId"))
+                   .WillCascadeOnDelete(false);
+
+
+            Property(x => x.Timestamp)
+                .IsRequired()
+                .IsRowVersion();  
+            Property(x => x.Timestamp).IsRequired().IsConcurrencyToken();
+            ToTable("TorqueWrenchs");
         }
     }
 }

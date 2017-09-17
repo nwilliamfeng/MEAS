@@ -14,17 +14,22 @@ namespace MEAS.Tests
         
         public static void Dump(this object obj)
         {
-            Console.WriteLine(string.Format("******************** {0} ********************************",obj.GetType().Name));
+            Console.WriteLine(string.Format("**************************** start dump {0} ********************************", obj.GetType().Name));
             obj.GetType().GetProperties().ToList().ForEach(x =>
             {
                 var ov = x.GetValue(obj);
                 if (ov is Entity)
                     ov.Dump();
-             
+                else if(ov is byte[])
+                {
+                    Console.WriteLine(x.Name + ":" + (ov as byte[]).DumpTimestamp());
+                }
                 else
                     Console.WriteLine(x.Name + ":" +ov);
             });
-            Console.WriteLine(string.Format("******************** {0} ********************************",obj.GetType().Name));
+            Console.WriteLine(string.Format("******************** end dump {0} ******************************** ",obj.GetType().Name));
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
 

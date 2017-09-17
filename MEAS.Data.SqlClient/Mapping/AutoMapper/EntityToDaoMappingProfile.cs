@@ -8,7 +8,7 @@ using MEAS.Data;
 
 namespace MEAS.Data
 {
-    public class EntityToDaoMappingProfile : Profile
+    internal class EntityToDaoMappingProfile : Profile
     {
         public EntityToDaoMappingProfile()
         {

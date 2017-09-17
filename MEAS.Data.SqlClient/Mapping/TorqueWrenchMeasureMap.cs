@@ -20,7 +20,7 @@ namespace MEAS.Data
             //    .HasColumnOrder(1);
 
             Property(x => x.TestCode)
-                .HasColumnAnnotation("Idx_TestCode", new IndexAnnotation(new IndexAttribute { IsUnique = true }));
+                .HasColumnAnnotation( IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("Idx_TestCode") { IsUnique = true }));
 
             //   Property(x => x.TestDate).HasColumnType("datetime2").HasColumnOrder(3);
 

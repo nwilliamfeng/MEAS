@@ -16,10 +16,10 @@ namespace MEAS.Data
 
         Task<SearchResult<TorqueWrench>> FindWithModel(string model,int pageSize=5,int pageNumber=0);
 
-        Task<SearchResult<TorqueWrench>> FindWithSerailNumber(string sn, int pageSize = 5, int pageNumber = 0);
+        Task<SearchResult<TorqueWrench>> FindWithSerialNumber(string sn, int pageSize = 5, int pageNumber = 0);
 
         Task<SearchResult<TorqueWrench>> FindWithRange(double min,double max, int pageSize = 5, int pageNumber = 0);
 
-        Task<TorqueWrenchProduct> Find(int id);
+        Task<TorqueWrench> Find(int id);
     }
 }

@@ -2,29 +2,46 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace MEAS.Data.SqlClient
 {
     public abstract class RepositoryBase<T>
         where T:class,IEntity,new()
     {
+        static RepositoryBase()
+        {
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<EntityToDaoMappingProfile>();
+                x.AddProfile<DaoToEntityMappingProfile>();
+                x.CreateMap<TorqueWrench, TorqueWrench>();
+                x.CreateMap<Customer, Customer>();
+            });
+            
+        }
+
         public virtual async Task<bool> Add(T entity)
         {
-
+           
             using (var db = new SqlServerDbContext())
             {
-                var ev = db.GetDbSet<T>().Add(entity);
-                var count = await db.SaveChangesAsync();
-                if (count > 0)
+                try
                 {
-                    entity.Id = ev.Id;
-                    entity.Timestamp = ev.Timestamp;
-                }
+                    var ev = db.GetDbSet<T>().Add(entity);
+                    var count = await db.SaveChangesAsync();
 
-                return count >0;
+                    return count > 0;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    dbEx.Dump();
+                    throw dbEx;
+                }
             }
         }
 
@@ -32,7 +49,8 @@ namespace MEAS.Data.SqlClient
         {
             using (var db = new SqlServerDbContext())
             {
-                return await db.GetDbSet<T>().FindAsync(id);
+                 return await db.GetDbSet<T>().FindAsync(id);
+             
             }
         }
 
@@ -55,14 +73,17 @@ namespace MEAS.Data.SqlClient
         {
             using (var db = new SqlServerDbContext())
             {
-                var ev = db.GetDbSet<T>().Attach(et);
-                DbEntityEntry<T> entry = db.Entry(et);
-
-                db.ObjectStateManager().ChangeObjectState(et, EntityState.Modified);
-                var count = await db.SaveChangesAsync();
-                if (count > 0)
-                    et.Timestamp = ev.Timestamp;
-                return count > 0;
+                try
+                {
+                    var ev = db.GetDbSet<T>().Attach(et);
+                   db.Entry(et).State= EntityState.Modified;
+                    return await db.SaveChangesAsync()>0;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    dbEx.Dump();
+                    throw dbEx;
+                }
             }
         }
     }

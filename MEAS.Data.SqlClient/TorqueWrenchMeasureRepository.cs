@@ -99,7 +99,7 @@ namespace MEAS.Data.SqlClient
                     measure.Timestamp = result.Timestamp;
                     if (count > 0)
                     {
-                        AutoMapper.Mapper.Map(result, measure, typeof(TorqueWrenchMeasureDao), typeof(TorqueWrenchMeasure));
+                        AutoMapper.Mapper.Map(result, measure);
                     }
                     return count > 0;
                 }
@@ -126,6 +126,7 @@ namespace MEAS.Data.SqlClient
                 //todo -- 其他相关引用类型的属性都参考enviroment设置
                 dc.Entry(original).CurrentValues.SetValues(curr);
                 var result=await  dc.SaveChangesAsync();
+               
                 return result > 0;
             }
         }

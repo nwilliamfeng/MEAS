@@ -14,8 +14,8 @@ namespace MEAS
         {
             Mapper.Initialize(x =>
             {
-                x.AddProfile<EntityToDaoMappingProfile>();
-                x.AddProfile<DaoToEntityMappingProfile>();
+                //x.AddProfile<EntityToDaoMappingProfile>();
+                //x.AddProfile<DaoToEntityMappingProfile>();
            
                 x.AddProfile<ViewModelToEntityMappingProfile>();
                 x.AddProfile<EntityToViewModelMappingProfile>();

@@ -16,14 +16,7 @@ namespace MEAS.Tests.Data
         static TorqueWrenchMeasureTableTest()
         {
             EnvironmentRepository = new EnvironmentRepository();
-            Mapper.Initialize(x =>
-            {
-                x.AddProfile<EntityToDaoMappingProfile>();
-                x.AddProfile<DaoToEntityMappingProfile>();
-
-                x.AddProfile<ViewModelToEntityMappingProfile>();
-                x.AddProfile<EntityToViewModelMappingProfile>();
-            });
+           
         }
 
         [TestMethod]
@@ -149,8 +142,9 @@ namespace MEAS.Tests.Data
         {
           
           var et= await EnvironmentRepository.Find(1);
-            et.Address = "akkkk";
+            et.Address = "dfdfs";
           await  EnvironmentRepository.Update(et);
+            et.Dump();
         }
 
         [TestMethod]

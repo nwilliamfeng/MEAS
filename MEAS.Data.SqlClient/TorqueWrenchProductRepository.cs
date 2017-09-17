@@ -17,12 +17,12 @@ namespace MEAS.Data.SqlClient
             {
                 using (var db = new SqlServerDbContext())
                 {
-                    var count = db..Where(x => x.FullName.Contains(model)).Select(x => x.Id).Count();
-                    var data = db.CustomerContacts.Where(x => x.FullName.Contains(model))
+                    var count = db.TorqueWrenchProducts.Where(x => x.Model.Contains(model)).Select(x => x.Id).Count();
+                    var data = db.TorqueWrenchProducts.Where(x => x.Model.Contains(model))
                         .OrderByDescending(x => x.Id)
                        .Skip(pageSize * pageNumber)
                        .Take(pageSize).ToList();
-                    return new SearchResult<CustomerContact>(data, count);
+                    return new SearchResult<TorqueWrenchProduct>(data, count);
                 }
             });
         }
@@ -31,7 +31,18 @@ namespace MEAS.Data.SqlClient
 
         public Task<SearchResult<TorqueWrenchProduct>> FindWithRange(double min, double max, int pageSize = 5, int pageNumber = 0)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                using (var db = new SqlServerDbContext())
+                {
+                    var count = db.TorqueWrenchProducts.Where(x => x.MinRange >=min && x.MaxRange<=max).Select(x => x.Id).Count();
+                    var data = db.TorqueWrenchProducts.Where(x => x.MinRange >= min && x.MaxRange <= max)
+                        .OrderByDescending(x => x.Id)
+                       .Skip(pageSize * pageNumber)
+                       .Take(pageSize).ToList();
+                    return new SearchResult<TorqueWrenchProduct>(data, count);
+                }
+            });
         }
     }
 }

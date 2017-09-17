@@ -28,6 +28,11 @@ namespace MEAS.Data
 
         public DbSet<TorqueWrenchMeasureDao> TorqueWrenchMeasures { get; set; }
 
+        public DbSet<TorqueWrench> TorqueWrenchs { get; set; }
+
+        public DbSet<TorqueWrenchProduct> TorqueWrenchProducts { get; set; }
+
+
         public DbSet<T> GetDbSet<T>()
             where T : class
         {
@@ -36,6 +41,8 @@ namespace MEAS.Data
                 return type.GetValue(this) as DbSet<T>;
             return null;
         }
+
+
        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -43,6 +50,8 @@ namespace MEAS.Data
             modelBuilder.Configurations.Add(new UserInfoMap());
             modelBuilder.Configurations.Add(new EnvironmentMap());
             modelBuilder.Configurations.Add(new TorqueWrenchMeasureMap());
+            modelBuilder.Configurations.Add(new TorqueWrenchProductMap());
+            modelBuilder.Configurations.Add(new TorqueWrenchMap());
             modelBuilder.Configurations.Add(new CustomerContactMap());
             modelBuilder.Configurations.Add(new CustomerMap());
             base.OnModelCreating(modelBuilder);

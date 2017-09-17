@@ -11,17 +11,7 @@ namespace MEAS.Tests.Data
     [TestClass]
     public class UserTableTest
     {
-        static UserTableTest()
-        {
-            Mapper.Initialize(x =>
-            {
-                x.AddProfile<EntityToDaoMappingProfile>();
-                x.AddProfile<DaoToEntityMappingProfile>();
-
-                x.AddProfile<ViewModelToEntityMappingProfile>();
-                x.AddProfile<EntityToViewModelMappingProfile>();
-            });
-        }
+       
 
         [TestMethod]
         public  async Task TestAppendUser()

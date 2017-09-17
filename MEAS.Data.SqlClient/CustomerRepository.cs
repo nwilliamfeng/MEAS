@@ -17,11 +17,6 @@ namespace MEAS.Data.SqlClient
             {
                 var ev= db.Customers.Add(customer);
                 var count = await db.SaveChangesAsync();
-                if (count > 0)
-                {
-                    customer.Id = ev.Id;
-                    customer.Timestamp = ev.Timestamp;
-                }
              
                 return count >0;
             }
@@ -122,33 +117,29 @@ namespace MEAS.Data.SqlClient
             using (var dc = new SqlServerDbContext())
             {
                 dc.Configuration.ValidateOnSaveEnabled = false;
-                var exiting = dc.Customers.Include(x => x.Contacts).Single(x => x.Id == customer.Id);
-          
-          
+                var original = dc.Customers.Include(x => x.Contacts).Single(x => x.Id == customer.Id);
+                  
                 var addContacts = customer.Contacts.Where(x => x.Id == 0).ToList(); //此处一定要转成tolist！！
-                var deletedContacts = exiting.Contacts.Where(x => !customer.Contacts.Contains(x)).ToList(); //此处一定要转成tolist！！
-
-                var updatedContacts =exiting.Contacts.Where(x => customer.Contacts.Contains(x)).ToList();//此处一定要转成tolist！！
-
-               
+                var deletedContacts = original.Contacts.Where(x => !customer.Contacts.Contains(x)).ToList(); //此处一定要转成tolist！！
+                var updatedContacts =original.Contacts.Where(x => customer.Contacts.Contains(x)).ToList();//此处一定要转成tolist！！               
                 addContacts.ForEach(t =>  //添加新建的
                 {
-                    t.Company = exiting; //此处必须要置上existing，否则，ef会重新创建一个customer
+                    t.Company = original; //此处必须要置上existing，否则，ef会重新创建一个customer
                     dc.Entry(t).State = EntityState.Added;
                 });
-
                 foreach (var t in updatedContacts) //更新
                 {
                     var entry = dc.Entry(t);
                     entry.CurrentValues.SetValues(customer.Contacts.FirstOrDefault(x => x.Id == t.Id));
                     entry.State = EntityState.Modified;
                 }
-
                 deletedContacts.ToList().ForEach(t => dc.CustomerContacts.Remove(t)); //删除不存在的
 
-                 dc.Entry(exiting).CurrentValues.SetValues(customer);
-
+                var nwtry = dc.Entry(original);
+                nwtry.CurrentValues.SetValues(customer);
+                nwtry.State = EntityState.Modified;
                 var result = await dc.SaveChangesAsync();
+                AutoMapper.Mapper.Map(original, customer);
                 return result > 0;
                 
             }
