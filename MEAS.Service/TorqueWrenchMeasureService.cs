@@ -19,7 +19,7 @@ namespace MEAS.Service
 
         public async Task<bool> Delete(int id)
         {
-            return await this._testRepository.Delete(id);
+            return await this._testRepository.Remove(id);
         }
 
         public async Task<SearchResult<TorqueWrenchMeasure>> Find(DateTime start, DateTime end, int pagesize = 3, int pageIdx = 0)
@@ -38,7 +38,7 @@ namespace MEAS.Service
 
         public async Task<TorqueWrenchMeasure> FindWithId(int id)
         {
-            var dao = await this._testRepository.FindWithId(id);
+            var dao = await this._testRepository.Find(id);
             return Mapper.Map<TorqueWrenchMeasure>(dao);
         }
     }

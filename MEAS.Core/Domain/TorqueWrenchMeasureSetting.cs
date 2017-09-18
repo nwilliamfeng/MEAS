@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace MEAS
 {
-    public sealed class TorqueWrenchMeasureSetting:Entity
+    public class TorqueWrenchMeasureSetting : Entity
     {
+        public TorqueWrenchMeasureSetting()
+        {
+            this.NominalValues = new List<double>();
+        }
+
+        public int TestCount { get; set; }
+
+        public ICollection<double> NominalValues { get;  set; }
+
+     
         
     }
 }

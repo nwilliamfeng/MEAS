@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MEAS
 {
-    public sealed class TorqueWrenchProduct:Entity
+    public   class TorqueWrenchProduct:Entity
     {
         public string Model { get; set; }
 

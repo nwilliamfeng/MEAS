@@ -104,7 +104,7 @@ namespace MEAS.Service
 
         public async Task<bool> RemoveUser(UserInfo user)
         {
-            var result= await this._userRepository.RemoveUser(user);
+            var result= await this._userRepository.Remove(user.Id);
             if (result)
                 userInfoDictionary.TryRemove(user.LoginName, out user);
             return result;
@@ -116,7 +116,7 @@ namespace MEAS.Service
             if (old == null)
                 return false;
             old.Password = newPassword;
-            return await this._userRepository.UpdateUser(old);
+            return await this._userRepository.Update(old);
         }
 
         public async Task<UserInfo> GetDetail(int id)
@@ -130,7 +130,7 @@ namespace MEAS.Service
         {
             var user = await this._userRepository.Find(userId,true);
             user.Avatar = avatar;
-            return await this._userRepository.UpdateUser(user);
+            return await this._userRepository.Update(user);
         }
 
      

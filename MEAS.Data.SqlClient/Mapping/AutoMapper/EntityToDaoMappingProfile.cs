@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using MEAS.Data;
+using Newtonsoft.Json;
 
 namespace MEAS.Data
 {
@@ -14,13 +15,11 @@ namespace MEAS.Data
         {
 
             this.CreateMap<TorqueWrenchMeasure, TorqueWrenchMeasureDao>();
-       
-            this.CreateMap<UserInfo, UserInfoDao>().AfterMap((a, b) =>
-             {
-                 if (a.Roles != null)
-                     b.Roles = string.Join(",", a.Roles);
-             });
-          
+            this.CreateMap<TorqueWrenchMeasureSetting , TorqueWrenchMeasureSettingDao>().AfterMap((x, y) =>
+            {
+                y.NominalValuesString = JsonConvert.SerializeObject(x.NominalValues);
+            });
+
         }
 
         public override string ProfileName

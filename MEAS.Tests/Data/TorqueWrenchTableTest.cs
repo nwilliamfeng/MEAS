@@ -19,14 +19,30 @@ namespace MEAS.Tests.Data
         public  async Task TestAppendTorqueWrench()
         {
             ITorqueWrenchRepository rp = new TorqueWrenchRepository();
-            TorqueWrenchProduct product = new TorqueWrenchProduct { Manufacturer = "manufactor",Model="model",Name="tname", MinRange = 100, MaxRange = 1000, WorkDirection = WorkDirection.Bidirectional };
-            Customer customer = new Customer { Address = "address", Name = "cmpname", ContactPhone = "234234" };
-            customer.Contacts.Add(new CustomerContact { Company = customer, FirstName = "tom", LastName = "cluse", Mobile = "1232325345" });
+            TorqueWrenchProduct product = new TorqueWrenchProduct { Manufacturer = "manfucv",Model="model3",Name="tname2", MinRange =200, MaxRange = 2000, WorkDirection = WorkDirection.Bidirectional };
+            Customer customer = new Customer { Address = "address3", Name = "cmpname2", ContactPhone = "123213" };
+            customer.Contacts.Add(new CustomerContact { Company = customer, FirstName = "tom2", LastName = "cluse2", Mobile = "654255" });
 
-            TorqueWrench wrench = new TorqueWrench { ManufactureDate = DateTime.Now, Product = product, Owner = customer ,SerialNumber="sn223"};
+            TorqueWrench wrench = new TorqueWrench { ManufactureDate = DateTime.Now, Product = product, Owner = customer ,SerialNumber="vbn-098"};
        
             var result = await rp.Add(wrench );
              wrench .Dump();
+            Assert.IsTrue(result);
+
+        }
+
+        [TestMethod]
+        public async Task TestAppendTorqueWrenchWithExistProduct()
+        {
+            ITorqueWrenchRepository rp = new TorqueWrenchRepository();
+           
+             TorqueWrenchProduct product = await new TorqueWrenchProductRepository().Find(1);
+            Customer customer = await new CustomerRepository().Find(1016);
+             
+            TorqueWrench wrench = new TorqueWrench { ManufactureDate = DateTime.Now, Product = product, Owner = customer, SerialNumber = "1234567" };
+
+            var result = await rp.Add(wrench);
+            wrench.Dump();
             Assert.IsTrue(result);
 
         }
@@ -76,9 +92,9 @@ namespace MEAS.Tests.Data
         public async Task TestFindWrenchWithRange()
         {
             ITorqueWrenchRepository rp = new TorqueWrenchRepository();
-            var sr =await rp.FindWithRange(20, 50);
-            foreach(var wrench in sr.Data)
-                wrench.Dump();
+            var sr =await rp.FindWithRange(100, 1000);
+            //foreach(var wrench in sr.Data)
+            //    wrench.Dump();
             Assert.IsTrue(sr.Data.Count()>0);
         }
        

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using MEAS.Data;
+using Newtonsoft.Json;
 
 namespace MEAS.Data
 {
@@ -9,9 +11,11 @@ namespace MEAS.Data
         public DaoToEntityMappingProfile()
         {
             this.CreateMap<TorqueWrenchMeasureDao, TorqueWrenchMeasure>();
-            this.CreateMap<UserInfoDao, UserInfo>().AfterMap((a, b) => b.Roles = a.Roles?.Split(','));
-   
-        }
+            this.CreateMap<TorqueWrenchMeasureSettingDao, TorqueWrenchMeasureSetting>().AfterMap((x,y) =>
+            {
+                y.NominalValues = JsonConvert.DeserializeObject<ICollection<double>>(x.NominalValuesString);
+            });
+     }
 
         public override string ProfileName
         {

@@ -40,7 +40,7 @@ namespace MEAS.Controllers
             if (document == null)
                 return Content("不存在指定id的文件");
             //通过浏览器打开或下载，通过FileStreamResult返回的话如果contenttype浏览器不支持打开，则转成下载，并且文件名称变成“下载”
-            //    return new FileStreamResult(new System.IO.MemoryStream(document.Data), document.ContentType);
+           //return new FileStreamResult(new System.IO.MemoryStream(document.Data), document.ContentType);
 
             var cd = new System.Net.Mime.ContentDisposition
             {
@@ -52,6 +52,17 @@ namespace MEAS.Controllers
             };
             Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(document.Data, document.ContentType); 
+        }
+
+        [CustomAuthorize(Roles = "1,2,3")]
+        public ActionResult Open(int id)
+        {
+         
+            var document = files.FirstOrDefault(x => x.Id == id);
+            if (document == null)
+                return Content("不存在指定id的文件");
+            //通过浏览器打开或下载，通过FileStreamResult返回的话如果contenttype浏览器不支持打开，则转成下载，并且文件名称变成“下载”
+             return new FileStreamResult(new System.IO.MemoryStream(document.Data), document.ContentType);
         }
 
 
@@ -95,7 +106,7 @@ namespace MEAS.Controllers
             return Redirect(Request.UrlReferrer.ToString());//如果失败返回上一个操作
         }
 
-        [ChildActionOnly]
+      //  [ChildActionOnly]
         [CustomAuthorize(Roles = "1,2,3")]
         public ActionResult UploadFile()
         {

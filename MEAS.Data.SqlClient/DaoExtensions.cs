@@ -29,26 +29,10 @@ namespace MEAS.Data
             return  Mapper.Map<TorqueWrenchMeasureDao>(entity);
         }
 
-        public static IEnumerable<UserInfo> ToEntity(this IEnumerable<UserInfoDao> daos)
-        {
-            return daos.Select(x => Mapper.Map<UserInfo>(x));
-        }
-
-        public static IEnumerable<UserInfoDao> ToDao(this IEnumerable<UserInfo> entitys)
-        {
-            return entitys.Select(x => Mapper.Map<UserInfoDao>(x));
-        }
-
-        public static UserInfo ToEntity(this UserInfoDao dao)
-        {
-            return Mapper.Map<UserInfo>(dao);
-        }
-
-        public static UserInfoDao ToDao(this UserInfo entity)
-        {
-            return Mapper.Map<UserInfoDao>(entity);
-        }
-
+     
+    
+      
+     
         
     }
 }

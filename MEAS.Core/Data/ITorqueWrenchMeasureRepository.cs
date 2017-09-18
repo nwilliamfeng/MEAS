@@ -11,9 +11,9 @@ namespace MEAS.Data
 
         Task<SearchResult<TorqueWrenchMeasure>> FindWithCode(string code,int pagesize=3,int pageidx=0);
 
-        Task<bool> Delete(int id);
+        Task<bool> Remove(int id);
 
-        Task<TorqueWrenchMeasure> FindWithId(int id);
+        Task<TorqueWrenchMeasure> Find(int id);
 
         Task<bool> Update(TorqueWrenchMeasure measure);
 

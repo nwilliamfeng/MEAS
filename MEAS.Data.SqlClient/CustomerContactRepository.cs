@@ -10,30 +10,7 @@ namespace MEAS.Data.SqlClient
 {
     public class CustomerContactRepository :RepositoryBase<CustomerContact>, ICustomerContactRepository
     {
-        //public async Task<bool> Add(CustomerContact contact)
-        //{
 
-        //    using (var db = new SqlServerDbContext())
-        //    {
-        //        var ev= db.CustomerContacts.Add(contact);
-        //        var count = await db.SaveChangesAsync();
-        //        if (count > 0)
-        //        {
-        //            contact.Id = ev.Id;
-        //            contact.Timestamp = ev.Timestamp;
-        //        }
-
-        //        return count == 1;
-        //    }
-        //}
-
-        //public async Task<CustomerContact> Find(int id)
-        //{
-        //    using (var db = new SqlServerDbContext())
-        //    {
-        //        return await db.CustomerContacts.FindAsync(id); 
-        //    }
-        //}
 
         public Task<SearchResult<CustomerContact>> Find(string name, int pageSize = 5, int pageNumber = 0)
         {
@@ -42,7 +19,9 @@ namespace MEAS.Data.SqlClient
                 using (var db = new SqlServerDbContext())
                 {
                     var count = db.CustomerContacts.Where(x => x.FullName.Contains(name)).Select(x => x.Id).Count();
-                    var data = db.CustomerContacts.Where(x => x.FullName.Contains(name))
+                    var data = db.CustomerContacts
+                    .Include(x => x.Company)
+                    .Where(x => x.FullName.Contains(name))
                         .OrderByDescending(x => x.Id)
                        .Skip(pageSize * pageNumber)
                        .Take(pageSize).ToList();

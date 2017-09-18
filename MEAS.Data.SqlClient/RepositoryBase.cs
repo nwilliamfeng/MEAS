@@ -11,7 +11,7 @@ using AutoMapper;
 namespace MEAS.Data.SqlClient
 {
     public abstract class RepositoryBase<T>
-        where T:class,IEntity,new()
+        where T : class, IEntity, new()
     {
         static RepositoryBase()
         {
@@ -21,13 +21,14 @@ namespace MEAS.Data.SqlClient
                 x.AddProfile<DaoToEntityMappingProfile>();
                 x.CreateMap<TorqueWrench, TorqueWrench>();
                 x.CreateMap<Customer, Customer>();
+                x.CreateMissingTypeMaps = true; //支持匿名类型
             });
-            
+
         }
 
         public virtual async Task<bool> Add(T entity)
         {
-           
+
             using (var db = new SqlServerDbContext())
             {
                 try
@@ -49,12 +50,12 @@ namespace MEAS.Data.SqlClient
         {
             using (var db = new SqlServerDbContext())
             {
-                 return await db.GetDbSet<T>().FindAsync(id);
-             
+                return await db.GetDbSet<T>().FindAsync(id);
+
             }
         }
 
-       
+
 
         public virtual async Task<bool> Remove(int id)
         {
@@ -65,7 +66,7 @@ namespace MEAS.Data.SqlClient
                 ds.Attach(ev);
                 ds.Remove(ev);
                 var count = await db.SaveChangesAsync();
-                return count >0;
+                return count > 0;
             }
         }
 
@@ -76,8 +77,8 @@ namespace MEAS.Data.SqlClient
                 try
                 {
                     var ev = db.GetDbSet<T>().Attach(et);
-                   db.Entry(et).State= EntityState.Modified;
-                    return await db.SaveChangesAsync()>0;
+                    db.Entry(et).State = EntityState.Modified;
+                    return await db.SaveChangesAsync() > 0;
                 }
                 catch (DbEntityValidationException dbEx)
                 {
@@ -86,5 +87,7 @@ namespace MEAS.Data.SqlClient
                 }
             }
         }
+
+      
     }
 }

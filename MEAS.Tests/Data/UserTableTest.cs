@@ -17,7 +17,7 @@ namespace MEAS.Tests.Data
         public  async Task TestAppendUser()
         {
             IAccountRepository rp = new AccountRepository();
-            var user = new UserInfo { LoginName = "login4", Password = "1111", Roles = new string[] { "2", "4" }, UserName="user4"};
+            var user = new UserInfo { LoginName = "login4", Password = "1111", RoleString = "1,2,3", UserName="user4"};
             user.Dump();
             var result =await rp.AppendUser(user);
             Assert.IsTrue(result);
@@ -27,7 +27,7 @@ namespace MEAS.Tests.Data
         }
 
         [TestMethod]
-        public async Task TestFind()
+        public async Task TestFindUser()
         {
             AccountRepository rp = new AccountRepository();
 
@@ -50,9 +50,9 @@ namespace MEAS.Tests.Data
         public async Task TestDelete()
         {
             AccountRepository rp = new AccountRepository();
-            var user = new UserInfo { LoginName = "login", Password = "1111", Roles = new string[] { "2", "4" }, UserName = "user" };
+            var user = new UserInfo { LoginName = "login", Password = "1111", RoleString = "2,4", UserName = "user" };
             await rp.AppendUser(user);
-           var result =await rp.RemoveUser(user);
+           var result =await rp.Remove(user.Id);
             Assert.IsTrue(result);
         }
 
@@ -61,9 +61,9 @@ namespace MEAS.Tests.Data
         {
             AccountRepository rp = new AccountRepository();
             var user = await rp.Find("test", "1111");
-            user.Roles = new string[] { "2","4"};
+            user.RoleString = "2,4";
             user.Password = "1234";
-            var result =await rp.UpdateUser(user);
+            var result =await rp.Update (user);
             Assert.IsTrue(result);
         }
 

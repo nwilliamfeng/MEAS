@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MEAS.Data;
@@ -22,10 +23,11 @@ namespace MEAS.Tests.Data
         [TestMethod]
         public  async Task TestAppendMeasure()
         {
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository(EnvironmentRepository);
-            //    Environment ev = new Environment {Time=DateTime.Now , Address = "abc", Humidity = 23.5, Temperature = 20.4 };
-            var ev = await EnvironmentRepository.Find(2);
-            var measure = new TorqueWrenchMeasure { TestCode = DateTime.Now.ToShortDateString()+DateTime.Now.Millisecond .ToString(),  Tester = "rwerwewer",Environment=ev  };
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
+          //   Environment ev = new Environment {Time=DateTime.Now , Address = "bnmb", Humidity = 12, Temperature = 56 };
+        var ev = await EnvironmentRepository.Find(2);
+            TorqueWrenchMeasureSetting setting = new TorqueWrenchMeasureSetting { NominalValues = new List<double>(new double[] { 10, 20, 30 }), TestCount = 3  };
+            var measure = new TorqueWrenchMeasure { TestCode = DateTime.Now.ToShortDateString()+DateTime.Now.Millisecond .ToString(),  Tester = "fedf",Environment=ev ,Setting=setting };
             measure.Dump();
 
             var result = await rp.Add(measure);
@@ -37,13 +39,13 @@ namespace MEAS.Tests.Data
         [TestMethod]
         public async Task TestFindWithId()
         {
-            ITorqueWrenchMeasureRepository repository = new TorqueWrenchMeasureRepository(EnvironmentRepository);
-            var result =await repository.FindWithId(5);
-            result.Checker = "bbb";
-            result.Environment  = new Environment { Time = DateTime.Now, Address = "vbv", Humidity = 23.5, Temperature = 20.4 }; ;
-          await  repository.Update(result);
+            ITorqueWrenchMeasureRepository repository = new TorqueWrenchMeasureRepository();
+            var result =await repository.Find(15);
+           
             if (result != null)
                 result.Dump();
+            foreach (var nv in result.Setting.NominalValues)
+                Console.WriteLine("nominal: "+nv); 
             Assert.IsTrue(result!=null);
         }
 
@@ -53,7 +55,7 @@ namespace MEAS.Tests.Data
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository(EnvironmentRepository);
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
             var result = await rp.Find(new DateTime(2017, 8, 25), new DateTime(2017, 8, 27), 2, 0);
             sw.Stop();
             Console.WriteLine("cost "+sw.ElapsedMilliseconds);
@@ -67,7 +69,7 @@ namespace MEAS.Tests.Data
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository(EnvironmentRepository);
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
             var result = await rp.FindWithCode("017/8/25");
             sw.Stop();
             Console.WriteLine("cost " + sw.ElapsedMilliseconds);
@@ -81,21 +83,22 @@ namespace MEAS.Tests.Data
         [TestMethod]
         public async Task TestDelete()
         {
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository(EnvironmentRepository);
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
             
-            var result = await rp.Delete(5);
+            var result = await rp.Remove(5);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
         public async Task TestUpdate()
         {
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository(EnvironmentRepository);
-            var test =await  rp.FindWithId(5);
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
+            var test =await  rp.Find(15);
          
-            test.TestCode = "cvbnm";
-         //      test.Environment = await EnvironmentRepository.Find(3);
-             test.Environment.Address = "abcdef";
+            test.TestCode = "vbvbvb";
+             test.Setting = new TorqueWrenchMeasureSetting { NominalValues = new List<double>(new double[] { 20, 40, 60 }), TestCount = 4 };
+            //     test.Environment = await EnvironmentRepository.Find(3);
+
             var result =await rp.Update(test);
             Assert.IsTrue(result);
         }
@@ -103,12 +106,12 @@ namespace MEAS.Tests.Data
         [TestMethod]
         public async Task TestUpdateChecker()
         {
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository(EnvironmentRepository);
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
             IAccountRepository accountRepository = new AccountRepository();
             var qr = await rp.FindWithCode("xyz");
             if (qr.Data.Count() == 0)
                 return;
-            TorqueWrenchMeasure test =await rp.FindWithId( qr.Data.FirstOrDefault().Id);
+            TorqueWrenchMeasure test =await rp.Find( qr.Data.FirstOrDefault().Id);
             var users = await accountRepository.LoadAll();
             
             //if (test == null)
@@ -125,8 +128,8 @@ namespace MEAS.Tests.Data
         [TestMethod]
         public async Task TestTimestamp()
         {
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository(EnvironmentRepository);
-            var test = await rp.FindWithId(5);
+            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
+            var test = await rp.Find(5);
             if (test != null)
                 test.Dump();
             Assert.IsTrue(test != null);

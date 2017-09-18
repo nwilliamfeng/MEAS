@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MEAS
 {
-    public sealed class CustomerContact:Entity
+    public   class CustomerContact:Entity
     {
         public string FirstName { get; set; }
 
@@ -23,6 +23,6 @@ namespace MEAS
 
         public string Mobile { get; set; }
 
-        public Customer Company { get; set; }
+        public virtual Customer Company { get; set; }
     }
 }

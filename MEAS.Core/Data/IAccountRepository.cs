@@ -14,11 +14,11 @@ namespace MEAS.Data
 
         Task<bool> AppendUser(UserInfo user);
 
-        Task<bool> RemoveUser(UserInfo user);
+        Task<bool> Remove(int id);
 
         Task<bool> ModifyPassword(int id, string newPassword);
 
-        Task<bool> UpdateUser(UserInfo user);
+        Task<bool> Update(UserInfo user);
 
         Task<IEnumerable<UserInfo>> LoadAll();
     }

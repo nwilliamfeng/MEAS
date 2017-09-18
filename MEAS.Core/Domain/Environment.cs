@@ -3,7 +3,7 @@
 
 namespace MEAS
 {
-    public sealed class Environment:Entity
+    public   class Environment:Entity
     {
         public DateTime Time { get; set; }
 

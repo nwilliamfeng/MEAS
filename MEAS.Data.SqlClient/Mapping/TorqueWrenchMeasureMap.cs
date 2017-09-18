@@ -35,6 +35,13 @@ namespace MEAS.Data
                 .Map(x => x.MapKey("EnvironmentId"))
                 .WillCascadeOnDelete(false);
 
+
+
+            //HasRequired(x => x.Setting)
+            //.WithOptional()
+            //.Map(x => x.MapKey("SettingId"))
+            //.WillCascadeOnDelete(false);
+
             Property(x => x.Checker).IsOptional();
 
             // HasOptional(x => x.Checker) //此处用optional是为了新建实例时Checker无需赋值，所以对应的表字段应该是nullable 

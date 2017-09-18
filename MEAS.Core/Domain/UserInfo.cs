@@ -1,7 +1,7 @@
 ﻿
 namespace MEAS
 {
-    public sealed class UserInfo:Entity
+    public   class UserInfo:Entity
     {
       
 
@@ -12,7 +12,15 @@ namespace MEAS
         public string Password { get; set; }
 
         
-        public string[] Roles { get; set; }
+        public string[] Roles
+        {
+            get
+            {
+                return RoleString == null ? new string[] { } : RoleString.Split(',');
+            }
+        }
+
+        public string RoleString { get; set; }
 
         public byte[] Avatar { get; set; }       
  

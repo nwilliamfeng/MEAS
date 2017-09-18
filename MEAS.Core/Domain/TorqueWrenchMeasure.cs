@@ -9,6 +9,6 @@ namespace MEAS
     [Serializable]
     public class TorqueWrenchMeasure : MeasureBase
     {
-        
+        public TorqueWrenchMeasureSetting Setting { get; set; }
     }
 }

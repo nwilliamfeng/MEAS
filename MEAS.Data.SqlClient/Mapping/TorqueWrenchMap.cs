@@ -23,8 +23,7 @@ namespace MEAS.Data
                 .WithOptional()
                 .Map(x => x.MapKey("ProductId"))
                 .WillCascadeOnDelete(false);
-
-
+         
             //Property(x => x.SerialNumber).IsRequired()
             //    .HasColumnAnnotation(IndexAnnotation.AnnotationName,new IndexAnnotation(
             //new IndexAttribute("Idx_SerialNumber") {IsUnique = true, Order=1 }));       

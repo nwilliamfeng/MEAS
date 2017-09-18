@@ -9,7 +9,7 @@ namespace MEAS
 {
     public class FileViewModel
     {
-        [HttpPostedFileExtensions(Extensions = "txt,png,gif,jpg")]
+        [HttpPostedFileExtensions(Extensions = "txt,png,gif,jpg,ogg")]
         public HttpPostedFileBase File { get; set; }
 
     }

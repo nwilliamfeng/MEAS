@@ -10,28 +10,24 @@ using AutoMapper;
 
 namespace MEAS.Data.SqlClient
 {
-    public class TorqueWrenchMeasureRepository :ITorqueWrenchMeasureRepository
+    public class TorqueWrenchMeasureRepository :RepositoryBase<TorqueWrenchMeasure>, ITorqueWrenchMeasureRepository
     {   
-        private IEnvironmentRepository EnvironmentRepository { get; set; }
+       
+ 
 
-        public TorqueWrenchMeasureRepository(IEnvironmentRepository environmentRepository)
-        {
-            this.EnvironmentRepository = environmentRepository;
-        }
-
-        public async Task<bool> Delete(int id)
-        {
-            using (var db = new SqlServerDbContext())
-            {
-              var test=  db.TorqueWrenchMeasures.Find(id);
-             //   TorqueWrenchMeasureDao test = new TorqueWrenchMeasureDao { Id = id }; //这里不能简单创建指定id的实例，因为有引用的其他对象，ef会抛出relationship异常
-                  db.TorqueWrenchMeasures.Attach(test);
+        //public async Task<bool> Remove(int id)
+        //{
+        //    using (var db = new SqlServerDbContext())
+        //    {
+        //      var test=  db.TorqueWrenchMeasures.Find(id);
+        //     //   TorqueWrenchMeasureDao test = new TorqueWrenchMeasureDao { Id = id }; //这里不能简单创建指定id的实例，因为有引用的其他对象，ef会抛出relationship异常
+        //          db.TorqueWrenchMeasures.Attach(test);
              
-                db.TorqueWrenchMeasures.Remove(test);
-                var count = await db.SaveChangesAsync();
-                return count >0; //返回的不能简单的判断是否为1，如果有关联的对象，则删除数为1+关联数
-            }
-        }
+        //        db.TorqueWrenchMeasures.Remove(test);
+        //        var count = await db.SaveChangesAsync();
+        //        return count >0; //返回的不能简单的判断是否为1，如果有关联的对象，则删除数为1+关联数
+        //    }
+        //}
 
         public Task<SearchResult<TorqueWrenchMeasure>> FindWithCode(string code, int pagesize = 3, int pageIdx = 0)
         {
@@ -54,7 +50,7 @@ namespace MEAS.Data.SqlClient
             });          
         }
 
-        public  Task<TorqueWrenchMeasure> FindWithId(int id)
+        public override Task<TorqueWrenchMeasure> Find(int id)
         {
             return Task.Run(()=>
             {
@@ -76,31 +72,25 @@ namespace MEAS.Data.SqlClient
             });
         }
 
-        public async Task<bool> Add(TorqueWrenchMeasure measure)
+         
+        public override async  Task<bool>  Add(TorqueWrenchMeasure measure)
         {
 
             using (var dc = new SqlServerDbContext())
             {
                 try
-                {
-                    if (measure.Environment == null)
-                        throw new ArgumentNullException("环境参数为空。");
-                    else if (measure.Environment.Id == 0)
-                    {
-                        await this.EnvironmentRepository.Add(measure.Environment);
-                       // measure.Environment = await this.EnvironmentRepository.Find(measure.Environment.Id);
-                    }
-                    //todo 其他引用属性都参考上述操作
-                   
-                    var entry = dc.TorqueWrenchMeasures.Attach(measure.ToDao());       //必须先attach，否则ef会自动插入新的userinfo而不是之前存在的userinfo         
-                    var result = dc.TorqueWrenchMeasures.Add(entry);
-                    var count = dc.SaveChanges();
-                    measure.Id = result.Id;
-                    measure.Timestamp = result.Timestamp;
+                {            
+                    var dao = measure.ToDao();
+                    if (dao.Environment.Id == 0)
+                        dc.Environments.Add(dao.Environment);
+                    if (dao.Setting.Id == 0)
+                        dc.TorqueWrenchMeasureSettings.Add(dao.Setting);
+                    var entry = dc.TorqueWrenchMeasures.Attach(dao);       //必须先attach，否则ef会自动插入新的userinfo而不是之前存在的userinfo         
+                    var result = dc.TorqueWrenchMeasures.Add(dao);
+                    var count =await dc.SaveChangesAsync();
+               
                     if (count > 0)
-                    {
                         AutoMapper.Mapper.Map(result, measure);
-                    }
                     return count > 0;
                 }
                 catch (DbEntityValidationException dbEx)
@@ -111,22 +101,37 @@ namespace MEAS.Data.SqlClient
             }
         }
 
-        public async Task<bool> Update(TorqueWrenchMeasure measure)
+        public override async Task<bool> Update(TorqueWrenchMeasure measure)
         {
             using (var dc = new SqlServerDbContext())
             {
                 dc.Configuration.ValidateOnSaveEnabled = false;
-                var original = dc.TorqueWrenchMeasures.Include(x=> x.Environment) .Single(x=>x.Id == measure.Id);
-                var curr = measure.ToDao();
-                if (!original.Environment.Equals(measure.Environment)) //如果所指向的引用有变更(即id不同)，则赋值
+                var original = dc.TorqueWrenchMeasures
+                    .Include(x => x.Environment)
+                    .Include(x => x.Setting)
+                    .FirstOrDefault(x => x.Id == measure.Id);
+                var source = measure.ToDao();
+                if (!original.Environment.Equals(source.Environment)) //如果所指向的引用有变更(即id不同)，则赋值
                 {
-                    dc.Environments.Attach(curr.Environment); //如果不attach，则ef会让db自动添加一个实例
-                    original.Environment = curr.Environment;
+                    if (source.Environment.Id > 0)
+                        dc.Environments.Attach(source.Environment); //如果不attach，则ef会让db自动添加一个实例
+                   else
+                        dc.Environments.Add(source.Environment);
+                    original.Environment = source.Environment;
                 }
-                //todo -- 其他相关引用类型的属性都参考enviroment设置
-                dc.Entry(original).CurrentValues.SetValues(curr);
-                var result=await  dc.SaveChangesAsync();
-               
+             
+                if (!original.Setting.Equals(source.Setting))  
+                {
+                    if (source.Setting.Id > 0) 
+                        dc.TorqueWrenchMeasureSettings.Attach(source.Setting);
+                    else
+                        dc.TorqueWrenchMeasureSettings.Add(source.Setting);
+                    original.Setting = source.Setting;
+                }
+                dc.Entry(original).CurrentValues.SetValues(source);
+                var result = await dc.SaveChangesAsync();
+                if (result > 0)
+                    AutoMapper.Mapper.Map(original, measure);
                 return result > 0;
             }
         }

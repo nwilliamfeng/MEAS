@@ -46,7 +46,7 @@
     <Compile Include="Domain\Customer.cs" />
     <Compile Include="Domain\CustomerContact.cs" />
     <Compile Include="Data\IEnvironmentRepository.cs" />
-    <Compile Include="Domain\Cart.cs" />
+    <Compile Include="Domain\tmp\Cart.cs" />
     <Compile Include="Data\IAccountRepository.cs" />
     <Compile Include="Data\ITorqueWrenchMeasureRepository.cs" />
     <Compile Include="Data\IProductRepository.cs" />
@@ -59,12 +59,12 @@
     <Compile Include="Service\ITorqueWrenchMeasureService.cs" />
     <Compile Include="Domain\TorqueWrenchMeasure.cs" />
     <Compile Include="Domain\MeasureBase.cs" />
-    <Compile Include="Domain\Product.cs" />
+    <Compile Include="Domain\tmp\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IAccountService.cs" />
     <Compile Include="Service\IOrderProcessor.cs" />
     <Compile Include="Service\IProductService.cs" />
-    <Compile Include="Domain\ShippingDetails.cs" />
+    <Compile Include="Domain\tmp\ShippingDetails.cs" />
     <Compile Include="Helper\StreamExtension.cs" />
     <Compile Include="Domain\UserInfo.cs" />
     <Compile Include="Domain\TorqueWrench.cs" />

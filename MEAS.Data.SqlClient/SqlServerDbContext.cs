@@ -14,11 +14,14 @@ namespace MEAS.Data
 
         public SqlServerDbContext() : base("name=sqlserverconnstr")
         {
-        
+            this.Database.Log = x =>
+            {
+               // Console.WriteLine(x); 
+            };
         }
 
     
-        public DbSet<UserInfoDao> Users { get; set; }
+        public DbSet<UserInfo> Users { get; set; }
 
         public DbSet<Environment> Environments { get; set; }
 
@@ -32,15 +35,17 @@ namespace MEAS.Data
 
         public DbSet<TorqueWrenchProduct> TorqueWrenchProducts { get; set; }
 
+        public DbSet<TorqueWrenchMeasureSettingDao> TorqueWrenchMeasureSettings { get; set; }
 
-        public DbSet<T> GetDbSet<T>()
-            where T : class
-        {
-            var type =this.GetType().GetProperties().FirstOrDefault(x => x.PropertyType.Equals(typeof(DbSet<T>)));
-            if (type != null)
-                return type.GetValue(this) as DbSet<T>;
-            return null;
-        }
+
+        //public DbSet<T> GetDbSet<T>()
+        //    where T : class
+        //{
+        //    var type =this.GetType().GetProperties().FirstOrDefault(x => x.PropertyType.Equals(typeof(DbSet<T>)));
+        //    if (type != null)
+        //        return type.GetValue(this) as DbSet<T>;
+        //    return null;
+        //}
 
 
        
@@ -58,4 +63,6 @@ namespace MEAS.Data
         }
 
     }
+
+   
 }
