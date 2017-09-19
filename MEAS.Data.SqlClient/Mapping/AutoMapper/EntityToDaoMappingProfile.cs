@@ -16,7 +16,7 @@ namespace MEAS.Data
 
             this.CreateMap<TorqueWrenchMeasure, TorqueWrenchMeasureDao>().AfterMap((a, b) =>
             {
-                b.Data = JsonConvert.SerializeObject(a.Data);
+                 b.Data = JsonConvert.SerializeObject(a.Data);
             });
             //this.CreateMap<TorqueWrenchMeasureSetting , TorqueWrenchMeasureSettingDao>().AfterMap((x, y) =>
             //{

@@ -25,8 +25,8 @@ namespace MEAS.Tests.Data
         {
             ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
           //   Environment ev = new Environment {Time=DateTime.Now , Address = "bnmb", Humidity = 12, Temperature = 56 };
-          var ev = await EnvironmentRepository.Find(2);
-            var wrench = await new TorqueWrenchRepository().Find(1);
+          var ev = await EnvironmentRepository.Find(1);
+            var wrench = await new TorqueWrenchRepository().Find(4);
           
             var measure = new TorqueWrenchMeasure { TestCode = DateTime.Now.ToShortDateString()+DateTime.Now.Millisecond .ToString(),  Tester = "fedf",Environment=ev ,Measurand=wrench };
             measure.Standard = new TorqueStandard { Name = "sname", CertificateName = "certname" };
@@ -36,6 +36,7 @@ namespace MEAS.Tests.Data
             measure.Data.GagingPoints.Add(new TorqueMeasurePoint { Nominal = 30, Values = new List<double>(new double[] { 32, 33,34 }) });
             
             measure.Dump();
+
 
             var result = await rp.Add(measure);
             measure.Dump();
@@ -104,14 +105,15 @@ namespace MEAS.Tests.Data
         public async Task TestUpdate()
         {
             TorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
-            var test =await  rp.Find(18);
+            var test =await  rp.Find(1);
+          
             test.ToDao().Dump();
             return;
-            test.TestCode = "vbcxzz";
-            test.Data.ZeroPoint = 6666;
-            test.Data.GagingPoints[0].Nominal = 3333;
-            test.Data.GagingPoints[1].Values[1] = 99999;
-            test.Environment = await EnvironmentRepository.Find(3);
+            test.TestCode = "3d213d";
+            test.Data.ZeroPoint = 3334 ;
+            test.Data.GagingPoints[0].Nominal = 3425;
+            test.Data.GagingPoints[1].Values[1] = 3435;
+            test.Environment = await EnvironmentRepository.Find(1);
           //  test.Environment = new Environment { Time = DateTime.Now, Address = "newaddr", Humidity = 22, Temperature = 34 };
             var result =await rp.Update(test);
             Assert.IsTrue(result);

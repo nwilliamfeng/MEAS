@@ -87,7 +87,8 @@ namespace MEAS.Data.SqlClient
                     db.Configuration.LazyLoadingEnabled = false;
                     var data = db.TorqueWrenchMeasures
                     .Where(x => x.Id == id)
-                    .Include(x => x.Measurand)
+                    .Include(x => x.Measurand.Owner)
+                    .Include(x=>x.Measurand.Product)
                     .Include(x => x.Standard)
                     .Include(x => x.Environment)
                     .FirstOrDefault();
@@ -144,11 +145,11 @@ namespace MEAS.Data.SqlClient
                 dc.Configuration.ValidateOnSaveEnabled = false;
                 var original = dc.TorqueWrenchMeasures
                     .Include(x => x.Environment)
-                    .Include(x=>x.Measurand)
+                    .Include(x=>x.Measurand.Product)
+                    .Include(x=>x.Measurand.Owner)
                     .FirstOrDefault(x => x.Id == measure.Id);
                 var source = measure.ToDao();
-                return true;
-                Console.WriteLine("do do do"); 
+
                 //if (!original.Environment.Equals(source.Environment)) //如果所指向的引用有变更(即id不同)，则赋值
                 //{
                 //    if (source.Environment.Id > 0)
@@ -157,7 +158,8 @@ namespace MEAS.Data.SqlClient
                 //        dc.Environments.Add(source.Environment);
                 //    original.Environment = source.Environment;
                 //}
-                dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);
+             
+              //  dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);
                 dc.Environments.ChangeReferenceIfNotEqual(original.Environment, source.Environment, () => original.Environment = source.Environment);
                 dc.TorqueStandards.ChangeReferenceIfNotEqual(original.Standard, source.Standard, () => original.Standard = source.Standard);
 
@@ -166,7 +168,7 @@ namespace MEAS.Data.SqlClient
                 dc.Entry(original).CurrentValues.SetValues(source);
                 var result = await dc.SaveChangesAsync();
                 if (result > 0)
-                    AutoMapper.Mapper.Map(original.ToEntity(), measure);
+                      original.ToEntity2( );
                 return result > 0;
             }
         }

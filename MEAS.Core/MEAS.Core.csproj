@@ -54,7 +54,6 @@
     <Compile Include="Domain\Entity.cs" />
     <Compile Include="Domain\Environment.cs" />
     <Compile Include="Domain\FileDocument.cs" />
-    <Compile Include="Domain\TorqueWrenchMeasureSetting.cs" />
     <Compile Include="Helper\MD5Helper.cs" />
     <Compile Include="Domain\IEntity.cs" />
     <Compile Include="Service\ITorqueWrenchMeasureService.cs" />
