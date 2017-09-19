@@ -30,12 +30,22 @@ namespace MEAS.Data
             //    .Map(x => x.MapKey("TeserId"))
             //    .WillCascadeOnDelete(false);
 
+            HasRequired(x => x.Measurand)
+              .WithOptional()
+              .Map(x => x.MapKey("MeasurandId"))
+              .WillCascadeOnDelete(false);
+
+
             HasRequired(x => x.Environment)
                 .WithOptional()
                 .Map(x => x.MapKey("EnvironmentId"))
                 .WillCascadeOnDelete(false);
 
 
+            HasRequired(x => x.Standard)
+            .WithOptional()
+            .Map(x => x.MapKey("StandardId"))
+            .WillCascadeOnDelete(false);
 
             //HasRequired(x => x.Setting)
             //.WithOptional()

@@ -56,18 +56,18 @@
     <Compile Include="AccountRepository.cs" />
     <Compile Include="Dao\TorqueWrenchMeasureSettingDao.cs" />
     <Compile Include="DbContextExtension.cs" />
+    <Compile Include="Mapping\TorqueStandardMap.cs" />
     <Compile Include="Mapping\TorqueWrenchMap.cs" />
     <Compile Include="Mapping\TorqueWrenchProductMap.cs" />
-    <Compile Include="Migrations\201709180924295_fdsfds.cs" />
-    <Compile Include="Migrations\201709180924295_fdsfds.Designer.cs">
-      <DependentUpon>201709180924295_fdsfds.cs</DependentUpon>
+    <Compile Include="Migrations\201709190915111_add-migration bnbng.cs" />
+    <Compile Include="Migrations\201709190915111_add-migration bnbng.Designer.cs">
+      <DependentUpon>201709190915111_add-migration bnbng.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="TorqueWrenchRepository.cs" />
     <Compile Include="TorqueWrenchProductRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
     <Compile Include="DaoExtensions.cs" />
-    <Compile Include="EntityFrameworkExtenion.cs" />
     <Compile Include="CustomerContactRepository.cs" />
     <Compile Include="EnvironmentRepository.cs" />
     <Compile Include="Mapping\AutoMapper\DaoToEntityMappingProfile.cs" />
@@ -97,8 +97,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709180924295_fdsfds.resx">
-      <DependentUpon>201709180924295_fdsfds.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709190915111_add-migration bnbng.resx">
+      <DependentUpon>201709190915111_add-migration bnbng.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

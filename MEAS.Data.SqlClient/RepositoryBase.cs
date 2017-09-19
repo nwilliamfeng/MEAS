@@ -21,6 +21,7 @@ namespace MEAS.Data.SqlClient
                 x.AddProfile<DaoToEntityMappingProfile>();
                 x.CreateMap<TorqueWrench, TorqueWrench>();
                 x.CreateMap<Customer, Customer>();
+                x.CreateMap<TorqueWrenchMeasure.TorqueWrenchMeasureData, TorqueWrenchMeasure.TorqueWrenchMeasureData>();
                 x.CreateMissingTypeMaps = true; //支持匿名类型
             });
 
@@ -46,13 +47,16 @@ namespace MEAS.Data.SqlClient
             }
         }
 
-        public virtual async Task<T> Find(int id)
+        public virtual  Task<T> Find(int id)
         {
-            using (var db = new SqlServerDbContext())
+            return Task.Run(() =>
             {
-                return await db.GetDbSet<T>().FindAsync(id);
-
-            }
+                using (var db = new SqlServerDbContext())
+                {
+                    //  return await db.GetDbSet<T>().FindAsync(id); //不知道为啥有时会抛出Sequence contains more than one element的异常
+                    return db.GetDbSet<T>().FirstOrDefault(x => x.Id == id);
+                }
+            });
         }
 
 

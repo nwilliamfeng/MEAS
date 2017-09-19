@@ -14,11 +14,14 @@ namespace MEAS.Data
         public EntityToDaoMappingProfile()
         {
 
-            this.CreateMap<TorqueWrenchMeasure, TorqueWrenchMeasureDao>();
-            this.CreateMap<TorqueWrenchMeasureSetting , TorqueWrenchMeasureSettingDao>().AfterMap((x, y) =>
+            this.CreateMap<TorqueWrenchMeasure, TorqueWrenchMeasureDao>().AfterMap((a, b) =>
             {
-                y.NominalValuesString = JsonConvert.SerializeObject(x.NominalValues);
+                b.Data = JsonConvert.SerializeObject(a.Data);
             });
+            //this.CreateMap<TorqueWrenchMeasureSetting , TorqueWrenchMeasureSettingDao>().AfterMap((x, y) =>
+            //{
+            //    y.NominalValuesString = JsonConvert.SerializeObject(x.NominalValues);
+            //});
 
         }
 

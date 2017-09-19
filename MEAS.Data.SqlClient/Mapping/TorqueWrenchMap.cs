@@ -26,7 +26,9 @@ namespace MEAS.Data
          
             //Property(x => x.SerialNumber).IsRequired()
             //    .HasColumnAnnotation(IndexAnnotation.AnnotationName,new IndexAnnotation(
-            //new IndexAttribute("Idx_SerialNumber") {IsUnique = true, Order=1 }));       
+            //new IndexAttribute("Idx_SerialNumber") {IsUnique = true, Order=1 }));      
+            
+             
 
             Property(x => x.SerialNumber).IsRequired();
              

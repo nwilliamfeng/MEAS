@@ -8,14 +8,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MEAS.Data
 {
-    [Table("TorqueWrenchMeasureSettings")]
-    public class TorqueWrenchMeasureSettingDao:DaoBase
-    {
-        public int TestCount { get; set; }
+    //[Table("TorqueWrenchMeasureSettings")]
+    //public class TorqueWrenchMeasureSettingDao:DaoBase
+    //{
+    //    public int TestCount { get; set; }
 
-        public string NominalValuesString { get; set; }
+    //    public string NominalValuesString { get; set; }
 
 
        
-    }
+    //}
 }

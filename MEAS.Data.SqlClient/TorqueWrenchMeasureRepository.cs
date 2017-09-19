@@ -11,9 +11,9 @@ using AutoMapper;
 namespace MEAS.Data.SqlClient
 {
     public class TorqueWrenchMeasureRepository :RepositoryBase<TorqueWrenchMeasure>, ITorqueWrenchMeasureRepository
-    {   
-       
- 
+    {
+
+
 
         //public async Task<bool> Remove(int id)
         //{
@@ -22,12 +22,39 @@ namespace MEAS.Data.SqlClient
         //      var test=  db.TorqueWrenchMeasures.Find(id);
         //     //   TorqueWrenchMeasureDao test = new TorqueWrenchMeasureDao { Id = id }; //这里不能简单创建指定id的实例，因为有引用的其他对象，ef会抛出relationship异常
         //          db.TorqueWrenchMeasures.Attach(test);
-             
+
         //        db.TorqueWrenchMeasures.Remove(test);
         //        var count = await db.SaveChangesAsync();
         //        return count >0; //返回的不能简单的判断是否为1，如果有关联的对象，则删除数为1+关联数
         //    }
         //}
+
+       public  Task<SearchResult<TorqueWrenchMeasure>> Find(string wrenchSN, int pagesize = 3, int pageIdx = 0)
+        {
+            return Task.Run(() =>
+            {
+                using (var db = new SqlServerDbContext())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    var total = db.TorqueWrenchMeasures
+                   
+                    .Where(x => x.Measurand.SerialNumber.Contains(wrenchSN)).Count();
+                    var tests = db.TorqueWrenchMeasures
+                    .Where(x => x.Measurand.SerialNumber.Contains(wrenchSN))
+                    .OrderByDescending(x => x.Id)
+                    .Skip(pagesize * pageIdx)
+                    .Take(pagesize)
+                    .Include(x => x.Environment)
+                    .Include(x => x.Measurand.Product)
+                    .Include(x => x.Measurand.Owner)
+                    .ToList()
+                    .Select(x => new TorqueWrenchMeasure { Id = x.Id, TestCode = x.TestCode, Environment = x.Environment, Measurand = x.Measurand });
+                    
+                    return new SearchResult<TorqueWrenchMeasure>(tests, total);
+                }
+
+            });
+        }
 
         public Task<SearchResult<TorqueWrenchMeasure>> FindWithCode(string code, int pagesize = 3, int pageIdx = 0)
         {
@@ -42,6 +69,7 @@ namespace MEAS.Data.SqlClient
                     .Skip(pagesize * pageIdx)
                     .Take(pagesize)
                     .Include(x=>x.Environment)
+                    .Include(x=>x.Measurand)
                     .Select(x => new TorqueWrenchMeasure { Id = x.Id, TestCode = x.TestCode, Environment = x.Environment })
                     .ToList();
                     return new SearchResult<TorqueWrenchMeasure>(tests, total);
@@ -52,14 +80,20 @@ namespace MEAS.Data.SqlClient
 
         public override Task<TorqueWrenchMeasure> Find(int id)
         {
-            return Task.Run(()=>
+            return Task.Run(() =>
             {
-                using (var db =new SqlServerDbContext())
+                using (var db = new SqlServerDbContext())
                 {
-                    return db.TorqueWrenchMeasures
+                    db.Configuration.LazyLoadingEnabled = false;
+                    var data = db.TorqueWrenchMeasures
                     .Where(x => x.Id == id)
-                    .Include(x=>x.Environment)
-                    .FirstOrDefault()?.ToEntity();                   
+                    .Include(x => x.Measurand)
+                    .Include(x => x.Standard)
+                    .Include(x => x.Environment)
+                    .FirstOrDefault();
+              
+                    return data.ToEntity();
+               
                 }
             });
         }
@@ -75,7 +109,6 @@ namespace MEAS.Data.SqlClient
          
         public override async  Task<bool>  Add(TorqueWrenchMeasure measure)
         {
-
             using (var dc = new SqlServerDbContext())
             {
                 try
@@ -83,9 +116,12 @@ namespace MEAS.Data.SqlClient
                     var dao = measure.ToDao();
                     if (dao.Environment.Id == 0)
                         dc.Environments.Add(dao.Environment);
-                    if (dao.Setting.Id == 0)
-                        dc.TorqueWrenchMeasureSettings.Add(dao.Setting);
-                    var entry = dc.TorqueWrenchMeasures.Attach(dao);       //必须先attach，否则ef会自动插入新的userinfo而不是之前存在的userinfo         
+                    if (dao.Measurand.Id == 0)
+                        dc.TorqueWrenchs.Add(dao.Measurand);
+                    if (dao.Standard.Id == 0)
+                        dc.TorqueStandards.Add(dao.Standard);
+
+                    dc.TorqueWrenchMeasures.Attach(dao);       //必须先attach，否则ef会自动插入新的userinfo而不是之前存在的userinfo         
                     var result = dc.TorqueWrenchMeasures.Add(dao);
                     var count =await dc.SaveChangesAsync();
                
@@ -108,32 +144,33 @@ namespace MEAS.Data.SqlClient
                 dc.Configuration.ValidateOnSaveEnabled = false;
                 var original = dc.TorqueWrenchMeasures
                     .Include(x => x.Environment)
-                    .Include(x => x.Setting)
+                    .Include(x=>x.Measurand)
                     .FirstOrDefault(x => x.Id == measure.Id);
                 var source = measure.ToDao();
-                if (!original.Environment.Equals(source.Environment)) //如果所指向的引用有变更(即id不同)，则赋值
-                {
-                    if (source.Environment.Id > 0)
-                        dc.Environments.Attach(source.Environment); //如果不attach，则ef会让db自动添加一个实例
-                   else
-                        dc.Environments.Add(source.Environment);
-                    original.Environment = source.Environment;
-                }
-             
-                if (!original.Setting.Equals(source.Setting))  
-                {
-                    if (source.Setting.Id > 0) 
-                        dc.TorqueWrenchMeasureSettings.Attach(source.Setting);
-                    else
-                        dc.TorqueWrenchMeasureSettings.Add(source.Setting);
-                    original.Setting = source.Setting;
-                }
+                return true;
+                Console.WriteLine("do do do"); 
+                //if (!original.Environment.Equals(source.Environment)) //如果所指向的引用有变更(即id不同)，则赋值
+                //{
+                //    if (source.Environment.Id > 0)
+                //        dc.Environments.Attach(source.Environment); //如果不attach，则ef会让db自动添加一个实例
+                //    else
+                //        dc.Environments.Add(source.Environment);
+                //    original.Environment = source.Environment;
+                //}
+                dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);
+                dc.Environments.ChangeReferenceIfNotEqual(original.Environment, source.Environment, () => original.Environment = source.Environment);
+                dc.TorqueStandards.ChangeReferenceIfNotEqual(original.Standard, source.Standard, () => original.Standard = source.Standard);
+
+
+
                 dc.Entry(original).CurrentValues.SetValues(source);
                 var result = await dc.SaveChangesAsync();
                 if (result > 0)
-                    AutoMapper.Mapper.Map(original, measure);
+                    AutoMapper.Mapper.Map(original.ToEntity(), measure);
                 return result > 0;
             }
         }
+
+
     }
 }

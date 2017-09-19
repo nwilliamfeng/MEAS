@@ -54,8 +54,9 @@
     <Compile Include="Domain\Entity.cs" />
     <Compile Include="Domain\Environment.cs" />
     <Compile Include="Domain\FileDocument.cs" />
+    <Compile Include="Domain\TorqueWrenchMeasureSetting.cs" />
     <Compile Include="Helper\MD5Helper.cs" />
-    <Compile Include="IEntity.cs" />
+    <Compile Include="Domain\IEntity.cs" />
     <Compile Include="Service\ITorqueWrenchMeasureService.cs" />
     <Compile Include="Domain\TorqueWrenchMeasure.cs" />
     <Compile Include="Domain\MeasureBase.cs" />
@@ -68,9 +69,10 @@
     <Compile Include="Helper\StreamExtension.cs" />
     <Compile Include="Domain\UserInfo.cs" />
     <Compile Include="Domain\TorqueWrench.cs" />
-    <Compile Include="Domain\TorqueWrenchMeasureSetting.cs" />
     <Compile Include="Domain\TorqueWrenchProduct.cs" />
-    <Compile Include="WorkDirection.cs" />
+    <Compile Include="Domain\TorqueMeasurePoint.cs" />
+    <Compile Include="Domain\WorkDirection.cs" />
+    <Compile Include="Domain\TorqueStandard.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

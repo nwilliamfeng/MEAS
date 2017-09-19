@@ -25,9 +25,16 @@ namespace MEAS.Tests.Data
         {
             ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
           //   Environment ev = new Environment {Time=DateTime.Now , Address = "bnmb", Humidity = 12, Temperature = 56 };
-        var ev = await EnvironmentRepository.Find(2);
-            TorqueWrenchMeasureSetting setting = new TorqueWrenchMeasureSetting { NominalValues = new List<double>(new double[] { 10, 20, 30 }), TestCount = 3  };
-            var measure = new TorqueWrenchMeasure { TestCode = DateTime.Now.ToShortDateString()+DateTime.Now.Millisecond .ToString(),  Tester = "fedf",Environment=ev ,Setting=setting };
+          var ev = await EnvironmentRepository.Find(2);
+            var wrench = await new TorqueWrenchRepository().Find(1);
+          
+            var measure = new TorqueWrenchMeasure { TestCode = DateTime.Now.ToShortDateString()+DateTime.Now.Millisecond .ToString(),  Tester = "fedf",Environment=ev ,Measurand=wrench };
+            measure.Standard = new TorqueStandard { Name = "sname", CertificateName = "certname" };
+            measure.Data.ZeroPoint = 0.03;
+            measure.Data.GagingPoints.Add(new TorqueMeasurePoint { Nominal = 10, Values = new List<double>(new double[] { 12, 13,14 }) });
+            measure.Data.GagingPoints.Add(new TorqueMeasurePoint { Nominal = 20, Values = new List<double>(new double[] { 22, 23,24 }) });
+            measure.Data.GagingPoints.Add(new TorqueMeasurePoint { Nominal = 30, Values = new List<double>(new double[] { 32, 33,34 }) });
+            
             measure.Dump();
 
             var result = await rp.Add(measure);
@@ -40,12 +47,16 @@ namespace MEAS.Tests.Data
         public async Task TestFindWithId()
         {
             ITorqueWrenchMeasureRepository repository = new TorqueWrenchMeasureRepository();
-            var result =await repository.Find(15);
-           
+            var result =await repository.Find(18);
+            
             if (result != null)
-                result.Dump();
-            foreach (var nv in result.Setting.NominalValues)
-                Console.WriteLine("nominal: "+nv); 
+            {
+               result.Dump();
+               
+                foreach(var g in result.Data .GagingPoints)
+                Console.WriteLine(g.Nominal);
+            }
+            
             Assert.IsTrue(result!=null);
         }
 
@@ -92,37 +103,29 @@ namespace MEAS.Tests.Data
         [TestMethod]
         public async Task TestUpdate()
         {
-            ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
-            var test =await  rp.Find(15);
-         
-            test.TestCode = "vbvbvb";
-             test.Setting = new TorqueWrenchMeasureSetting { NominalValues = new List<double>(new double[] { 20, 40, 60 }), TestCount = 4 };
-            //     test.Environment = await EnvironmentRepository.Find(3);
-
+            TorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
+            var test =await  rp.Find(18);
+            test.ToDao().Dump();
+            return;
+            test.TestCode = "vbcxzz";
+            test.Data.ZeroPoint = 6666;
+            test.Data.GagingPoints[0].Nominal = 3333;
+            test.Data.GagingPoints[1].Values[1] = 99999;
+            test.Environment = await EnvironmentRepository.Find(3);
+          //  test.Environment = new Environment { Time = DateTime.Now, Address = "newaddr", Humidity = 22, Temperature = 34 };
             var result =await rp.Update(test);
             Assert.IsTrue(result);
         }
+
+
 
         [TestMethod]
         public async Task TestUpdateChecker()
         {
             ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
-            IAccountRepository accountRepository = new AccountRepository();
-            var qr = await rp.FindWithCode("xyz");
-            if (qr.Data.Count() == 0)
-                return;
-            TorqueWrenchMeasure test =await rp.Find( qr.Data.FirstOrDefault().Id);
-            var users = await accountRepository.LoadAll();
-            
-            //if (test == null)
-            //{
-            //    test = new TorqueWrenchMeasure { TestCode = "xyz", TestDate = DateTime.Now, Tester = users.First() };
-            //    await rp.Add(test);
-            //}
-            test.Checker = "fvd";
-          
-            var result = await rp.Update(test);
-            Assert.IsTrue(result);
+            var sr = await rp.Find("sn223");
+            foreach (var tst in sr.Data)
+                tst.Dump();
         }
 
         [TestMethod]

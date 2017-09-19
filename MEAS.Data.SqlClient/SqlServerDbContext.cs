@@ -16,7 +16,7 @@ namespace MEAS.Data
         {
             this.Database.Log = x =>
             {
-               // Console.WriteLine(x); 
+                // Console.WriteLine(x); 
             };
         }
 
@@ -35,7 +35,7 @@ namespace MEAS.Data
 
         public DbSet<TorqueWrenchProduct> TorqueWrenchProducts { get; set; }
 
-        public DbSet<TorqueWrenchMeasureSettingDao> TorqueWrenchMeasureSettings { get; set; }
+        public DbSet<TorqueStandard> TorqueStandards { get; set; }
 
 
         //public DbSet<T> GetDbSet<T>()
@@ -48,7 +48,7 @@ namespace MEAS.Data
         //}
 
 
-       
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -59,6 +59,7 @@ namespace MEAS.Data
             modelBuilder.Configurations.Add(new TorqueWrenchMap());
             modelBuilder.Configurations.Add(new CustomerContactMap());
             modelBuilder.Configurations.Add(new CustomerMap());
+            modelBuilder.Configurations.Add(new TorqueStandardMap());
             base.OnModelCreating(modelBuilder);
         }
 

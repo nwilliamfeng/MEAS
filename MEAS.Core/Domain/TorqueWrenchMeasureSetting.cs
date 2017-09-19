@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MEAS
 {
-    public class TorqueWrenchMeasureSetting : Entity
+    public sealed class TorqueWrenchMeasureSetting 
     {
         public TorqueWrenchMeasureSetting()
         {
@@ -15,9 +15,7 @@ namespace MEAS
 
         public int TestCount { get; set; }
 
-        public ICollection<double> NominalValues { get;  set; }
-
-     
-        
+        public IList<double> NominalValues { get;  set; }
+         
     }
 }

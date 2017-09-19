@@ -12,7 +12,7 @@ namespace MEAS.Data
     {
         public TorqueWrenchProductMap()
         {
-            HasKey(x => x.Id);
+            HasKey(x => x.Id);          
             Property(x => x.Id).HasColumnOrder(1).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
             Property(x => x.Name).HasColumnOrder(2).IsOptional() ;
             Property(x => x.Model).HasColumnOrder(3).IsRequired();

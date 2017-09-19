@@ -27,7 +27,8 @@ namespace MEAS.Data.SqlClient
             });
         }
 
-   
+
+         
 
         public Task<SearchResult<TorqueWrenchProduct>> FindWithRange(double min, double max, int pageSize = 5, int pageNumber = 0)
         {

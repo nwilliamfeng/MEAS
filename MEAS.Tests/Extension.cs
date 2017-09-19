@@ -18,7 +18,7 @@ namespace MEAS.Tests
             obj.GetType().GetProperties().ToList().ForEach(x =>
             {
                 var ov = x.GetValue(obj);
-                if (ov is Entity)
+                if (ov is Entity || ov is TorqueWrenchMeasure.TorqueWrenchMeasureData)
                     ov.Dump();
                 else if(ov is byte[])
                 {

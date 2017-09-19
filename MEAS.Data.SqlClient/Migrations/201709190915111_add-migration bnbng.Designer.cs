@@ -7,13 +7,13 @@ namespace MEAS.Data.SqlClient.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class fdsfds : IMigrationMetadata
+    public sealed partial class addmigrationbnbng : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(fdsfds));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addmigrationbnbng));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709180924295_fdsfds"; }
+            get { return "201709190915111_add-migration bnbng"; }
         }
         
         string IMigrationMetadata.Source

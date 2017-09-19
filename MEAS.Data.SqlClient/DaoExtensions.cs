@@ -19,14 +19,30 @@ namespace MEAS.Data
             return entitys.Select(x => Mapper.Map<TorqueWrenchMeasureDao>(x));
         }
 
-        public static  TorqueWrenchMeasure  ToEntity(this  TorqueWrenchMeasureDao  dao)
+        public static TorqueWrenchMeasure ToEntity(this TorqueWrenchMeasureDao dao)
         {
-            return  Mapper.Map<TorqueWrenchMeasure>(dao);
+            var result = Mapper.Map<TorqueWrenchMeasureDao, TorqueWrenchMeasure>(dao, x =>
+            {
+                x.AfterMap((a, b) =>
+                {
+                    Mapper.Initialize(cfg => cfg.CreateMap<TorqueWrenchMeasure.TorqueWrenchMeasureData, TorqueWrenchMeasure.TorqueWrenchMeasureData>());
+                    AutoMapper.Mapper.Map(Newtonsoft.Json.JsonConvert.DeserializeObject<TorqueWrenchMeasure.TorqueWrenchMeasureData>(a.Data), b.Data);
+                });
+            });
+            return result;
         }
 
         public static  TorqueWrenchMeasureDao  ToDao(this  TorqueWrenchMeasure  entity )
         {
-            return  Mapper.Map<TorqueWrenchMeasureDao>(entity);
+            
+            return  Mapper.Map<TorqueWrenchMeasure, TorqueWrenchMeasureDao>(entity,x=>
+            {
+                x.AfterMap((a, b) =>
+                {
+                 
+                      b.Data=   Newtonsoft.Json.JsonConvert.SerializeObject(a.Data);
+                });
+            }  );
         }
 
      

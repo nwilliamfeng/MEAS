@@ -75,14 +75,15 @@ namespace MEAS.Tests.Data
         public async Task TestUpdateWrench()
         {
             ITorqueWrenchRepository rp = new TorqueWrenchRepository();
-            var wrench = await rp.Find(4);
+            var wrench = await rp.Find(5);
             wrench.Dump();
-
-            wrench.SerialNumber = "897";
-            var newCustomer =await new CustomerRepository().Find(6);
-            var newProduct = await new TorqueWrenchProductRepository().Find(7);
-            wrench.Owner = newCustomer;
-            wrench.Product = newProduct;
+ 
+            wrench.SerialNumber = "dgh";
+             var customer =await new CustomerRepository().Find(4);
+            //    var product = await new TorqueWrenchProductRepository().Find(1);
+            var product = new TorqueWrenchProduct { Manufacturer = "abc", MaxRange = 200, MinRange = 20, WorkDirection = WorkDirection.Clockwise, Model = "modelx" , Name="tnxx"};
+            wrench.Owner = customer;
+            wrench.Product = product;
             var result =await rp.Update(wrench);
             wrench.Dump();
             Assert.IsTrue(result);

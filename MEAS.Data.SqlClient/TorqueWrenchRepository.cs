@@ -82,7 +82,7 @@ namespace MEAS.Data.SqlClient
             {
                 using (var db = new SqlServerDbContext())
                 {
-                   // db.Configuration.LazyLoadingEnabled = false;
+                    db.Configuration.LazyLoadingEnabled = false;
                     var count = db.TorqueWrenchs.Where(x => x.SerialNumber.Contains(sn)).Select(x => x.Id).Count();
                     var data = db.TorqueWrenchs
                     .Include(x=>x.Product)
@@ -131,23 +131,26 @@ namespace MEAS.Data.SqlClient
             {
                 dc.Configuration.ValidateOnSaveEnabled = false;
                 var original = dc.TorqueWrenchs.Include(x => x.Owner).Include(x=>x.Product).Single(x => x.Id == source.Id);
-      
-                if (!original.Owner.Equals(source.Owner))  
-                {
-                    if (source.Owner.Id > 0)
-                        dc.Customers.Attach(source.Owner);
-                    else
-                        dc.Customers.Add(source.Owner);
-                    original.Owner = source.Owner;
-                }
-                if (!original.Product.Equals(source.Product))  
-                {
-                    if (source.Product.Id > 0)
-                        dc.TorqueWrenchProducts.Attach(source.Product);
-                    else
-                        dc.TorqueWrenchProducts.Add(source.Product);
-                    original.Product = source.Product;
-                }
+                  dc.Customers.ChangeReferenceIfNotEqual(original.Owner, source.Owner, () => original.Owner = source.Owner);
+                //if (!original.Owner.Equals(source.Owner))
+                //{
+                //    if (source.Owner.Id > 0)
+                //        dc.Customers.Attach(source.Owner);
+                //    else
+                //        dc.Customers.Add(source.Owner);
+                //    original.Owner = source.Owner;
+                //}
+
+                   dc.TorqueWrenchProducts.ChangeReferenceIfNotEqual(original.Product, source.Product, () => original.Product = source.Product);
+
+                //if (!original.Product.Equals(source.Product))
+                //{
+                //    if (source.Product.Id > 0)
+                //        dc.TorqueWrenchProducts.Attach(source.Product);
+                //    else
+                //        dc.TorqueWrenchProducts.Add(source.Product);
+                //    original.Product = source.Product;
+                //}
 
                 var entry = dc.Entry(original);
                 entry.CurrentValues.SetValues(source);

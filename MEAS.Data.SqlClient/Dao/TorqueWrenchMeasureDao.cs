@@ -11,7 +11,11 @@ namespace MEAS.Data
     [Serializable]
     public class TorqueWrenchMeasureDao : MeasureDaoBase
     {
-         public virtual TorqueWrenchMeasureSettingDao Setting { get; set; } 
+     
+        public virtual string Data { get; set; }
 
+        public virtual TorqueWrench Measurand { get; set; }
+
+        public virtual TorqueStandard Standard { get; set; }
     }
 }

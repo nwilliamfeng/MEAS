@@ -4,7 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Reflection;
 using AutoMapper;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using System.Linq.Expressions;
 
 namespace MEAS.Data
 {
@@ -19,17 +24,66 @@ namespace MEAS.Data
             return null;
         }
 
-
-        public static void SetDifferent<T>(this DbContext dc, T source, T target)
+        /// <summary>
+        /// 检查两个引用的实体实例是否一致，如果不一样则变更
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ds"></param>
+        /// <param name="target"></param>
+        /// <param name="source"></param>
+        /// <param name="complete"></param>
+        public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds, T target, T source, Action complete)
           where T : class, IEntity
         {
-            if (!target.Equals(source))
+            if (target.Equals(source))
+                return;
+            if (source.Id > 0)
+                ds.Attach(source);
+            else
+                ds.Add(source);
+            if (complete != null)
+                complete();
+        }
+
+        //public static void CheckReference<T,X>(this DbSet<X> dc, Expression<Func<T, X>> exp, T source, T target)
+        // where T : class, IEntity
+        // where X : class, IEntity
+        //{
+
+        //    var me = exp.Body as MemberExpression;
+        //    var pi = me.Member as PropertyInfo;
+         
+        //    var sourcePropertyValue = pi.GetValue(source, null) as X;
+        //    var targetPropertyValue = pi.GetValue(target,null) as X;
+ 
+        //    if (!targetPropertyValue.Equals(sourcePropertyValue))
+        //    {
+        //        if (source.Id > 0)
+        //            dc.Attach(sourcePropertyValue);
+        //        else
+        //            dc.Add(sourcePropertyValue);
+        //       pi.SetValue(target, sourcePropertyValue,null); //当新建时此设置无效
+             
+        //    }
+           
+        //}
+
+        public static ObjectStateManager ObjectStateManager(this DbContext dc)
+        {
+            return ((IObjectContextAdapter)dc).ObjectContext.ObjectStateManager;
+        }
+
+
+        public static void Dump(this DbEntityValidationException ex)
+        {
+            foreach (var validationErrors in ex.EntityValidationErrors) //打印错误
             {
-                if (source.Id > 0)
-                    dc.GetDbSet<T>().Attach(source);
-                else
-                    dc.GetDbSet<T>().Add(source);
-                Mapper.Map(source, target);
+                foreach (var validationError in validationErrors.ValidationErrors)
+                {
+                    System.Console.WriteLine("Property: {0} Error: {1}" +
+                                            validationError.PropertyName +
+                                            validationError.ErrorMessage);
+                }
             }
         }
     }
