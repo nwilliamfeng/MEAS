@@ -109,17 +109,16 @@ namespace MEAS.Tests.Data
         public async Task TestUpdate()
         {
             TorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
-            var test =await  rp.Find(18);
+            var test =await  rp.Find(1);
 
             // test.Dump();
 
-             test.Measurand = await new TorqueWrenchRepository().Find(3);
-            //TorqueWrenchProduct product = await new TorqueWrenchProductRepository().Find(1);
-            //Customer customer = await new CustomerRepository().Find(1016);
-
+            //  test.Measurand = await new TorqueWrenchRepository().Find(5);
+            //TorqueWrenchProduct product = await new TorqueWrenchProductRepository().Find(7);
+            //Customer customer = await new CustomerRepository().Find(5);
             //test.Measurand = new TorqueWrench { ManufactureDate = DateTime.Now, Product = product, Owner = customer, SerialNumber = "sn09189" };
 
-            test.TestCode = "2334";
+            test.TestCode = "41444";
             test.Data.ZeroPoint = 121 ;
             test.Data.GagingPoints[0].Nominal = 111;
             test.Data.GagingPoints[1].Values[1] = 111;
@@ -165,7 +164,8 @@ namespace MEAS.Tests.Data
         {
           
           var et= await EnvironmentRepository.Find(1);
-            et.Address = "dfdfs";
+            et.Dump();
+            et.Address = "gggg";
           await  EnvironmentRepository.Update(et);
             et.Dump();
         }

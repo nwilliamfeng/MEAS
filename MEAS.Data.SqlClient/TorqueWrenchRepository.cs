@@ -41,7 +41,7 @@ namespace MEAS.Data.SqlClient
                         dc.Customers.Add(wrench.Owner);
                     if (wrench.Product.Id == 0)
                         dc.TorqueWrenchProducts.Add(wrench.Product);
-                    var entry = dc.TorqueWrenchs.Attach(wrench);       //必须先attach，否则ef会自动插入新的userinfo而不是之前存在的userinfo         
+                    dc.TorqueWrenchs.Attach(wrench);       //必须先attach，否则ef会自动插入新的userinfo而不是之前存在的userinfo         
                     var result = dc.TorqueWrenchs.Add(wrench);
                     var count = await dc.SaveChangesAsync();
                      return count > 0;

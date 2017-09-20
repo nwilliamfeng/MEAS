@@ -10,19 +10,18 @@ namespace MEAS.Data.SqlClient
 {
     public class EnvironmentRepository :RepositoryBase<Environment>,  IEnvironmentRepository
     {
-        //public async Task<bool> Add(Environment environment)
+        //public override async Task<bool> Add(Environment environment)
         //{
 
         //    using (var db = new SqlServerDbContext())
         //    {
-        //        var ev= db.Environments.Add(environment);
+
+
+        //        db.Entry(environment).State = EntityState.Added;
+               
         //        var count = await db.SaveChangesAsync();
-        //        if (count > 0)
-        //        {
-        //            environment.Id = ev.Id;
-        //            environment.Timestamp = ev.Timestamp;
-        //        }
-             
+              
+        //        Console.WriteLine(db.Entry(environment).State);
         //        return count == 1;
         //    }
         //}
@@ -63,17 +62,16 @@ namespace MEAS.Data.SqlClient
         //    }
         //}
 
-        //public async Task<bool> Update(Environment environment)
+        //public override async Task<bool> Update(Environment environment)
         //{
         //    using (var db = new SqlServerDbContext())
-        //    {                
-        //        var ev= db.Environments.Attach(environment);
-        //        DbEntityEntry<Environment> entry = db.Entry(environment);
+        //    {
+            
+        //         db.Entry(environment).State= EntityState.Modified;
 
-        //        db.ObjectStateManager().ChangeObjectState(environment, EntityState.Modified);
+             
         //        var count = await db.SaveChangesAsync();
-        //        if (count > 0)
-        //            environment.Timestamp = ev.Timestamp;
+            
         //        return count == 1;
         //    }
         //}

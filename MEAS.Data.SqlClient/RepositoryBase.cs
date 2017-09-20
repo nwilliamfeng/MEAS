@@ -36,7 +36,8 @@ namespace MEAS.Data.SqlClient
             {
                 try
                 {
-                    var ev = db.GetDbSet<T>().Add(entity);
+                    // var ev = db.GetDbSet<T>().Add(entity);
+                    db.Entry(entity).State= EntityState.Added;                    
                     var count = await db.SaveChangesAsync();
 
                     return count > 0;
@@ -83,7 +84,7 @@ namespace MEAS.Data.SqlClient
             {
                 try
                 {
-                    var ev = db.GetDbSet<T>().Attach(et);
+                  //  var ev = db.GetDbSet<T>().Attach(et);
                     db.Entry(et).State = EntityState.Modified;
                     return await db.SaveChangesAsync() > 0;
                 }

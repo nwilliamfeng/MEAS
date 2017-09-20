@@ -56,14 +56,21 @@ namespace MEAS.Data
         
         //}
 
-        public static DbContext ChangeWrench(this DbContext dc,TorqueWrench target,TorqueWrench source)
-        {
-            if (target.Id == source.Id)
-                return dc;
-            dc.GetDbSet<TorqueWrenchProduct>().ChangeReferenceIfNotEqual(target.Product , source.Product,()=>target.Product =source.Product);
-            dc.GetDbSet<Customer>().ChangeReferenceIfNotEqual(target.Owner, source.Owner,()=>target.Owner=source.Owner);
+        //public static DbContext Check<T>(this DbContext dc,TorqueWrench target,TorqueWrench source)
+        //{
+        //    if (target.Id == source.Id)
+        //        return dc;
+        //    dc.GetDbSet<TorqueWrenchProduct>().ChangeReferenceIfNotEqual(target.Product , source.Product,()=>target.Product =source.Product);
+        //    dc.GetDbSet<Customer>().ChangeReferenceIfNotEqual(target.Owner, source.Owner,()=>target.Owner=source.Owner);
             
-            return dc;
+        //    return dc;
+        //}
+
+       
+        public static DbContext Check<T>(this DbContext dc, T original ,T source)
+            where T:class,IEntity
+        {
+            dc.GetDbSet<T>().Find(source.Id)
         }
         
 
