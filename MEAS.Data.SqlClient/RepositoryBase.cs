@@ -17,11 +17,13 @@ namespace MEAS.Data.SqlClient
         {
             Mapper.Initialize(x =>
             {
-                x.AddProfile<EntityToDaoMappingProfile>();
-                x.AddProfile<DaoToEntityMappingProfile>();
                 x.CreateMap<TorqueWrench, TorqueWrench>();
                 x.CreateMap<Customer, Customer>();
                 x.CreateMap<TorqueWrenchMeasure.TorqueWrenchMeasureData, TorqueWrenchMeasure.TorqueWrenchMeasureData>();
+                x.AddProfile<EntityToDaoMappingProfile>();
+                x.AddProfile<DaoToEntityMappingProfile>();
+               
+               
                 x.CreateMissingTypeMaps = true; //支持匿名类型
             });
 
@@ -58,6 +60,7 @@ namespace MEAS.Data.SqlClient
                 }
             });
         }
+
 
 
 

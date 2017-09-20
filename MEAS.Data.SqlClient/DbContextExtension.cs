@@ -35,7 +35,7 @@ namespace MEAS.Data
         public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds, T target, T source, Action complete)
           where T : class, IEntity
         {
-            if (target.Equals(source))
+            if (target.Id == source.Id)//注意：此处不能用equal比较，即使是重写equal，因为有时ef传的是代理类对象，只能比较其id
                 return;
             if (source.Id > 0)
                 ds.Attach(source);
@@ -45,6 +45,28 @@ namespace MEAS.Data
                 complete();
         }
 
+        //public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds,  T source)
+        //  where T : class, IEntity
+        //{
+       
+        //    if (source.Id > 0)
+        //        ds.Attach(source);
+        //    else
+        //        ds.Add(source);
+        
+        //}
+
+        public static DbContext ChangeWrench(this DbContext dc,TorqueWrench target,TorqueWrench source)
+        {
+            if (target.Id == source.Id)
+                return dc;
+            dc.GetDbSet<TorqueWrenchProduct>().ChangeReferenceIfNotEqual(target.Product , source.Product,()=>target.Product =source.Product);
+            dc.GetDbSet<Customer>().ChangeReferenceIfNotEqual(target.Owner, source.Owner,()=>target.Owner=source.Owner);
+            
+            return dc;
+        }
+        
+
         //public static void CheckReference<T,X>(this DbSet<X> dc, Expression<Func<T, X>> exp, T source, T target)
         // where T : class, IEntity
         // where X : class, IEntity
@@ -52,10 +74,10 @@ namespace MEAS.Data
 
         //    var me = exp.Body as MemberExpression;
         //    var pi = me.Member as PropertyInfo;
-         
+
         //    var sourcePropertyValue = pi.GetValue(source, null) as X;
         //    var targetPropertyValue = pi.GetValue(target,null) as X;
- 
+
         //    if (!targetPropertyValue.Equals(sourcePropertyValue))
         //    {
         //        if (source.Id > 0)
@@ -63,9 +85,9 @@ namespace MEAS.Data
         //        else
         //            dc.Add(sourcePropertyValue);
         //       pi.SetValue(target, sourcePropertyValue,null); //当新建时此设置无效
-             
+
         //    }
-           
+
         //}
 
         public static ObjectStateManager ObjectStateManager(this DbContext dc)

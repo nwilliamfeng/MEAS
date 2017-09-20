@@ -115,10 +115,10 @@ namespace MEAS.Data.SqlClient
             {
                 using (var db = new SqlServerDbContext())
                 {
-                    db.Configuration.LazyLoadingEnabled = false;
+                 //   db.Configuration.LazyLoadingEnabled = false;
                     return db.TorqueWrenchs
                      .Include(x => x.Product)
-                    .Include(x => x.Owner)
+                    .Include(x => x.Owner.Contacts)
                     .FirstOrDefault(x => x.Id == id);
 
                 }
@@ -142,7 +142,7 @@ namespace MEAS.Data.SqlClient
                 //}
 
                    dc.TorqueWrenchProducts.ChangeReferenceIfNotEqual(original.Product, source.Product, () => original.Product = source.Product);
-
+       
                 //if (!original.Product.Equals(source.Product))
                 //{
                 //    if (source.Product.Id > 0)

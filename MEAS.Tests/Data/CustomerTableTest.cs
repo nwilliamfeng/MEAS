@@ -33,7 +33,7 @@ namespace MEAS.Tests.Data
         public async Task TestLoadCustomer()
         {
             ICustomerRepository rp = new CustomerRepository();
-            Customer customer = await rp.Find(1);
+            Customer customer = await rp.Find(4);
            //  customer.Dump();
             Assert.IsTrue(customer!=null);
             foreach (var c in customer.Contacts)

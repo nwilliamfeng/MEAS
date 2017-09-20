@@ -6,7 +6,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-
+using Newtonsoft.Json;
 
 namespace MEAS.Data.SqlClient
 {
@@ -85,16 +85,14 @@ namespace MEAS.Data.SqlClient
                 using (var db = new SqlServerDbContext())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
-                    var data = db.TorqueWrenchMeasures
+                    return db.TorqueWrenchMeasures
                     .Where(x => x.Id == id)
-                    .Include(x => x.Measurand.Owner)
-                    .Include(x=>x.Measurand.Product)
+                    .Include(x => x.Measurand.Owner.Contacts)
+                    .Include(x => x.Measurand.Product)
                     .Include(x => x.Standard)
                     .Include(x => x.Environment)
-                    .FirstOrDefault();
-              
-                    return data.ToEntity();
-               
+                    .FirstOrDefault()?.ToEntity();
+
                 }
             });
         }
@@ -138,41 +136,103 @@ namespace MEAS.Data.SqlClient
             }
         }
 
+        //public override async Task<bool> Update(TorqueWrenchMeasure measure)
+        //{
+        //    using (var dc = new SqlServerDbContext())
+        //    {
+        //        dc.Configuration.LazyLoadingEnabled = false;
+        //        dc.Configuration.ValidateOnSaveEnabled = false;
+        //        var original = dc.TorqueWrenchMeasures
+        //            .Include(x => x.Environment)
+        //            .Include(x => x.Measurand)
+
+        //            .AsNoTracking()
+        //            .FirstOrDefault(x => x.Id == measure.Id);
+
+        //        var source = measure.ToDao();
+
+        //        //if (!original.Environment.Equals(source.Environment)) //如果所指向的引用有变更(即id不同)，则赋值
+        //        //{
+        //        //    if (source.Environment.Id > 0)
+        //        //        dc.Environments.Attach(source.Environment); //如果不attach，则ef会让db自动添加一个实例
+        //        //    else
+        //        //        dc.Environments.Add(source.Environment);
+        //        //    original.Environment = source.Environment;
+        //        //}
+
+
+        //        dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);
+
+        //        dc.Environments.ChangeReferenceIfNotEqual(original.Environment, source.Environment, () => original.Environment = source.Environment);
+        //        dc.TorqueStandards.ChangeReferenceIfNotEqual(original.Standard, source.Standard, () => original.Standard = source.Standard);
+
+
+
+        //        dc.Entry(original).CurrentValues.SetValues(source);
+
+        //        var result = await dc.SaveChangesAsync();
+        //        if (result > 0)
+        //        {
+        //           Mapper.Map( source.ToEntity(),measure);
+        //        }
+        //        return result > 0;
+        //    }
+        //}
+
         public override async Task<bool> Update(TorqueWrenchMeasure measure)
         {
             using (var dc = new SqlServerDbContext())
             {
-                dc.Configuration.ValidateOnSaveEnabled = false;
-                var original = dc.TorqueWrenchMeasures
-                    .Include(x => x.Environment)
-                    .Include(x=>x.Measurand.Product)
-                    .Include(x=>x.Measurand.Owner)
-                    .FirstOrDefault(x => x.Id == measure.Id);
                 var source = measure.ToDao();
+                dc.Configuration.ValidateOnSaveEnabled = false;
+                 var original = dc.TorqueWrenchMeasures.Find(measure.Id);
+                // source.Measurand.Owner.Contacts = null;
 
-                //if (!original.Environment.Equals(source.Environment)) //如果所指向的引用有变更(即id不同)，则赋值
-                //{
-                //    if (source.Environment.Id > 0)
-                //        dc.Environments.Attach(source.Environment); //如果不attach，则ef会让db自动添加一个实例
-                //    else
-                //        dc.Environments.Add(source.Environment);
-                //    original.Environment = source.Environment;
-                //}
+                //dc.TorqueWrenchs.Attach(source.Measurand);
+                //original.Measurand = source.Measurand;
+               
+                var wrench = dc.TorqueWrenchs.Find(measure.Measurand.Id);
+                if (wrench != null) 
+                    original.Measurand = wrench;
+                else
+                {
+                    source.Measurand.Owner.Contacts = null;
+                    original.Measurand = source.Measurand;
+                }
+                //    dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);
+
+
+                dc.TorqueWrenchMeasures.Attach(original);
+
+                
+                var entry = dc.Entry(original);
              
-              //  dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);
-                dc.Environments.ChangeReferenceIfNotEqual(original.Environment, source.Environment, () => original.Environment = source.Environment);
-                dc.TorqueStandards.ChangeReferenceIfNotEqual(original.Standard, source.Standard, () => original.Standard = source.Standard);
+                entry.State = EntityState.Modified;
+              
+                
+                entry.CurrentValues.SetValues(source);
+            
+                Console.WriteLine("entry "+entry.Entity.Measurand?.SerialNumber);
+              
+              
 
+                //   dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);
+               
+             //   dc.Environments.ChangeReferenceIfNotEqual(original.Environment, source.Environment, () => original.Environment = source.Environment);
+            //    dc.TorqueStandards.ChangeReferenceIfNotEqual(original.Standard, source.Standard, () => original.Standard = source.Standard);
 
+                
 
-                dc.Entry(original).CurrentValues.SetValues(source);
+                //dc.Entry(original).CurrentValues.SetValues(source);
+
                 var result = await dc.SaveChangesAsync();
+                
                 if (result > 0)
-                      original.ToEntity2( );
+                {
+                    Mapper.Map(source.ToEntity(), measure);
+                }
                 return result > 0;
             }
         }
-
-
     }
 }

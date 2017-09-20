@@ -11,17 +11,15 @@ namespace MEAS.Data
     {
         public DaoToEntityMappingProfile()
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<TorqueWrenchMeasure.TorqueWrenchMeasureData, TorqueWrenchMeasure.TorqueWrenchMeasureData>());
             this.CreateMap<TorqueWrenchMeasureDao, TorqueWrenchMeasure>().AfterMap((x, y) => //注意在aftermap里打Console.writeline无效
             {
                 var data = JsonConvert.DeserializeObject<TorqueWrenchMeasure.TorqueWrenchMeasureData>(x.Data);
-                Mapper.Initialize(cfg => cfg.CreateMap<TorqueWrenchMeasure.TorqueWrenchMeasureData, TorqueWrenchMeasure.TorqueWrenchMeasureData>());
+       
                 Mapper.Map( data,y.Data );
 
             });
-            //this.CreateMap<TorqueWrenchMeasureSettingDao, TorqueWrenchMeasureSetting>().AfterMap((x,y) =>
-            //{
-            //    y.NominalValues = JsonConvert.DeserializeObject<ICollection<double>>(x.NominalValuesString);
-            //});
+          
      }
 
         public override string ProfileName

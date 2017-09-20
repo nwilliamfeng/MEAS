@@ -7,6 +7,7 @@ using MEAS.Data;
 using MEAS.Data.SqlClient;
 using System.Diagnostics;
 using AutoMapper;
+using Newtonsoft.Json;
 
 namespace MEAS.Tests.Data
 {
@@ -17,7 +18,9 @@ namespace MEAS.Tests.Data
         static TorqueWrenchMeasureTableTest()
         {
             EnvironmentRepository = new EnvironmentRepository();
-           
+       
+            
+
         }
 
         [TestMethod]
@@ -25,8 +28,8 @@ namespace MEAS.Tests.Data
         {
             ITorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
           //   Environment ev = new Environment {Time=DateTime.Now , Address = "bnmb", Humidity = 12, Temperature = 56 };
-          var ev = await EnvironmentRepository.Find(1);
-            var wrench = await new TorqueWrenchRepository().Find(4);
+          var ev = await EnvironmentRepository.Find(2);
+            var wrench = await new TorqueWrenchRepository().Find(1);
           
             var measure = new TorqueWrenchMeasure { TestCode = DateTime.Now.ToShortDateString()+DateTime.Now.Millisecond .ToString(),  Tester = "fedf",Environment=ev ,Measurand=wrench };
             measure.Standard = new TorqueStandard { Name = "sname", CertificateName = "certname" };
@@ -53,8 +56,9 @@ namespace MEAS.Tests.Data
             if (result != null)
             {
                result.Dump();
-               
-                foreach(var g in result.Data .GagingPoints)
+                foreach (var g in result.Measurand.Owner.Contacts)
+                    g.Dump();
+                foreach (var g in result.Data .GagingPoints)
                 Console.WriteLine(g.Nominal);
             }
             
@@ -105,17 +109,28 @@ namespace MEAS.Tests.Data
         public async Task TestUpdate()
         {
             TorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
-            var test =await  rp.Find(1);
-          
-            test.ToDao().Dump();
-            return;
-            test.TestCode = "3d213d";
-            test.Data.ZeroPoint = 3334 ;
-            test.Data.GagingPoints[0].Nominal = 3425;
-            test.Data.GagingPoints[1].Values[1] = 3435;
-            test.Environment = await EnvironmentRepository.Find(1);
-          //  test.Environment = new Environment { Time = DateTime.Now, Address = "newaddr", Humidity = 22, Temperature = 34 };
+            var test =await  rp.Find(18);
+
+            // test.Dump();
+
+             test.Measurand = await new TorqueWrenchRepository().Find(3);
+            //TorqueWrenchProduct product = await new TorqueWrenchProductRepository().Find(1);
+            //Customer customer = await new CustomerRepository().Find(1016);
+
+            //test.Measurand = new TorqueWrench { ManufactureDate = DateTime.Now, Product = product, Owner = customer, SerialNumber = "sn09189" };
+
+            test.TestCode = "2334";
+            test.Data.ZeroPoint = 121 ;
+            test.Data.GagingPoints[0].Nominal = 111;
+            test.Data.GagingPoints[1].Values[1] = 111;
+            test.Environment = await EnvironmentRepository.Find(3);
+            //  test.Environment = new Environment { Time = DateTime.Now, Address = "newaddr", Humidity = 22, Temperature = 34 };
+            
+
+
             var result =await rp.Update(test);
+         //   test.Dump();
+          
             Assert.IsTrue(result);
         }
 
