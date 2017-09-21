@@ -48,12 +48,12 @@ namespace MEAS.Data
         //public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds,  T source)
         //  where T : class, IEntity
         //{
-       
+
         //    if (source.Id > 0)
         //        ds.Attach(source);
         //    else
         //        ds.Add(source);
-        
+
         //}
 
         //public static DbContext Check<T>(this DbContext dc,TorqueWrench target,TorqueWrench source)
@@ -62,19 +62,25 @@ namespace MEAS.Data
         //        return dc;
         //    dc.GetDbSet<TorqueWrenchProduct>().ChangeReferenceIfNotEqual(target.Product , source.Product,()=>target.Product =source.Product);
         //    dc.GetDbSet<Customer>().ChangeReferenceIfNotEqual(target.Owner, source.Owner,()=>target.Owner=source.Owner);
-            
+
         //    return dc;
         //}
 
-       
-        public static DbContext Check<T>(this DbContext dc, T original ,T source)
-            where T:class,IEntity
-        {
-            dc.GetDbSet<T>().Find(source.Id)
-        }
-        
 
-        //public static void CheckReference<T,X>(this DbSet<X> dc, Expression<Func<T, X>> exp, T source, T target)
+        //public static DbContext CheckNavigationProperty<T>(this DbContext dc, T original ,T source,Action<T> afterCheck )
+        //    where T:class,IEntity
+        //{
+        //    if (original.Id == source.Id)
+        //        return dc;
+        //    var exist = dc.GetDbSet<T>().Find(source.Id);
+        //    if (exist != null)
+        //    {
+        //        afterCheck(exist);
+        //    }
+        //}
+
+
+        //public static void CheckReference<T, X>(this DbSet<X> dc, Expression<Func<T, X>> exp, T source, T target)
         // where T : class, IEntity
         // where X : class, IEntity
         //{
@@ -83,19 +89,48 @@ namespace MEAS.Data
         //    var pi = me.Member as PropertyInfo;
 
         //    var sourcePropertyValue = pi.GetValue(source, null) as X;
-        //    var targetPropertyValue = pi.GetValue(target,null) as X;
+        //    var targetPropertyValue = pi.GetValue(target, null) as X;
 
         //    if (!targetPropertyValue.Equals(sourcePropertyValue))
         //    {
         //        if (source.Id > 0)
         //            dc.Attach(sourcePropertyValue);
         //        else
+        //        {
+
         //            dc.Add(sourcePropertyValue);
-        //       pi.SetValue(target, sourcePropertyValue,null); //当新建时此设置无效
+        //        }
+        //        pi.SetValue(target, sourcePropertyValue, null); //当新建时此设置无效
 
         //    }
 
         //}
+
+        public static void CheckReference<T, X>(this  dc, Expression<Func<T, X>> exp, T source, T target)
+    where T : class, IEntity
+    where X : class, IEntity
+        {
+
+            var me = exp.Body as MemberExpression;
+            var pi = me.Member as PropertyInfo;
+
+            var sourcePropertyValue = pi.GetValue(source, null) as X;
+            var targetPropertyValue = pi.GetValue(target, null) as X;
+
+            if (!targetPropertyValue.Equals(sourcePropertyValue))
+            {
+                if (source.Id > 0)
+                    dc.Attach(sourcePropertyValue);
+                else
+                {
+
+                    dc.Add(sourcePropertyValue);
+                }
+                pi.SetValue(target, sourcePropertyValue, null); //当新建时此设置无效
+
+            }
+
+        }
 
         public static ObjectStateManager ObjectStateManager(this DbContext dc)
         {

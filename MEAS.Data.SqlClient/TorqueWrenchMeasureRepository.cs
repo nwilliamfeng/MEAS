@@ -231,8 +231,8 @@ namespace MEAS.Data.SqlClient
 
 
                 dc.Entry(original).CurrentValues.SetValues(source);
-          
-              
+
+                dc.Environments.CheckReference<TorqueWrenchMeasureDao, Environment>(x => x.Environment, source, original);
 
 
                 //   dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);

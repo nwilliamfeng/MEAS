@@ -109,7 +109,7 @@ namespace MEAS.Tests.Data
         public async Task TestUpdate()
         {
             TorqueWrenchMeasureRepository rp = new TorqueWrenchMeasureRepository();
-            var test =await  rp.Find(1);
+            var test =await  rp.Find(18);
 
             // test.Dump();
 
@@ -122,8 +122,9 @@ namespace MEAS.Tests.Data
             test.Data.ZeroPoint = 121 ;
             test.Data.GagingPoints[0].Nominal = 111;
             test.Data.GagingPoints[1].Values[1] = 111;
-            test.Environment = await EnvironmentRepository.Find(3);
-            //  test.Environment = new Environment { Time = DateTime.Now, Address = "newaddr", Humidity = 22, Temperature = 34 };
+       //     test.Environment = await EnvironmentRepository.Find(3);
+   
+               test.Environment = new Environment { Time = DateTime.Now, Address = "abcded", Humidity = 12, Temperature =64 };
             
 
 
