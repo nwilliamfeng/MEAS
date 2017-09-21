@@ -220,31 +220,43 @@ namespace MEAS.Data.SqlClient
                 //else
                 //{
                 //    source.Measurand.Owner.Contacts = null;
-                //    dc.TorqueWrenchs.Attach(source.Measurand);
+                //    //  dc.TorqueWrenchs.Attach(source.Measurand);
+                //    dc.Entry(source.Measurand).State = EntityState.Unchanged;
                 //    dc.TorqueWrenchs.Add(source.Measurand);
                 //    original.Measurand = source.Measurand;
                 //}
 
 
-                //  dc.TorqueWrenchMeasures.Attach(original);
 
+                //if (source.Measurand.Id > 0)
+                //{
+                //    source.Measurand.Owner.Contacts = null;
+                //    dc.Entry(source.Measurand).State = EntityState.Unchanged;
+                //    original.Measurand = source.Measurand;
+                //}
+                //else
+                //{
+                //    source.Measurand.Owner.Contacts = null;
+                //    //  dc.TorqueWrenchs.Attach(source.Measurand);
+                //    dc.Entry(source.Measurand).State = EntityState.Unchanged;
+                //    dc.TorqueWrenchs.Add(source.Measurand);
+                //    original.Measurand = source.Measurand;
+                //}
 
-
+                source.Measurand.Owner.Contacts = null;
+                dc.CheckReference(x => x.Measurand, source, original)
+                    .CheckReference(x => x.Environment, source, original);
+ 
                 dc.Entry(original).CurrentValues.SetValues(source);
 
-                dc.Environments.CheckReference<TorqueWrenchMeasureDao, Environment>(x => x.Environment, source, original);
+                dc.Entry(original).State = EntityState.Modified;
+ 
 
+                 
 
-                //   dc.TorqueWrenchs.ChangeReferenceIfNotEqual(original.Measurand, source.Measurand, () => original.Measurand = source.Measurand);
+                 //dc.Entry(original).CurrentValues.SetValues(source);
 
-                //   dc.Environments.ChangeReferenceIfNotEqual(original.Environment, source.Environment, () => original.Environment = source.Environment);
-                //    dc.TorqueStandards.ChangeReferenceIfNotEqual(original.Standard, source.Standard, () => original.Standard = source.Standard);
-
-
-
-                //dc.Entry(original).CurrentValues.SetValues(source);
-
-                var result = await dc.SaveChangesAsync();
+                 var result = await dc.SaveChangesAsync();
 
                 if (result > 0)
                 {

@@ -24,26 +24,26 @@ namespace MEAS.Data
             return null;
         }
 
-        /// <summary>
-        /// 检查两个引用的实体实例是否一致，如果不一样则变更
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ds"></param>
-        /// <param name="target"></param>
-        /// <param name="source"></param>
-        /// <param name="complete"></param>
-        public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds, T target, T source, Action complete)
-          where T : class, IEntity
-        {
-            if (target.Id == source.Id)//注意：此处不能用equal比较，即使是重写equal，因为有时ef传的是代理类对象，只能比较其id
-                return;
-            if (source.Id > 0)
-                ds.Attach(source);
-            else
-                ds.Add(source);
-            if (complete != null)
-                complete();
-        }
+        ///// <summary>
+        ///// 检查两个引用的实体实例是否一致，如果不一样则变更
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="ds"></param>
+        ///// <param name="target"></param>
+        ///// <param name="source"></param>
+        ///// <param name="complete"></param>
+        //public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds, T target, T source, Action complete)
+        //  where T : class, IEntity
+        //{
+        //    if (target.Id == source.Id)//注意：此处不能用equal比较，即使是重写equal，因为有时ef传的是代理类对象，只能比较其id
+        //        return;
+        //    if (source.Id > 0)
+        //        ds.Attach(source);
+        //    else
+        //        ds.Add(source);
+        //    if (complete != null)
+        //        complete();
+        //}
 
         //public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds,  T source)
         //  where T : class, IEntity
@@ -106,31 +106,38 @@ namespace MEAS.Data
 
         //}
 
-        public static void CheckReference<T, X>(this  dc, Expression<Func<T, X>> exp, T source, T target)
-    where T : class, IEntity
-    where X : class, IEntity
+        public static DbContext CheckReference<T, X>(this DbContext dc, Expression<Func<T, X>> exp, T source, T target )
+        where T : class, IEntity
+        where X : class, IEntity
         {
-
+            //if (beforeCheck != null)
+            //    beforeCheck();
             var me = exp.Body as MemberExpression;
             var pi = me.Member as PropertyInfo;
 
+           
             var sourcePropertyValue = pi.GetValue(source, null) as X;
             var targetPropertyValue = pi.GetValue(target, null) as X;
 
             if (!targetPropertyValue.Equals(sourcePropertyValue))
             {
-                if (source.Id > 0)
-                    dc.Attach(sourcePropertyValue);
+                if (sourcePropertyValue.Id > 0)
+                    dc.Entry(sourcePropertyValue).State = EntityState.Unchanged;
                 else
                 {
-
-                    dc.Add(sourcePropertyValue);
+                    dc.Entry(sourcePropertyValue).State = EntityState.Unchanged;
+                    dc.Entry(sourcePropertyValue).State = EntityState.Added;
                 }
-                pi.SetValue(target, sourcePropertyValue, null); //当新建时此设置无效
+
+                pi.SetValue(target, sourcePropertyValue);
 
             }
 
+
+            return dc;
         }
+
+
 
         public static ObjectStateManager ObjectStateManager(this DbContext dc)
         {

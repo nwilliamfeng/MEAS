@@ -79,9 +79,9 @@ namespace MEAS.Tests.Data
             wrench.Dump();
  
             wrench.SerialNumber = "dgh";
-             var customer =await new CustomerRepository().Find(4);
-            //    var product = await new TorqueWrenchProductRepository().Find(1);
-            var product = new TorqueWrenchProduct { Manufacturer = "abc", MaxRange = 200, MinRange = 20, WorkDirection = WorkDirection.Clockwise, Model = "modelx" , Name="tnxx"};
+             var customer =await new CustomerRepository().Find(6);
+              var product = await new TorqueWrenchProductRepository().Find(10);
+           // var product = new TorqueWrenchProduct { Manufacturer = "nmb", MaxRange = 100, MinRange = 10, WorkDirection = WorkDirection.Clockwise, Model = "modelx" , Name="tnxx"};
             wrench.Owner = customer;
             wrench.Product = product;
             var result =await rp.Update(wrench);
