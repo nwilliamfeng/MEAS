@@ -24,120 +24,73 @@ namespace MEAS.Data
             return null;
         }
 
-        ///// <summary>
-        ///// 检查两个引用的实体实例是否一致，如果不一样则变更
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="ds"></param>
-        ///// <param name="target"></param>
-        ///// <param name="source"></param>
-        ///// <param name="complete"></param>
-        //public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds, T target, T source, Action complete)
-        //  where T : class, IEntity
+
+        //public static DbContext UpdateNavigationProperty<T, X>(this DbContext dc, Expression<Func<T, X>> exp, T source, T target ,Action beforeUpdate=null)
+        //where T : class, IEntity
+        //where X : class, IEntity
         //{
-        //    if (target.Id == source.Id)//注意：此处不能用equal比较，即使是重写equal，因为有时ef传的是代理类对象，只能比较其id
-        //        return;
-        //    if (source.Id > 0)
-        //        ds.Attach(source);
-        //    else
-        //        ds.Add(source);
-        //    if (complete != null)
-        //        complete();
-        //}
-
-        //public static void ChangeReferenceIfNotEqual<T>(this DbSet<T> ds,  T source)
-        //  where T : class, IEntity
-        //{
-
-        //    if (source.Id > 0)
-        //        ds.Attach(source);
-        //    else
-        //        ds.Add(source);
-
-        //}
-
-        //public static DbContext Check<T>(this DbContext dc,TorqueWrench target,TorqueWrench source)
-        //{
-        //    if (target.Id == source.Id)
-        //        return dc;
-        //    dc.GetDbSet<TorqueWrenchProduct>().ChangeReferenceIfNotEqual(target.Product , source.Product,()=>target.Product =source.Product);
-        //    dc.GetDbSet<Customer>().ChangeReferenceIfNotEqual(target.Owner, source.Owner,()=>target.Owner=source.Owner);
-
-        //    return dc;
-        //}
-
-
-        //public static DbContext CheckNavigationProperty<T>(this DbContext dc, T original ,T source,Action<T> afterCheck )
-        //    where T:class,IEntity
-        //{
-        //    if (original.Id == source.Id)
-        //        return dc;
-        //    var exist = dc.GetDbSet<T>().Find(source.Id);
-        //    if (exist != null)
-        //    {
-        //        afterCheck(exist);
-        //    }
-        //}
-
-
-        //public static void CheckReference<T, X>(this DbSet<X> dc, Expression<Func<T, X>> exp, T source, T target)
-        // where T : class, IEntity
-        // where X : class, IEntity
-        //{
-
+        //    if (beforeUpdate != null)
+        //        beforeUpdate();
         //    var me = exp.Body as MemberExpression;
         //    var pi = me.Member as PropertyInfo;
 
         //    var sourcePropertyValue = pi.GetValue(source, null) as X;
         //    var targetPropertyValue = pi.GetValue(target, null) as X;
+        //    dc.Entry(targetPropertyValue).State = EntityState.Detached; //旧对象必须要detached，否则新增时部分复合实体ef会抛异常
 
         //    if (!targetPropertyValue.Equals(sourcePropertyValue))
         //    {
-        //        if (source.Id > 0)
-        //            dc.Attach(sourcePropertyValue);
+        //        if (sourcePropertyValue.Id > 0)
+        //            dc.Entry(sourcePropertyValue).State = EntityState.Unchanged;
         //        else
         //        {
-
-        //            dc.Add(sourcePropertyValue);
-        //        }
-        //        pi.SetValue(target, sourcePropertyValue, null); //当新建时此设置无效
-
+        //            dc.Entry(sourcePropertyValue).State = EntityState.Unchanged;                  
+        //           dc.Entry(sourcePropertyValue).State = EntityState.Added;
+        //        }         
+        //        pi.SetValue(target, sourcePropertyValue);
         //    }
-
+        //    return dc;
         //}
 
-        public static DbContext CheckReference<T, X>(this DbContext dc, Expression<Func<T, X>> exp, T source, T target )
-        where T : class, IEntity
-        where X : class, IEntity
+        public static DbContext UpdateNavigationProperty<T, X>(this DbContext dc, Expression<Func<T, X>> exp, T source, T target, Action beforeUpdate = null)
+              where T : class, IEntity
+              where X : class, IEntity
         {
-            //if (beforeCheck != null)
-            //    beforeCheck();
+            if (beforeUpdate != null)
+                beforeUpdate();
             var me = exp.Body as MemberExpression;
             var pi = me.Member as PropertyInfo;
 
-           
             var sourcePropertyValue = pi.GetValue(source, null) as X;
             var targetPropertyValue = pi.GetValue(target, null) as X;
+            dc.Entry(targetPropertyValue).State = EntityState.Detached; //旧对象必须要detached，否则新增时部分复合实体ef会抛异常
 
             if (!targetPropertyValue.Equals(sourcePropertyValue))
             {
                 if (sourcePropertyValue.Id > 0)
                     dc.Entry(sourcePropertyValue).State = EntityState.Unchanged;
                 else
-                {
-                    dc.Entry(sourcePropertyValue).State = EntityState.Unchanged;
-                    dc.Entry(sourcePropertyValue).State = EntityState.Added;
-                }
-
+                    dc.DoAdd(sourcePropertyValue);
                 pi.SetValue(target, sourcePropertyValue);
-
             }
-
-
             return dc;
         }
 
+        private static void DoAdd(this DbContext dc, object obj)
+        {
+         
+            dc.Entry(obj).State = EntityState.Unchanged;
+            dc.Entry(obj).State = EntityState.Added;
 
+            obj.GetType()
+                .GetProperties()
+                .Where(x =>typeof(IEntity).IsAssignableFrom(x.PropertyType))
+                .Select(x => x.GetValue(obj, null))
+                .OfType<IEntity>()
+                .Where(x=>x.Id==0)
+                .ToList()
+                .ForEach(x => DoAdd(dc, x));
+        }
 
         public static ObjectStateManager ObjectStateManager(this DbContext dc)
         {

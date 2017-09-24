@@ -115,6 +115,7 @@ namespace MEAS.Tests.Data
 
             //   test.Measurand = await new TorqueWrenchRepository().Find(5);
             TorqueWrenchProduct product = await new TorqueWrenchProductRepository().Find(7);
+          //  product = new TorqueWrenchProduct { Manufacturer = "ddd", Model = "3434", Name = "dsdsd" };
             Customer customer = await new CustomerRepository().Find(5);
             test.Measurand = new TorqueWrench { ManufactureDate = DateTime.Now, Product = product, Owner = customer, SerialNumber = "bnmb" };
 

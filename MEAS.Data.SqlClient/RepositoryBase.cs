@@ -56,10 +56,11 @@ namespace MEAS.Data.SqlClient
             {
                 using (var db = new SqlServerDbContext())
                 {
-                    //  return await db.GetDbSet<T>().FindAsync(id); //不知道为啥有时会抛出Sequence contains more than one element的异常
-                    return db.GetDbSet<T>().FirstOrDefault(x => x.Id == id);
+                    //return  db.GetDbSet<T>().Find(id); //如果对应的实体被其他表引用会抛出Sequence contains more than one element的异常
+                       return db.GetDbSet<T>().FirstOrDefault(x => x.Id == id);
                 }
             });
+
         }
 
 

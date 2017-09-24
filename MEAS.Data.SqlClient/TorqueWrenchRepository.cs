@@ -115,7 +115,7 @@ namespace MEAS.Data.SqlClient
             {
                 using (var db = new SqlServerDbContext())
                 {
-                 //   db.Configuration.LazyLoadingEnabled = false;
+                    //   db.Configuration.LazyLoadingEnabled = false;
                     return db.TorqueWrenchs
                      .Include(x => x.Product)
                     .Include(x => x.Owner.Contacts)
@@ -125,6 +125,8 @@ namespace MEAS.Data.SqlClient
             });
         }
 
+
+
         public async override Task<bool> Update(TorqueWrench source)
         {
             using (var dc = new SqlServerDbContext())
@@ -132,8 +134,8 @@ namespace MEAS.Data.SqlClient
                 dc.Configuration.ValidateOnSaveEnabled = false;
                 var original = dc.TorqueWrenchs.Include(x => x.Owner).Include(x=>x.Product).Single(x => x.Id == source.Id);
                  
-                dc.CheckReference(x => x.Product, source, original)
-                    .CheckReference(x => x.Owner, source, original);
+                dc.UpdateNavigationProperty(x => x.Product, source, original)
+                    .UpdateNavigationProperty(x => x.Owner, source, original);
 
                 dc.Entry(original).CurrentValues.SetValues(source);
                 var result = await dc.SaveChangesAsync();

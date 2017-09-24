@@ -50,16 +50,23 @@ namespace MEAS.Tests.Data
         [TestMethod]
         public async Task TestFindWrenchWithId()
         {
-            ITorqueWrenchRepository rp = new TorqueWrenchRepository();
-            var result =await rp.Find(2);
+            TorqueWrenchRepository rp = new TorqueWrenchRepository();
+            var result =await rp.Find(4);
             result.Dump();
              Assert.IsTrue(result!=null);
         }
 
 
-        
+        [TestMethod]
+        public async Task TestFindWrenchProductWithId()
+        {
+            TorqueWrenchProductRepository rp = new TorqueWrenchProductRepository();
+            var result = await rp.Find(12);
+            result.Dump();
+            Assert.IsTrue(result != null);
+        }
 
-   
+
 
 
         [TestMethod]
@@ -80,8 +87,8 @@ namespace MEAS.Tests.Data
  
             wrench.SerialNumber = "dgh";
              var customer =await new CustomerRepository().Find(6);
-              var product = await new TorqueWrenchProductRepository().Find(10);
-           // var product = new TorqueWrenchProduct { Manufacturer = "nmb", MaxRange = 100, MinRange = 10, WorkDirection = WorkDirection.Clockwise, Model = "modelx" , Name="tnxx"};
+          //    var product = await new TorqueWrenchProductRepository().Find(10);
+           var product = new TorqueWrenchProduct { Manufacturer = "nmb", MaxRange = 100, MinRange = 10, WorkDirection = WorkDirection.Clockwise, Model = "mmmm" , Name="mnm"};
             wrench.Owner = customer;
             wrench.Product = product;
             var result =await rp.Update(wrench);

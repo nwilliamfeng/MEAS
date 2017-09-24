@@ -214,18 +214,6 @@ namespace MEAS.Data.SqlClient
                 dc.Configuration.ValidateOnSaveEnabled = false;
                 var original = dc.TorqueWrenchMeasures.Find(measure.Id);
 
-                //var wrench = dc.TorqueWrenchs.Find(measure.Measurand.Id);
-                //if (wrench != null)
-                //    original.Measurand = wrench;
-                //else
-                //{
-                //    source.Measurand.Owner.Contacts = null;
-                //    //  dc.TorqueWrenchs.Attach(source.Measurand);
-                //    dc.Entry(source.Measurand).State = EntityState.Unchanged;
-                //    dc.TorqueWrenchs.Add(source.Measurand);
-                //    original.Measurand = source.Measurand;
-                //}
-
 
 
                 //if (source.Measurand.Id > 0)
@@ -236,23 +224,23 @@ namespace MEAS.Data.SqlClient
                 //}
                 //else
                 //{
-                //    source.Measurand.Owner.Contacts = null;
+                //     source.Measurand.Owner.Contacts = null;
                 //    //  dc.TorqueWrenchs.Attach(source.Measurand);
                 //    dc.Entry(source.Measurand).State = EntityState.Unchanged;
                 //    dc.TorqueWrenchs.Add(source.Measurand);
                 //    original.Measurand = source.Measurand;
                 //}
 
-                source.Measurand.Owner.Contacts = null;
-                dc.CheckReference(x => x.Measurand, source, original)
-                    .CheckReference(x => x.Environment, source, original);
+            
+          
+                dc.UpdateNavigationProperty(x => x.Measurand, source, original,()=> source.Measurand.Owner.Contacts = null) 
+                    .UpdateNavigationProperty(x => x.Environment, source, original);
  
                 dc.Entry(original).CurrentValues.SetValues(source);
 
                 dc.Entry(original).State = EntityState.Modified;
- 
 
-                 
+ 
 
                  //dc.Entry(original).CurrentValues.SetValues(source);
 

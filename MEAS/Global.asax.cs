@@ -7,6 +7,7 @@ using MEAS.Binder;
 using System.Web.Security;
 using System.Security.Principal;
 
+
 namespace MEAS
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -31,6 +32,7 @@ namespace MEAS
 
         protected void Application_Start()
         {
+  
             DependencyResolverConfig.RegistInstances(); //di注册实例         
             AutoMapperMappingConfig.Configure(); //配置AutoMapper
             AreaRegistration.RegisterAllAreas();
