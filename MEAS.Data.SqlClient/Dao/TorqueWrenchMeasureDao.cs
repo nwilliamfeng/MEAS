@@ -17,5 +17,7 @@ namespace MEAS.Data
         public virtual TorqueWrench Measurand { get; set; }
 
         public virtual TorqueStandard Standard { get; set; }
+
+        public DateTime AcceptTime { get; set; }
     }
 }

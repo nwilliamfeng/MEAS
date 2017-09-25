@@ -16,6 +16,8 @@ namespace MEAS.Data
         {
             this.Database.Log = x =>
             {
+                 this.Database.BeginTransaction();          
+              
                 // Console.WriteLine(x); 
             };
         }

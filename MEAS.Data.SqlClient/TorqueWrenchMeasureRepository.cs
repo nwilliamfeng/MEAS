@@ -207,14 +207,11 @@ namespace MEAS.Data.SqlClient
         public override async Task<bool> Update(TorqueWrenchMeasure measure)
         {
             using (var dc = new SqlServerDbContext())
-            {
-                
+            {               
                 var source = measure.ToDao();
                 this.DumpTimestamp(source.Timestamp);
                 dc.Configuration.ValidateOnSaveEnabled = false;
                 var original = dc.TorqueWrenchMeasures.Find(measure.Id);
-
-
 
                 //if (source.Measurand.Id > 0)
                 //{
@@ -231,18 +228,12 @@ namespace MEAS.Data.SqlClient
                 //    original.Measurand = source.Measurand;
                 //}
 
-            
-          
-                dc.UpdateNavigationProperty(x => x.Measurand, source, original,()=> source.Measurand.Owner.Contacts = null) 
-                    .UpdateNavigationProperty(x => x.Environment, source, original);
+                dc.UpdateNavigationProperty(x => x.Measurand, source, original, () => source.Measurand.Owner.Contacts = null)
+                    .UpdateNavigationProperty(x=>x.Standard,source,original)
+                    .UpdateNavigationProperty(x => x.Environment, source, original);             
  
                 dc.Entry(original).CurrentValues.SetValues(source);
-
                 dc.Entry(original).State = EntityState.Modified;
-
- 
-
-                 //dc.Entry(original).CurrentValues.SetValues(source);
 
                  var result = await dc.SaveChangesAsync();
 

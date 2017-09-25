@@ -54,6 +54,9 @@ namespace MEAS.Data
 
             Property(x => x.Checker).IsOptional();
 
+            Property(x => x.AcceptTime).IsOptional();
+
+
             // HasOptional(x => x.Checker) //此处用optional是为了新建实例时Checker无需赋值，所以对应的表字段应该是nullable 
             //    .WithOptionalDependent()    
             //.Map(x => x.MapKey("CheckerId"))

@@ -38,6 +38,10 @@ namespace MEAS
 
         public TorqueStandard Standard { get; set; }
 
+        
+
+        public DateTime AcceptTime { get; set; } 
+
 
         public TorqueWrenchMeasureData Data { get; private set; }
 
