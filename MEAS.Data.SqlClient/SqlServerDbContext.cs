@@ -15,9 +15,7 @@ namespace MEAS.Data
         public SqlServerDbContext() : base("name=sqlserverconnstr")
         {
             this.Database.Log = x =>
-            {
-                 this.Database.BeginTransaction();          
-              
+            {            
                 // Console.WriteLine(x); 
             };
         }
@@ -38,19 +36,6 @@ namespace MEAS.Data
         public DbSet<TorqueWrenchProduct> TorqueWrenchProducts { get; set; }
 
         public DbSet<TorqueStandard> TorqueStandards { get; set; }
-
-
-        //public DbSet<T> GetDbSet<T>()
-        //    where T : class
-        //{
-        //    var type =this.GetType().GetProperties().FirstOrDefault(x => x.PropertyType.Equals(typeof(DbSet<T>)));
-        //    if (type != null)
-        //        return type.GetValue(this) as DbSet<T>;
-        //    return null;
-        //}
-
-
-
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
