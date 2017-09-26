@@ -13,21 +13,20 @@
 
     <script  type="text/javascript">
         $(function () {
-           
-            alert(window.location.pathname);
+            var page =@Html.Raw(Json.Encode(ViewBag.Title));   
             var $div_li = $("div .tab_menu ul li");
-            var s=window.location.pathname.toString();
-            if (s.includes("Home"))
+          
+            if (page.includes("Home"))
             {
                 $("#a1").addClass("active")
                 .siblings().removeClass("active");
             }
-            else if (s.includes("Product"))
+            else if (page.includes("Product"))
             {
                 $("#a2").addClass("active")
                 .siblings().removeClass("active");
             }
-                
+
            // });
         })
     </script>
