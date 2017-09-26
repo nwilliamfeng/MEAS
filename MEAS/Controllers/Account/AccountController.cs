@@ -122,6 +122,7 @@ namespace MEAS.Controllers
 
             if (!ModelState.IsValid)
                 return View();
+          
             var user = await this._accountService.Find(model.UserName, model.Password);
             if (user != null)
             {
@@ -137,7 +138,7 @@ namespace MEAS.Controllers
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
                 await this._accountService.UpdateLogin(user);
-         
+                
                return Redirect(returnUrl ?? Url.Action("Index", "Home"));
 
             }

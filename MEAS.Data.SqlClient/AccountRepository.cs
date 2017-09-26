@@ -19,7 +19,8 @@ namespace MEAS.Data.SqlClient
             {
                 using (var dc = new SqlServerDbContext())
                 {
-                     var obj= dc.Users.Where(x => x.LoginName == loginName && x.Password == password)
+                     var obj= dc.Users
+                    .Where(x => x.LoginName == loginName && x.Password == password)
                     .Select(x => new  { Id = x.Id, UserName = x.UserName, Password = x.Password,LoginName=x.LoginName, RoleString=x.RoleString })
                     .FirstOrDefault();
  
