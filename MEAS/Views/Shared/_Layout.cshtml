@@ -9,7 +9,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <script src="~/Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
 
     <script  type="text/javascript">
         $(function () {
@@ -31,16 +31,7 @@
 </head>
 <body>
 
-    <!-- modal placeholder-->
-    <div id='myModal' class='modal fade in'>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div id='myModalContent'></div>
-            </div>
-        </div>
-    </div>
-
-  
+     
 
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -70,8 +61,15 @@
         </div>
     </nav>
 
-    <div class="container body-content">
-        @RenderBody()
+    @*<div class="container body-content">*@
+    <div class="body-content">
+        <div id="leftnav" class="col-xs-2">
+            @Html.Action("Index", "Navigation",new { pageId=2})
+        </div>
+        <div id="body" class="col-xs-10">
+            @RenderBody()
+        </div>
+
     </div>
 
     <footer class="footer">

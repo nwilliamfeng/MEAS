@@ -56,6 +56,8 @@
     <Compile Include="Domain\FileDocument.cs" />
     <Compile Include="Helper\MD5Helper.cs" />
     <Compile Include="Domain\IEntity.cs" />
+    <Compile Include="Domain\PageCategory.cs" />
+    <Compile Include="Domain\Page.cs" />
     <Compile Include="Service\ITorqueWrenchMeasureService.cs" />
     <Compile Include="Domain\TorqueWrenchMeasure.cs" />
     <Compile Include="Domain\MeasureBase.cs" />

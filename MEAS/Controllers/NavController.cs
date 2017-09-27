@@ -10,11 +10,8 @@ namespace MEAS.Controllers
     public class NavController : Controller
     {
         
-
-        public ActionResult Index()
-        {
-            return View();
-        } 
+       
+       
 
         public PartialViewResult Menu(string category)
         {

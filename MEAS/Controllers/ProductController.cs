@@ -30,6 +30,24 @@ namespace MEAS.Controllers
             return this.RedirectToAction("List", new {  category }); 
         }
 
+        public ActionResult Page2()
+        {
+            return View();
+        }
+        public ActionResult Page3()
+        {
+            return View();
+        }
+        public ActionResult Page4()
+        {
+            return View();
+        }
+        public ActionResult Page5()
+        {
+            return View();
+        }
+
+
         public async Task<ActionResult> List(string category,int page=1 )
         {
             //int x = 1;

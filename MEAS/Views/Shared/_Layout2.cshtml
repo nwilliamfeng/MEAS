@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+
+    <script  type="text/javascript">
+        $(function () {
+            var page =@Html.Raw(Json.Encode(ViewBag.Title));   
+            var $div_li = $("div .tab_menu ul li");
+          
+            if (page.includes("Home"))
+            {
+                $("#a1").addClass("active")
+                .siblings().removeClass("active");
+            }
+            else if (page.includes("Product"))
+            {
+                $("#a2").addClass("active")
+                .siblings().removeClass("active");
+            }
+        })
+    </script>
+</head>
+<body>
+
+    <!-- modal placeholder-->
+    <div id='myModal' class='modal fade in'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>
+
+  
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <!--3个span做成图标-->
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="..\Home\Index" class="navbar-brand">
+                    <img src="..\favicon.ico" style="height:40%;width:40%;vertical-align:central" alt="Meas" />
+                </a>
+                <p class="navbar-text"><strong>Meas</strong></p>
+            </div>
+            <div class="collapse navbar-collapse tab_menu">
+                <ul class="nav navbar-nav">
+                    <li  id="a1" ><a href="..\Home">主页</a></li>
+                    <li id="a2"><a href="..\Product">产品</a></li>
+                    <li id="a3"><a href="..\admin">支持</a></li>
+                </ul>
+
+                @{Html.RenderAction("Summary", "Cart");}
+                @Html.Partial("_LoginPartial")
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @Html.Action("Index", "Navigation",new { })
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; @RenderBody() - <a href="http://www.meas.com" target="_blank">MEAS</a></p>
+            <p class="pull-right"><a id="scroll-to-top" style="display:none;" href="#" title="fw"><span class="glyphicon glyphicon-arrow-up"></span> </a></p>
+        </div>
+    </footer>
+    @DateTime.Now.Year
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modalform")
+</body>
+</html>
