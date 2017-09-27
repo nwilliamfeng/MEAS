@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MEAS.Controllers
 {
-  
+   
     public class NavigationController:Controller
     {
         private static int selectPageId;
@@ -26,13 +26,11 @@ namespace MEAS.Controllers
             if (page == null)
             {
                 selectPageId = 0;
-                return RedirectToAction("Index");
+                return Redirect(this.Request.UrlReferrer.ToString());
             }
             selectPageId = pageId;
-            //   var url = new UrlHelper(this.HttpContext.re).Content("..\\"+page.Url);
-           var url = this.Request.Url.Authority+"/"+page.RelativeUrl;
-         
-            return Redirect (url);
+           var url ="http://"+ this.Request.Url.Authority+"/"+page.RelativeUrl;
+            return Redirect(url);
         }
  
 
