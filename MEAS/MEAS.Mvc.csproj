@@ -292,6 +292,7 @@
     <Content Include="Views\Product\Page4.cshtml" />
     <Content Include="Views\Product\Page3.cshtml" />
     <Content Include="Views\Product\Page5.cshtml" />
+    <Content Include="Views\Shared\_Layout3.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

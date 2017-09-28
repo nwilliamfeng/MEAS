@@ -13,7 +13,9 @@
 
     <script  type="text/javascript">
         $(function () {
-            var page =@Html.code(ViewBag.Title));   
+
+
+            @*var page =@Html.Raw(Json.Encode(ViewBag.Title));   
             var $div_li = $("div .tab_menu ul li");
           
             if (page.includes("Home"))
@@ -25,22 +27,13 @@
             {
                 $("#a2").addClass("active")
                 .siblings().removeClass("active");
-            }
+            }*@
         })
     </script>
 </head>
 <body>
 
-    <!-- modal placeholder-->
-    <div id='myModal' class='modal fade in'>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div id='myModalContent'></div>
-            </div>
-        </div>
-    </div>
-
-  
+     
 
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -70,34 +63,28 @@
         </div>
     </nav>
 
-    <div class="container body-content">
-        @Html.Action("Index", "Navigation",new { })
+    @*<div class="container body-content">*@
+    <div class="body-content">
+        <div id="leftnav" class="col-xs-2">
+            @Html.Action("Index", "Navigation")         
+        </div>
+        <div id="body" class="col-xs-10">
+            @RenderBody()
+      
+        </div>
+
     </div>
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; @RenderBody() - <a href="http://www.meas.com" target="_blank">MEAS</a></p>
+            <p class="pull-left">&copy; @DateTime.Now.Year - <a href="http://www.meas.com" target="_blank">MEAS</a></p>
             <p class="pull-right"><a id="scroll-to-top" style="display:none;" href="#" title="fw"><span class="glyphicon glyphicon-arrow-up"></span> </a></p>
         </div>
     </footer>
-    @DateTime.Now.Year
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Html.Partial("_LoginPartial")
-    @RenderBody()              Html.RenderAction}
-
-
-#line default
-#nine hidden
-
-#line 7 "C:\Users\fw\Source\Repos\MEAS\MEAS\Views\Shared\_Layout - 复制.cshtml"
-
-
-
-#line default
-#line hidden
-
-#line 8 "C:\Users\fw\Source\Repos\MEAS\MEAS\Views\Shared\_Layout - 复制.cshtml"
-__o = RenderBody()
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modalform")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

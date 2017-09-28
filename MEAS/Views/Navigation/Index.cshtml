@@ -10,7 +10,6 @@
     <meta name="description" content="侧边导航菜单(可分组折叠)" />
     <meta name="HandheldFriendly" content="True" />
     <link rel="shortcut icon" href="img/favicon.ico">
-    <!-- Bootstrap3.3.5 CSS -->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -20,27 +19,21 @@
    <script   src="~/Scripts/jquery-3.1.1.min.js" ></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script type="text/javascript">
+       
         $(function () {
-            var $div_li = $(".panel-heading");
-            $div_li.click(function () {
-                @*var pageId =@Html.Raw(Json.Encode(ViewBag.SelectePageId));   
-                alert(pageId);*@
-                $(this).siblings.find("span").addClass("glyphicon-chevron-down")
-                   .removeClass("glyphicon-chevron-up");
-                 
-                //       .siblings().removeClass("selected");  //去掉其它同辈<li>元素的高亮
-                //var index =  $div_li.index(this);  // 获取当前点击的<li>元素 在 全部li元素中的索引。
-                //$("div.tab_box > div")   	//选取子节点。不选取子节点的话，会引起错误。如果里面还有div 
-                //        .eq(index).show()   //显示 <li>元素对应的<div>元素
-                //        .siblings().hide(); //隐藏其它几个同辈的<div>元素
-            @*$(".panel-heading").click(function (e) {
-
-                
+ 
+            $(".panel-collapse").each(function () {
+                var $a = $(this).find("a");
                
-                alert(pageId);*@
-                //$(this).find("span").toggleClass("glyphicon-chevron-down");
-                //$(this).find("span").toggleClass("glyphicon-chevron-up");
+                $a.click(function (e) {
+                    $.get(e.target.href, function (html) {
+                        $("body").html(html);
+                    })
+                     alert(e.target.href);
+                    //selectPageId = parseInt(e.target.id);
+                });
             });
+
         });
     </script>
     <style>
@@ -91,12 +84,12 @@
             @for (int i = 0; i < Model.Count(); i++)
             {
                 var gp = "group" + i.ToString();
-                var gh =  "grouphead" + i.ToString();
+                var gh = "grouphead" + i.ToString();
                 <div class="panel panel-primary leftMenu">
                     <div class="panel-heading" id="@gh" data-toggle="collapse" data-target="#@gp" role="tab">
                         <h4 class="panel-title">
                             @Model.ElementAt(i).Title
-                            <span class="glyphicon glyphicon-chevron-down right"></span>
+                            <span class="glyphicon glyphicon-chevron-down right"   ></span>
                         </h4>
                     </div>
 
@@ -104,8 +97,8 @@
                         <ul class="list-group">
                             @foreach (var page in Model.ElementAt(i).Pages)
                             {
-                                <li class="list-group-item">@Html.ActionLink(@page.Title, "Jump","Navigation",new {pageId=page.Id},null)</li>
-                                @*<li  class="list-group-item" ><a href="..\@page.Url">@page.Title</a></li>*@
+                                @*<li class="list-group-item">@Html.ActionLink(@page.Title, "Jump", "Navigation", new { pageId = page.Id }, null)</li>*@
+                                <li  class="list-group-item" ><a id="@page.Id" href="..\@page.RelativeUrl">@page.Title</a></li>
                                 @*<li class="list-group-item">
                                     <button class="menu-item-left">
                                         <span class="glyphicon glyphicon-triangle-right"></span>@page.Title
@@ -116,15 +109,8 @@
                     </div>
                 </div>
             }
-           
         </div>
-
-    </div>
-
-    @*<script src="js/jquery-1.11.3.min.js "></script>
-
-        <script src="js/bootstrap.min.js "></script>*@
-   
+    </div>  
 </body>
 
  

@@ -32,19 +32,19 @@ namespace MEAS.Controllers
 
         public ActionResult Page2()
         {
-            return View();
+            return PartialView();
         }
         public ActionResult Page3()
         {
-            return View();
+            return PartialView();
         }
         public ActionResult Page4()
         {
-            return View();
+            return PartialView();
         }
         public ActionResult Page5()
         {
-            return View();
+            return PartialView();
         }
 
 

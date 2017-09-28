@@ -7,19 +7,22 @@ using System.Web.Mvc;
 namespace MEAS.Controllers
 {
    
+    
     public class NavigationController:Controller
     {
         private static int selectPageId;
-
+      
       
         public ActionResult Index()
         {
+         
             ViewBag.SelectePageId = selectPageId;
             return PartialView(GetPageCategories());
            
         }
 
      
+
         public ActionResult Jump(int pageId=0)
         {
            var page = this.GetPageCategories().SelectMany(x => x.Pages).FirstOrDefault(x => x.Id == pageId);
