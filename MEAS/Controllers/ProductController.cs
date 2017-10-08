@@ -17,7 +17,7 @@ namespace MEAS.Controllers
 
         public ProductController(IProductService service)
         {
-            this._service = service;
+            this._service = service; 
         }
 
       
@@ -32,19 +32,19 @@ namespace MEAS.Controllers
 
         public ActionResult Page2()
         {
-            return PartialView();
+            return View();
         }
         public ActionResult Page3()
         {
-            return PartialView();
+            return View();
         }
         public ActionResult Page4()
         {
-            return PartialView();
+            return View();
         }
         public ActionResult Page5()
         {
-            return PartialView();
+            return View();
         }
 
 

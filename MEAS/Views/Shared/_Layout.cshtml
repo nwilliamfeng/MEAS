@@ -3,19 +3,66 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")  
+  
 </head>
 <body>
-    <div id="body" class="col-xs-10">
-        @RenderBody()
-    </div>     
+
+
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <!--3个span做成图标-->
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="..\Home\Index" class="navbar-brand">
+                    <img src="..\favicon.ico" style="height:40%;width:40%;vertical-align:central" alt="Meas" />
+                </a>
+                <p class="navbar-text"><strong>Meas</strong></p>
+            </div>
+            <div class="collapse navbar-collapse tab_menu">
+                <ul class="nav navbar-nav">
+                    <li id="a1"><a href="..\Home">主页</a></li>
+                    <li id="a2"><a href="..\Product">产品</a></li>
+                    <li id="a3"><a href="..\admin">支持</a></li>
+                </ul>
+
+                @{Html.RenderAction("Summary", "Cart");}
+                @Html.Partial("_LoginPartial")
+
+            </div>
+        </div>
+    </nav>
+
+   
+    <div class="body-content">
+        <div id="leftnav" class="col-xs-2">
+            @Html.Action("Index", "Navigation")
+        </div>
+        <div id="body" class="col-xs-10">
+            @RenderBody()
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; @DateTime.Now.Year - <a href="http://www.meas.com" target="_blank">MEAS</a></p>
+            <p class="pull-right"><a id="scroll-to-top" style="display:none;" href="#" title="fw"><span class="glyphicon glyphicon-arrow-up"></span> </a></p>
+        </div>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/modalform")
+    @Scripts.Render("~/bundles/modernizr")
     @RenderSection("scripts", required: false)
 </body>
 </html>

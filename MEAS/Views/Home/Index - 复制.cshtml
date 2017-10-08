@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+@{
+    Layout = null;
+}
+@model IEnumerable<PageCategory>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/navigation.css" rel="stylesheet" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+
+    <title>@ViewBag.Title</title>
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script type="text/javascript">
+        function jumpUrl(a) {
+            $("ul.level2 li>a").removeClass("active");
+            $(a).addClass("active");
+         
+            var url = window.location.protocol + "//" + window.location.host + "/" +a.id;
+            $.get(url).done(function (result) {
+                $("#body").html(result);
+            });
+            return false; //返回false禁止超链接
+        }
+        $(function () {
+         
+                //$("ul.level2 li>a").click(function () {
+                //    $("ul.level2 li>a").removeClass("active");
+                //    $(this).addClass("active");
+
+                //});
+                $(".level1 > a").click(function () {
+
+                    $(this).next().children("a").removeClass("active");
+                    $(this).addClass("current").next("ul").show();
+                    $(this).parent().siblings().children("a").removeClass("current")
+                    .next().hide();
+                    return false;
+                });
+          
+        });
+    </script>
+
+</head>
+<body>
+
+
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <!--3个span做成图标-->
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="..\Home\Index" class="navbar-brand">
+                    <img src="..\favicon.ico" style="height:40%;width:40%;vertical-align:central" alt="Meas" />
+                </a>
+                <p class="navbar-text"><strong>Meas</strong></p>
+            </div>
+            <div class="collapse navbar-collapse tab_menu">
+                <ul class="nav navbar-nav">
+                    <li id="a1"><a href="..\Home">主页</a></li>
+                    <li id="a2"><a href="..\Product">产品</a></li>
+                    <li id="a3"><a href="..\admin">支持</a></li>
+                </ul>
+
+                @{Html.RenderAction("Summary", "Cart");}
+                @Html.Partial("_LoginPartial")
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="body-content">
+        <div id="leftnav" class="col-xs-2">
+            <div class="box">
+                <ul class="menu">
+                 
+                    @foreach (var category in Model)
+                    {
+                        <li class="level1 li">
+                            <a href="#none">@category.Title</a>
+                            <ul class="level2">
+                                @foreach (var page in category.Pages)
+                                {
+                                    <li>
+                                        <a href="#none" onclick="jumpUrl(this)" id="@page.RelativeUrl">@page.Title</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+            @*<div class="row">
+                    <div class="panel-group table-responsive" role="tablist" id="navdiv">
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            var gp = "group" + i.ToString();
+                            var gh = "grouphead" + i.ToString();
+                            <div class="panel panel-primary leftMenu">
+                                <div class="panel-heading" id="@gh" data-toggle="collapse" data-target="#@gp" role="tab">
+                                    <h4 class="panel-title">
+                                        @Model.ElementAt(i).Title
+                                        <span class="glyphicon glyphicon-chevron-down right"></span>
+                                    </h4>
+                                </div>
+
+                                <div id="@gp" class="panel-collapse collapse" role="tabpanel" aria-labelledby="@gh">
+                                    <ul class="list-group">
+                                        @foreach (var page in Model.ElementAt(i).Pages)
+                                        {
+                                            <li  class="list-group-item" style="cursor:pointer;"  onclick="jumpUrl(this)"  id="@page.RelativeUrl">
+                                                @page.Title
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>*@
+        </div>
+        <div id="body" class="col-xs-10">
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; @DateTime.Now.Year - <a href="http://www.meas.com" target="_blank">MEAS</a></p>
+            <p class="pull-right"><a id="scroll-to-top" style="display:none;" href="#" title="fw"><span class="glyphicon glyphicon-arrow-up"></span> </a></p>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modalform")
+
+</body>
+</html>

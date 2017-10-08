@@ -17,6 +17,7 @@ namespace MEAS.Controllers
         {
             ViewBag.SelectedCategory = category;
             return PartialView(new string[] { "Chess","Soccer","Waterports"});
+            
         }
 
      

@@ -199,6 +199,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\navigation.css" />
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
@@ -287,12 +288,15 @@
     <Content Include="Views\Test\AjaxPost.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Navigation\Index.cshtml" />
+    <Content Include="Views\Shared\_NavigationPartial.cshtml" />
     <Content Include="Views\Product\Page2.cshtml" />
     <Content Include="Views\Product\Page4.cshtml" />
     <Content Include="Views\Product\Page3.cshtml" />
     <Content Include="Views\Product\Page5.cshtml" />
     <Content Include="Views\Shared\_Layout3.cshtml" />
+    <Content Include="Views\Home\Index - 复制.cshtml" />
+    <Content Include="Views\Shared\_Layout4.cshtml" />
+    <Content Include="Views\Home\Index - 复制%282%29.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

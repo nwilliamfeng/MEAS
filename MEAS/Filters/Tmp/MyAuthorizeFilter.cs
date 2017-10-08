@@ -40,7 +40,7 @@ namespace MEAS
         protected virtual bool Authorize(ActionExecutingContext context)
         {
           
-           //var cookies=  System.Web.HttpContext.Current.Request.Cookies;
+       //  var cookies=  System.Web.HttpContext.Current.Request.Cookies;
            // if (!cookies.AllKeys.Contains(CookieKeys.USERID))
            //     return false;
            // var name = cookies[CookieKeys.USERID].Value;

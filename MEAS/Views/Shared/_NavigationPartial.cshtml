@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+@{
+    Layout = null;
+}
+@model IEnumerable<PageCategory>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/navigation.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+    <script type="text/javascript">
+        function jumpUrl(a) {
+            $("ul.level2 li>a").parent().removeClass("bg-info");
+            $(a).parent().addClass("bg-info");
+            var url = window.location.protocol + "//" + window.location.host + "/" +a.id;
+            $.get(url).done(function (result) {
+                $("#body").html(result);
+            });
+            return false; //返回false禁止超链接
+        }
+
+        function selectCategory(category) {
+            $(category).next("ul").show();
+            $(category).parent().siblings().children("a")
+            .next().hide();
+            return false;
+        }
+        $(function () {
+            var pid =@Html.Raw(ViewBag.SelectPageId);
+            // $("ul.level2 li[id=pid]").addClass("bg-info"); //value指定需要是常量
+            $("#" + pid.toString()).addClass("bg-info")
+            .parent().show();
+        });
+    </script>
+    <style>
+        a.wide {
+            display: block;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="box">
+
+        <ul class="nav nav-stacked navbar-fixed-side navbar-default">
+            @foreach (var category in Model)
+            {
+                <li>
+                    <a href="#" onclick="selectCategory(this)">@category.Title</a>
+                    <ul
+                    @{if (ViewBag.SelectPageId == null || category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) == null)
+                        { <text> hidden="hidden" </text>  } }>
+                    @foreach (var page in category.Pages)
+                    {
+                            <li class="text-center link" id=@page.Id>
+                            @*<a class="wide" href="#@Url.Content(@page.RelativeUrl)" onclick="jumpUrl(this)" id="@page.RelativeUrl">@page.Title</a>*@
+                            <a class="wide" href="/navigation/jump?pageid=@page.Id">@page.Title</a>
+                            </li>
+                    }
+                    </ul>
+
+                </li>
+                        }
+        </ul>
+    </div>
+
+
+
+
+</body>
+</html>
