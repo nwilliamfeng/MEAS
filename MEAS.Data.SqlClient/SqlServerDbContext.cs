@@ -14,6 +14,8 @@ namespace MEAS.Data
 
         public SqlServerDbContext() : base("name=sqlserverconnstr")
         {
+            this.Database.CommandTimeout = 180;
+     
             this.Database.Log = x =>
             {            
                 // Console.WriteLine(x); 

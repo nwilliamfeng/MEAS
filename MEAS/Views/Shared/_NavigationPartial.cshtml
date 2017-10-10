@@ -16,6 +16,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+  
 
     <script type="text/javascript">
         function jumpUrl(a) {
@@ -34,7 +35,14 @@
             .next().hide();
             return false;
         }
+    
+        //加载过程处理
         $(function () {
+            $("a").hover(function(){
+                $(this).css("color","#337ab7");
+            },function(){
+                $(this).css("color","#777777");
+            });
             var pid =@Html.Raw(ViewBag.SelectPageId);
             // $("ul.level2 li[id=pid]").addClass("bg-info"); //value指定需要是常量
             $("#" + pid.toString()).addClass("bg-info")
@@ -44,38 +52,42 @@
     <style>
         a.wide {
             display: block;
-            text-decoration: none;
+            text-decoration: none;      
+            margin-left:20px;  
         }
+
+        a{
+            color:#777777;
+        }
+
+        /*去除边距，这样父容器宽度和此一致*/
+        div.box{
+            margin:0px;
+            width:100%;
+        }
+        
     </style>
 
 </head>
 <body>
-    <div class="box">
-
-        <ul class="nav nav-stacked navbar-fixed-side navbar-default">
+    <div class="box" >
+        <ul class="nav nav-stacked navbar-default" >
             @foreach (var category in Model)
             {
                 <li>
-                    <a href="#" onclick="selectCategory(this)">@category.Title</a>
-                    <ul
-                    @{if (ViewBag.SelectPageId == null || category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) == null)
-                        { <text> hidden="hidden" </text>  } }>
-                    @foreach (var page in category.Pages)
-                    {
-                            <li class="text-center link" id=@page.Id>
-                            @*<a class="wide" href="#@Url.Content(@page.RelativeUrl)" onclick="jumpUrl(this)" id="@page.RelativeUrl">@page.Title</a>*@
-                            <a class="wide" href="/navigation/jump?pageid=@page.Id">@page.Title</a>
+                    <a href="#" onclick="selectCategory(this)"  >@category.Title</a>
+                    <!--如果当前选中的page在这个category里面，那么就不隐藏-->
+                    <ul @{if (ViewBag.SelectPageId == null || category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) == null) { <text> hidden="hidden" </text>   } }>
+                        @foreach (var page in category.Pages)
+                        {
+                            <li class="link" id=@page.Id>
+                                @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" })
                             </li>
-                    }
-                    </ul>
-
-                </li>
                         }
+                    </ul>
+                </li>
+    }
         </ul>
     </div>
-
-
-
-
 </body>
 </html>

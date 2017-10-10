@@ -11,11 +11,13 @@ namespace MEAS
        
     //    public string RelativeUrl { get; set; }
 
-        public string ActionName { get; set; }
+        public string Action { get; set; }
 
-        public string ControllerName { get; set; }
-       
+        public string Controller { get; set; }
 
+        public string RedirectActionName { get; set; }
+
+      
         public string Title { get; set; }
 
         public PageCategory Category { get; set; }

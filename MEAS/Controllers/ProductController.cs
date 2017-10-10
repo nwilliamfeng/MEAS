@@ -22,7 +22,7 @@ namespace MEAS.Controllers
 
       
        
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             this.TempData["key"] = "111";
             var category = "Chess";
