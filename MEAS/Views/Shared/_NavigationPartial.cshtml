@@ -20,12 +20,13 @@
 
 
     <script type="text/javascript">
-       
+
         function selectCategory(category) {
             $(category).next("ul").show();
             $(category).find("i").removeClass("fa-angle-right").addClass("fa-angle-down");
             //$(category).addClass("selected").parent().siblings("li").find("a").removeClass("selected");
-            $(category).parent().siblings().children("a") .next().hide();
+            $(category).parent().siblings().children("a") .removeAttr("style").next().hide();
+           // $(category).parent().siblings().children("a");
             $(category).parent().siblings().children("a").find("i").removeClass("fa-angle-down").addClass("fa-angle-right");
             return false;
         }
@@ -37,7 +38,7 @@
             //},function(){
             //    $(this).removeClass("mousehover");
             //});
-         
+
             // $("ul.level2 li[id=pid]").addClass("bg-info"); //value指定需要是常量
             var pid =@Html.Raw(ViewBag.SelectPageId);
             var $li =$("#" + pid.toString());
@@ -55,22 +56,28 @@
             text-decoration: none;
             margin-left: 20px;
         }
-        
-        .nav li > a:hover, .nav li > a:focus {
-    background-color: transparent;
-    color: white;
-}
-        li.subitem-selected {
-            background-color: #c4c4c4;
+
+
+        .nav li > a {
+            color: #c4c4c4;
         }
- 
+
+            .nav li > a:hover, .nav li > a:focus {
+                background-color: transparent;
+                color: white;
+            }
+
+    
+
+        li.subitem-selected {
+            background-color: #808080;
+        }
+
         a.selected {
             color: white;
         }
 
-        a {
-            color: red;
-        }
+
 
         i.righti {
             float: right;
@@ -78,7 +85,6 @@
         }
 
         li.category {
-          
             font-size: medium;
         }
 
@@ -95,25 +101,37 @@
         <ul class="nav">
             @foreach (var category in Model)
             {
+                var containSelectItem = ViewBag.SelectPageId != null && category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) != null;
                 <li class="category">
-                    <a href="#" onclick="selectCategory(this)">@category.Title<i class="fa fa-angle-right righti"></i></a>
+                    <a href="#" onclick="selectCategory(this)"  @{if (containSelectItem) { <text> style="color:white" </text>      } }>
+                        @if (containSelectItem)
+                        {
+                            @category.Title<i class="fa fa-angle-down righti"></i>
+                        }
+                        else
+                        {
+                            @category.Title<i class="fa fa-angle-right righti"></i>
+                        }
+                  
+
+                    </a>
                     <!--如果当前选中的page在这个category里面，那么就不隐藏-->
-                    <ul @{if (ViewBag.SelectPageId == null || category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) == null) { <text> hidden="hidden" </text>    } }>
+                    <ul @{if (!containSelectItem) { <text> hidden="hidden" </text>      } }>
                         @foreach (var page in category.Pages)
                         {
                             if (ViewBag.SelectPageId == page.Id)
                             {
                                 <li id=@page.Id class="link subitem-selected">
-                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" }) 
-                                 </li>
+                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide",style="color:white" })
+                                </li>
                             }
                             else
                             {
                                 <li id=@page.Id class="link">
-                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" }) 
+                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" })
                                 </li>
                             }
-                            
+
                         }
                     </ul>
                 </li>
