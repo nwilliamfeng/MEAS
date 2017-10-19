@@ -11,109 +11,113 @@
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="~/Content/navigation.css" rel="stylesheet" />
- 
+
     <title>@ViewBag.Title</title>
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-  
+
 
     <script type="text/javascript">
-        //function jumpUrl(a) {
-        //    $("ul.level2 li>a").parent().removeClass("bg-info");
-        //    $(a).parent().addClass("bg-info");
-        //    var url = window.location.protocol + "//" + window.location.host + "/" +a.id;
-        //    $.get(url).done(function (result) {
-        //        $("#body").html(result);
-        //    });
-        //    return false; //返回false禁止超链接
-        //}
-
        
-
         function selectCategory(category) {
             $(category).next("ul").show();
             $(category).find("i").removeClass("fa-angle-right").addClass("fa-angle-down");
-            $(category).addClass("selected").parent().siblings("li").find("a").removeClass("selected");
+            //$(category).addClass("selected").parent().siblings("li").find("a").removeClass("selected");
             $(category).parent().siblings().children("a") .next().hide();
             $(category).parent().siblings().children("a").find("i").removeClass("fa-angle-down").addClass("fa-angle-right");
             return false;
         }
-    
+
         //加载过程处理
         $(function () {
-            $("a").hover(function(){
-                $(this).addClass("mousehover");
-            },function(){
-                $(this).removeClass("mousehover");
-            });
+            //$("a").hover(function(){
+            //    $(this).addClass("mousehover");
+            //},function(){
+            //    $(this).removeClass("mousehover");
+            //});
+         
             // $("ul.level2 li[id=pid]").addClass("bg-info"); //value指定需要是常量
-            var pid =@Html.Raw(ViewBag.SelectPageId);         
+            var pid =@Html.Raw(ViewBag.SelectPageId);
             var $li =$("#" + pid.toString());
-            $li.addClass("bg-info")
-                .parent()
-                .show()
-                .siblings("a").css({"color":"black"})
-                .find("i").removeClass("fa-angle-right").addClass("fa-angle-down");
-            $li.find("a").addClass("selected");
+            //$li.addClass("subitem")
+            //    .parent()
+            //    .show()
+            //    .siblings("a").css({"color":"black"})
+            //    .find("i").removeClass("fa-angle-right").addClass("fa-angle-down");
+            //$li.find("a").addClass("selected");
         });
     </script>
     <style>
         a.wide {
             display: block;
-            text-decoration: none;      
-            margin-left:20px;           
+            text-decoration: none;
+            margin-left: 20px;
         }
         
-        a.mousehover{
-            color:#337ab7;
+        .nav li > a:hover, .nav li > a:focus {
+    background-color: transparent;
+    color: white;
+}
+        li.subitem-selected {
+            background-color: #c4c4c4;
+        }
+ 
+        a.selected {
+            color: white;
         }
 
-        a.selected{
-            color:#337ab7;
+        a {
+            color: red;
         }
 
-        a{
-            color:#777777;
+        i.righti {
+            float: right;
+            vertical-align: central;
         }
-        i.righti{
-            
-             float:right;
-             vertical-align:central;
-        }
-        li.category{
-           border-bottom:1px dashed #b6b6b6;
-           font-size:medium;
+
+        li.category {
+          
+            font-size: medium;
         }
 
         /*去除边距，这样父容器宽度和此一致*/
-        div.box{
-            margin:0px;
-            width:100%;
+        div.box {
+            margin: 0px;
+            width: 100%;
         }
-        
     </style>
 
 </head>
 <body>
-    <div class="box" >
-        <ul class="nav nav-stacked navbar-default" >
+    <div class="box">
+        <ul class="nav">
             @foreach (var category in Model)
             {
                 <li class="category">
-                    <a href="#" onclick="selectCategory(this)"   >@category.Title<i class="fa fa-angle-right righti" ></i></a>
+                    <a href="#" onclick="selectCategory(this)">@category.Title<i class="fa fa-angle-right righti"></i></a>
                     <!--如果当前选中的page在这个category里面，那么就不隐藏-->
-                    <ul @{if (ViewBag.SelectPageId == null || category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) == null) { <text> hidden="hidden" </text>   } }>
+                    <ul @{if (ViewBag.SelectPageId == null || category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) == null) { <text> hidden="hidden" </text>    } }>
                         @foreach (var page in category.Pages)
                         {
-                            <li class="link" id=@page.Id>                        
-                               @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide"})
-                            </li>
+                            if (ViewBag.SelectPageId == page.Id)
+                            {
+                                <li id=@page.Id class="link subitem-selected">
+                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" }) 
+                                 </li>
+                            }
+                            else
+                            {
+                                <li id=@page.Id class="link">
+                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" }) 
+                                </li>
+                            }
+                            
                         }
                     </ul>
                 </li>
-            }
+    }
         </ul>
     </div>
 </body>
