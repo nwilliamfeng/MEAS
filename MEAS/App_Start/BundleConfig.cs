@@ -18,13 +18,14 @@ namespace MEAS
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-             
-            //bootstrap-hover-dropdown.js 是增加的js，为了支持dropdown和对bootstrap对话框的支持
-            //bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-            //        "~/Scripts/bootstrap.js",
-            //        "~/Scripts/respond.js",
-            //        "~/Scripts/bootstrap-hover-dropdown.js"));
- 
+
+
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                    "~/Scripts/bootstrap.js",
+                    "~/Scripts/respond.js"
+                 ));
+
             ////添加bootstrap对话框的操作js ,see http://www.fabro.pl/Download.aspx?S=Bootstrap%20modal%20MVC%205
             //bundles.Add(new ScriptBundle("~/bundles/modalform").Include(
             //            "~/Scripts/modalform.js"));
