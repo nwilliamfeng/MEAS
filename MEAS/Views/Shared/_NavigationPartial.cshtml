@@ -10,25 +10,66 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+
 
     <title>@ViewBag.Title</title>
-    <link href="~/Content/navigation.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/navigation.css" rel="stylesheet" />
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
-   
-   
-     
+
 
     <script type="text/javascript">
+
+        //function removeUserLive(liveId, type) {
+        //    if (confirm("该操作将导致直播结束/录播删除，确定删除吗？")) {
+        //        $.ajax({
+        //            type: "get",
+        //            url: "/manager/ChannelAction/DeleteChannel" + '?r=' + Math.random(),
+        //            dataType: "json",
+        //            data: { channel_id: liveId, reason: "直播查询管理移除", type: type },
+        //            success: function success(json) {
+        //                if (json.result == 1) {
+        //                    alert("操作成功");
+        //                } else {
+        //                    alert("操作失败");
+        //                }
+        //            },
+        //            error: function error(xhr, status, errorThrown) {
+        //                alert("操作失败");
+        //            }
+        //        });
+        //    }
+        //}
+
+        //function addUserLiveToList(liveId) {
+        //    if (confirm("该操作将该频道强制加入首页和关注列表，确定添加吗？")) {
+        //        $.ajax({
+        //            type: "get",
+        //            url: "/manager/ChannelAction/InsertToLiveList" + '?r=' + Math.random(),
+        //            dataType: "json",
+        //            data: { channel_id: liveId },
+        //            success: function success(json) {
+        //                if (json.result == 1) {
+        //                    alert("操作成功");
+        //                } else {
+        //                    alert("操作失败");
+        //                }
+        //            },
+        //            error: function error(xhr, status, errorThrown) {
+        //                alert("操作失败");
+        //            }
+        //        });
+        //    }
+        //}
 
         function selectCategory(category) {
             $(category).next("ul").show();
             $(category).find("i").removeClass("fa-angle-right").addClass("fa-angle-down");
             //$(category).addClass("selected").parent().siblings("li").find("a").removeClass("selected");
             $(category).parent().siblings().children("a") .removeAttr("style").next().hide();
-           // $(category).parent().siblings().children("a");
+            // $(category).parent().siblings().children("a");
             $(category).parent().siblings().children("a").find("i").removeClass("fa-angle-down").addClass("fa-angle-right");
             return false;
         }
@@ -59,17 +100,15 @@
             margin-left: 20px;
         }
 
-
-        .nav li > a {
+        .nav-left li > a {
             color: #c4c4c4;
         }
 
-            .nav li > a:hover, .nav li > a:focus {
+            .nav-left li > a:hover, .nav-left li > a:focus {
                 background-color: transparent;
                 color: white;
             }
 
-    
 
         li.subitem-selected {
             background-color: #808080;
@@ -86,9 +125,6 @@
             vertical-align: central;
         }
 
-        li.category {
-            font-size: medium;
-        }
 
         /*去除边距，这样父容器宽度和此一致*/
         div.box {
@@ -100,12 +136,12 @@
 </head>
 <body>
     <div class="box">
-        <ul class="nav">
+        <ul class="nav nav-left">
             @foreach (var category in Model)
             {
                 var containSelectItem = ViewBag.SelectPageId != null && category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) != null;
-                <li class="category">
-                    <a href="#" onclick="selectCategory(this)"  @{if (containSelectItem) { <text> style="color:white" </text>      } }>
+                <li>
+                    <a href="#" onclick="selectCategory(this)" @{if (containSelectItem) { <text> style="color:white" </text>        } }>
                         @if (containSelectItem)
                         {
                             @category.Title<i class="fa fa-angle-down righti"></i>
@@ -114,17 +150,17 @@
                         {
                             @category.Title<i class="fa fa-angle-right righti"></i>
                         }
-                  
+
 
                     </a>
                     <!--如果当前选中的page在这个category里面，那么就不隐藏-->
-                    <ul @{if (!containSelectItem) { <text> hidden="hidden" </text>      } }>
+                    <ul @{if (!containSelectItem) { <text> hidden="hidden" </text>        } }>
                         @foreach (var page in category.Pages)
                         {
                             if (ViewBag.SelectPageId == page.Id)
                             {
                                 <li id=@page.Id class="link subitem-selected">
-                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide",style="color:white" })
+                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide", style = "color:white" })
                                 </li>
                             }
                             else

@@ -59,9 +59,9 @@
     <Compile Include="Mapping\TorqueStandardMap.cs" />
     <Compile Include="Mapping\TorqueWrenchMap.cs" />
     <Compile Include="Mapping\TorqueWrenchProductMap.cs" />
-    <Compile Include="Migrations\201709261307336_fkg.cs" />
-    <Compile Include="Migrations\201709261307336_fkg.Designer.cs">
-      <DependentUpon>201709261307336_fkg.cs</DependentUpon>
+    <Compile Include="Migrations\201710230931308_ax.cs" />
+    <Compile Include="Migrations\201710230931308_ax.Designer.cs">
+      <DependentUpon>201710230931308_ax.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="TorqueWrenchRepository.cs" />
@@ -97,8 +97,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709261307336_fkg.resx">
-      <DependentUpon>201709261307336_fkg.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201710230931308_ax.resx">
+      <DependentUpon>201710230931308_ax.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

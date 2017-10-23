@@ -8,47 +8,27 @@
     </style>
     
 </head>
-
-
- 
-<!-- modal placeholder-->
-<div id='myModal' class='modal fade in'>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id='myModalContent'></div>
-        </div>
-    </div>
-</div>
-    @if (Request.IsAuthenticated)
+     @if (Request.IsAuthenticated)
     {
-
-        <form class="navbar-right navbar-form">
-            <div class="btn-group">
-                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">欢迎您，@this.User.Identity.GetUserName()<span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li>@Html.ActionLink("用户信息","UserProfile","Account")</li>
-                    <li class="divider"></li>
-                    <li><a href="../Account/Logout">退出登录</a></li>
-                    
-                </ul>
-            </div>
-        </form>
-
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎您，@this.User.Identity.GetUserName()<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("用户信息", "UserProfile", "Account")</li>
+                <li class="divider"></li>
+                <li><a href="../Account/Logout">退出登录</a></li>
+            </ul>         
+        </li>
     }
     else
-    {
-        <form class="navbar-right navbar-form">
-            <div class="btn-group">
-                <button class="btn btn-default  dropdown-toggle btn-tt" data-toggle="dropdown">你好.登录<span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="../Account/Login">登录</a></li>
-                    @*<li>@Html.ActionLink("登录", "Login","Account", null, new { data_modal = "" })</li>*@
-                    <li><a href="#">注册</a></li>
-                </ul>
-            </div>
-        </form>
-
-            
+    {      
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">你好.登录 <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="../Account/Login">登录</a></li>
+                <li class="divider"></li>
+                <li><a href="#">注册</a></li>   
+            </ul>
+        </li>
     }
  
 
