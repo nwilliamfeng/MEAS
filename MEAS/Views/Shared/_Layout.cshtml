@@ -14,21 +14,15 @@
             margin-left: 0px;
         }
 
-
         .nav-top li > a {
             color: white;
         }
-
             .nav-top li > a:hover, .nav-top li > a:focus {
                 color: black;
             }    
+
     </style>
-    @*<script  type="text/javascript" src="~/Scripts/jquery-3.1.1.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            
-        });
-    </script>*@
+    
 </head>
 <body style="height:100%;">
     <nav class="navbar-nav navbar-fixed-top" style="background-color:#0070c1;">       
@@ -62,9 +56,7 @@
                 <form class="navbar-form navbar-right">
                    <div class="form-group  right-inner-addon">
                        <i class="fa fa-search" aria-hidden="true"></i>
-                       <input type="search"
-                              class="form-control"
-                              placeholder="Search" />                      
+                       <input type="search" class="form-control" placeholder="Search" />                      
                    </div>                 
                 </form>
                  
@@ -75,29 +67,25 @@
 
     <div style="height:100%;">
 
-        @*<div  style="float:left;width:240px;padding-right:20px;height:100%;">
-            <div style="background:#242424;height:100%;">
-                @Html.Action("Index", "Navigation")                
-            </div>
-        </div>*@
+     
 
-        <div style="float:left;padding-right:20px;height:100%;">
-            
-                @Html.Action("Index", "Navigation")
-             
-        </div>
-        <div class="body-content container" id="body" style="float:left;">
+        <!--左侧导航栏-->
+    
+         @Html.Action("Index", "Navigation")
+  
+        <!--主体-->
+        <div class="body-content container" style="float:left;margin-left:220px;"   id="body"  >
             @RenderBody()
         </div>
      
     </div>
 
-    <footer class="modal-footer">
+    @*<footer class="modal-footer">
         <div class="container">
             <p class="pull-left">&copy; @DateTime.Now.Year - <a href="http://www.meas.com" target="_blank">MEAS</a></p>
             <p class="pull-right"><a id="scroll-to-top" style="display:none;" href="#" title="fw"><span class="glyphicon glyphicon-arrow-up"></span> </a></p>
         </div>
-    </footer>
+    </footer>*@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")

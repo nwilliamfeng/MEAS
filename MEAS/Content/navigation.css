@@ -1,7 +1,61 @@
+a.wide {
+    display: block;
+    text-decoration: none;
+    margin-left: 20px;
+}
 
- 
+#expand-btn, #collapse-btn, .toolbar > i, .nav-left li > a {
+    color: #c4c4c4;
+}
 
-        
-    
+    .nav-left li > a:hover, .nav-left li > a:focus {
+        background-color: transparent;
+        color: white;
+    }
 
-   
+#expand-btn, div.toolbar, li.subitem-selected {
+    background-color: rgb(100,109,125);
+}
+
+    #collapse-btn:hover, div.toolbar > i:hover, #expand-btn:hover {
+        color: white;
+    }
+
+    div.toolbar > i {
+        cursor: pointer;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 8px;
+    }
+
+a.selected {
+    color: white;
+}
+
+i.righti {
+    float: right;
+    vertical-align: central;
+}
+
+
+/*工具栏样式*/
+div.toolbar {
+    position: fixed;
+    padding-left: 15px;
+    bottom: 0;
+    width: inherit;
+}
+
+#expand-btn, div.toolbar {
+    height: 32px;
+}
+
+div.toggle-nav {
+    height: 100%;
+    width: 20px;
+    cursor: pointer;
+}
+
+#collapse-btn:hover, #expand-btn:hover, div.box {
+    background: #242424;
+}

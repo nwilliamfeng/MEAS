@@ -14,12 +14,10 @@
 
     <title>@ViewBag.Title</title>
    
-    <link href="~/Content/navigation.css" rel="stylesheet" />
-
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css")  
+    <!--注意引用文件的顺序，先render后引用-->
+    <link rel="stylesheet" href="~/Content/navigation.css" />
     @Scripts.Render("~/bundles/jquery")
-
-
     <script type="text/javascript">
 
         //function removeUserLive(liveId, type) {
@@ -64,137 +62,51 @@
         //    }
         //}
 
+        //选择类别后操作
         function selectCategory(category) {
             $(category).next("ul").show();
             $(category).find("i").removeClass("fa-angle-right").addClass("fa-angle-down");
-            //$(category).addClass("selected").parent().siblings("li").find("a").removeClass("selected");
-            $(category).parent().siblings().children("a") .removeAttr("style").next().hide();
-            // $(category).parent().siblings().children("a");
+            $(category).parent().siblings().children("a").removeAttr("style").next().hide();
             $(category).parent().siblings().children("a").find("i").removeClass("fa-angle-down").addClass("fa-angle-right");
             return false;
         }
 
-      
-
-        //加载过程处理
+       
         $(function () {
-            $("div.toolbar >i").hover(function () {
-                $(this).addClass("hover-i");
-            }, function () {
-                $(this).removeClass("hover-i");
-            });
-            
-
-
-            $("#toggle-btn").hover(function () {
-                $(this).addClass("toggle-nav-hover");
-            }, function () {
-                $(this).removeClass("toggle-nav-hover");
-            }).click(function () {
-               var $i = $(this).find("i");
-                var s = $i.attr("class").toString();
-                if (s.includes("fa-angle-left")) {
-                    $i.removeClass("fa-angle-left").addClass("fa-angle-right");
-                    $("#navul").find("li").hide(); 
-                  
-                }
-                else {
-                    $i.removeClass("fa-angle-right").addClass("fa-angle-left");
-                    $("#navul").find("li").show();
-                }
-             
+            //折叠按钮操作
+            $("#collapse-btn").click(function () {
+                $('div.box').animate({ width: '0px', opacity: 'hide' }, 'normal', function () {
+                    $('div.box').hide();
+                    $(document).find(".body-content").css("margin-left", "0px");
+                    $("#expand-btn").show();
+                });
             });
 
+            //展开按钮操作
+            $("#expand-btn").click(function () {
+                $('div.box').animate({ width: '220px', opacity: 'show' }, 'normal', function () {
+                    $('div.box').show();
+                    $(document).find(".body-content").css("margin-left", "220px");
+                    $("#expand-btn").hide();
+                });
+            });
 
-            //$("a").hover(function(){
-            //    $(this).addClass("mousehover");
-            //},function(){
-            //    $(this).removeClass("mousehover");
-            //});
-
-            // $("ul.level2 li[id=pid]").addClass("bg-info"); //value指定需要是常量
-            @*var pid =@Html.Raw(ViewBag.SelectPageId);
-            var $li =$("#" + pid.toString());*@
-            //$li.addClass("subitem")
-            //    .parent()
-            //    .show()
-            //    .siblings("a").css({"color":"black"})
-            //    .find("i").removeClass("fa-angle-right").addClass("fa-angle-down");
-            //$li.find("a").addClass("selected");
         });
     </script>
     <style>
-        a.wide {
-            display: block;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-   #collapse-i,  div.toggle-nav-hover, .toolbar >i, .nav-left li > a {
-            color: #c4c4c4;
-        }
-
-            .nav-left li > a:hover, .nav-left li > a:focus {
-                background-color: transparent;
-                color: white;
-            }
-
-  div.toolbar,li.subitem-selected {
-            background-color: rgb(100,109,125);
-        }
-     
-      i.hover-i{
-          color:white;
        
-      }
-      div.toolbar>i{
-             cursor:pointer;
-             margin-left:5px;
-             margin-right:5px;
-             margin-top:8px;
-             
-      }
-
-        a.selected {
-            color: white;
-        }
-
-        i.righti {
-            float: right;
-            vertical-align: central;
-        }
-
-        div.toggle-nav-hover{
-            color:white;
-
-       
-        }
-
-        div.toggle-nav{
-            height:100%;
-            width:20px;
-            cursor:pointer;
-        }
-
-      div.toggle-nav-hover,  div.box{
-            background:#242424;
-               /*margin: 0px;
-            width: 100%;*/
-        }
-   
-        
     </style>
 
 </head>
 <body>
-    <div class="box" style="height:100%; width:220px;">
+    <div class="box" style="height:100%; width:220px;position:fixed;">
         <!--类别列表-->
-        <ul  id="navul" class="nav nav-left" style="height:96%;">
+        <ul id="navul" class="nav nav-left" style="height:100%;overflow:auto;">
             @foreach (var category in Model)
             {
                 var containSelectItem = ViewBag.SelectPageId != null && category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) != null;
                 <li>
-                    <a href="#" onclick="selectCategory(this)" @{if (containSelectItem) { <text> style="color:white" </text> } }>
+                    <a href="#" onclick="selectCategory(this)" @{if (containSelectItem) { <text> style="color:white" </text>  } }>
                         @if (containSelectItem)
                         {
                             @category.Title<i class="fa fa-angle-down righti"></i>
@@ -205,18 +117,18 @@
                         }
                     </a>
                     <!--如果当前选中的page在这个category里面，那么就不隐藏-->
-                    <ul @{if (!containSelectItem) { <text> hidden="hidden" </text>        } }>
+                    <ul @{if (!containSelectItem) { <text> hidden="hidden" </text>   } } class="nav">
                         @foreach (var page in category.Pages)
                         {
                             if (ViewBag.SelectPageId == page.Id)
                             {
-                                <li id=@page.Id class="link subitem-selected">
+                                <li id=@page.Id class="subitem-selected">
                                     @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide", style = "color:white" })
                                 </li>
                             }
                             else
                             {
-                                <li id=@page.Id class="link">
+                                <li id=@page.Id>
                                     @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" })
                                 </li>
                             }
@@ -225,17 +137,21 @@
                 </li>
     }
         </ul>
-     
+
         <!--工具栏-->
-        <div class="toolbar"  style="height:4%;padding-left:15px;">
+        <div class="toolbar">
             <i class="fa fa-cog fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="设置"></i>
             <i class="fa  fa-envelope-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="最新消息"></i>
-            <div id="toggle-btn" class="toggle-nav pull-right"   data-toggle="tooltip" data-placement="bottom" title="折叠">
-                <i id="collapse-i" class="fa  fa-angle-left" style="margin-top:9px;margin-left:5px;"  aria-hidden="true" ></i>
+            <div id="collapse-btn" class="toggle-nav pull-right" data-toggle="tooltip" data-placement="bottom" title="折叠">
+                <i class="fa  fa-angle-left" style="margin-top:9px;margin-left:5px;" aria-hidden="true"></i>
             </div>
-            
         </div>
     </div>
-   
+
+    <!--隐藏后展开按钮-->
+    <div id="expand-btn" style="width:15px; position:fixed;bottom:0;" class="toggle-nav" data-toggle="tooltip" data-placement="bottom" title="展开" hidden="hidden">
+        <i  class="fa  fa-angle-right" style="margin-top:12px;margin-left:5px;" aria-hidden="true"></i>
+    </div>
+
 </body>
 </html>
