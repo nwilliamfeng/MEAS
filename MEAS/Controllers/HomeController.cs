@@ -17,6 +17,17 @@ namespace MEAS.Controllers
             return View();
         }
 
+      
+        [ErrorToResponse]
+       [AcceptVerbs(HttpVerbs.Get|HttpVerbs.Post)]       
+        public ActionResult GetJsonResults(string name,int age)
+        {
+           
+            System.Diagnostics.Debug.WriteLine("dd"+this.Request.IsAjaxRequest());
+            for (int i=0;i< this.Request.Headers.Count;i++)
+                System.Diagnostics.Debug.WriteLine("the key :"+this.Request.Headers.GetKey(i)+", vlaue :"+  this.Request.Headers[i]); 
+            return this.Json(new string[] { "tom","jack","mary"},JsonRequestBehavior.AllowGet);
+        }
 
 
      

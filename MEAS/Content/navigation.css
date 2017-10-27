@@ -40,9 +40,10 @@ i.righti {
 
 /*工具栏样式*/
 div.toolbar {
-    position: fixed;
+   
     padding-left: 15px;
-    bottom: 0;
+      position:relative;
+  
     width: inherit;
 }
 

@@ -122,7 +122,7 @@ namespace MEAS.Controllers
 
             if (!ModelState.IsValid)
                 return View();
-          
+            var d = this.Request.IsAjaxRequest();
             var user = await this._accountService.Find(model.UserName, model.Password);
             if (user != null)
             {

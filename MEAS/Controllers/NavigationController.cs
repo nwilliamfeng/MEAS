@@ -50,9 +50,9 @@ namespace MEAS.Controllers
             category3.Pages.Add(page5);
             category3.Pages.Add(page6);
             yield return category3;
-            for(int i =4; i < 50; i++)
+            for (int i = 4; i < 50; i++)
             {
-                PageCategory d = new PageCategory { Id = 1, Title = "Category"+i.ToString() };
+                PageCategory d = new PageCategory { Id = 1, Title = "Category" + i.ToString() };
                 Page a = new Page { Id = 1, Title = "prodcut", Category = d, Controller = "product", Action = "index", RedirectActionName = "list" };
                 Page b = new Page { Id = 2, Title = "page2", Category = d, Controller = "product", Action = "page2" };
                 d.Pages.Add(a);

@@ -99,44 +99,46 @@
 
 </head>
 <body>
-    <div class="box" style="height:100%; width:220px;position:fixed;">
-        <!--类别列表-->
-        <ul id="navul" class="nav nav-left" style="height:100%;overflow:auto;">
-            @foreach (var category in Model)
+    <div class="box" style="height:100%; width:220px;position:fixed;padding-bottom:80px;">
+        <!--类别列表-->     
+       <ul id="navul" class="nav nav-left" style="height:100%;overflow:auto;">
+                @foreach (var category in Model)
             {
                 var containSelectItem = ViewBag.SelectPageId != null && category.Pages.FirstOrDefault(x => x.Id == (int)ViewBag.SelectPageId) != null;
-                <li>
-                    <a href="#" onclick="selectCategory(this)" @{if (containSelectItem) { <text> style="color:white" </text>  } }>
-                        @if (containSelectItem)
-                        {
-                            @category.Title<i class="fa fa-angle-down righti"></i>
-                        }
-                        else
-                        {
-                            @category.Title<i class="fa fa-angle-right righti"></i>
-                        }
-                    </a>
-                    <!--如果当前选中的page在这个category里面，那么就不隐藏-->
-                    <ul @{if (!containSelectItem) { <text> hidden="hidden" </text>   } } class="nav">
-                        @foreach (var page in category.Pages)
-                        {
-                            if (ViewBag.SelectPageId == page.Id)
+                    <li>
+                        <a href="#" onclick="selectCategory(this)" @{if (containSelectItem) { <text> style="color:white" </text>   } }>
+                            @if (containSelectItem)
                             {
-                                <li id=@page.Id class="subitem-selected">
-                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide", style = "color:white" })
-                                </li>
+                                @category.Title<i class="fa fa-angle-down righti"></i>
                             }
                             else
                             {
-                                <li id=@page.Id>
-                                    @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" })
-                                </li>
+                                @category.Title<i class="fa fa-angle-right righti"></i>
                             }
-                        }
-                    </ul>
-                </li>
+                        </a>
+                        <!--如果当前选中的page在这个category里面，那么就不隐藏-->
+                        <ul @{if (!containSelectItem) { <text> hidden="hidden" </text>    } } class="nav">
+                            @foreach (var page in category.Pages)
+                            {
+                                if (ViewBag.SelectPageId == page.Id)
+                                {
+                                    <li id=@page.Id class="subitem-selected">
+                                        @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide", style = "color:white" })
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li id=@page.Id>
+                                        @Html.ActionLink(page.Title, page.Action, page.Controller, null, new { @class = "wide" })
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </li>
     }
-        </ul>
+            </ul>
+       
+     
 
         <!--工具栏-->
         <div class="toolbar">

@@ -8,9 +8,7 @@ namespace MEAS
 {
     public class Page:Entity
     {
-       
-    //    public string RelativeUrl { get; set; }
-
+     
         public string Action { get; set; }
 
         public string Controller { get; set; }

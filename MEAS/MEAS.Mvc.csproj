@@ -129,7 +129,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -165,6 +164,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\Test\TestController.cs" />
+    <Compile Include="Filters\ErrorToResponseAttribute.cs" />
     <Compile Include="Helper\ControllerExtension.cs" />
     <Compile Include="Helper\Mvc\JsonNetResult.cs" />
     <Compile Include="Helper\Mvc\ControllerExtensions.cs" />
@@ -307,7 +307,6 @@
     <Content Include="Views\Home\Index - 复制.cshtml" />
     <Content Include="Views\Shared\_Layout4.cshtml" />
     <Content Include="Views\Home\Index - 复制%282%29.cshtml" />
-    <Content Include="Views\Account\Login3 - 复制.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -338,6 +337,9 @@
       <Project>{dec9d363-fc4f-4950-a427-1297ae8ee338}</Project>
       <Name>MEAS.Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEAS.Data.MySql", "MEAS.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEAS.Data.SqlClient", "MEAS.Data.SqlClient\MEAS.Data.SqlClient.csproj", "{64F701FB-AE72-4D38-BFD7-D3885C06A8ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEAS.WebServices", "MEAS.WebServices\MEAS.WebServices.csproj", "{DAADB82B-40D4-480C-A879-C705BF3A0EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEAS.WebServices.Tests", "MEAS.WebServices.Tests\MEAS.WebServices.Tests.csproj", "{E9D7C2F5-0A65-4D3C-BD18-1C86B266F1B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{64F701FB-AE72-4D38-BFD7-D3885C06A8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64F701FB-AE72-4D38-BFD7-D3885C06A8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64F701FB-AE72-4D38-BFD7-D3885C06A8ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAADB82B-40D4-480C-A879-C705BF3A0EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAADB82B-40D4-480C-A879-C705BF3A0EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAADB82B-40D4-480C-A879-C705BF3A0EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAADB82B-40D4-480C-A879-C705BF3A0EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9D7C2F5-0A65-4D3C-BD18-1C86B266F1B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9D7C2F5-0A65-4D3C-BD18-1C86B266F1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9D7C2F5-0A65-4D3C-BD18-1C86B266F1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9D7C2F5-0A65-4D3C-BD18-1C86B266F1B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
