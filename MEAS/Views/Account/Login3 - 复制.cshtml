@@ -1,0 +1,111 @@
+﻿@using MEAS.Models
+@model LoginViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+<head>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <style>
+        .control-label {
+            vertical-align: central;
+            margin: 104px,10px,10px,10px;
+        }
+
+        .btn {
+            padding: 20px,10px;
+            margin: 20px,10px;
+        }
+
+        .form-group {
+            margin: 4px,10px,10px,10px;
+        }
+
+        div.loginbox {
+            position: absolute;
+            left: 40%;
+            margin-top: 20px;
+            width: 20%;
+            height: 70%;
+        }
+    </style>
+
+</head>
+
+@{ var labelAttrib = new { @class = "control-label" };}
+@{ var txtBoxAttrib = new { @class = "form-control input-sm" };}
+
+<body>
+
+    <div class="loginbox">
+
+        <div style="text-align:center;">
+            <h2><strong>MEAS</strong></h2>
+        </div>
+        <div style="padding:15px;height:80%;border-radius:4px;border:1px #ddd solid;">
+            <div>
+                <h3>登录</h3>
+            </div>
+            <div id="result"></div>
+            <div class="panel-body">
+                @using (Ajax.BeginForm(null, null
+                , new { returnUrl = ViewBag.ReturnUrl }
+                , new AjaxOptions
+                {
+                    UpdateTargetId = "result",
+                    Confirm = "登录成功！",
+                    HttpMethod = "post"
+                }
+                , new { @class = "form-horizontal" }))
+                {
+                    @Html.ValidationSummary()
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.UserName, labelAttrib)
+                        <div>
+                            @Html.TextBoxFor(x => x.UserName, txtBoxAttrib)
+                            @Html.ValidationMessageFor(x => x.UserName)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Password, labelAttrib)
+                        <div>
+                            @Html.PasswordFor(x => x.Password, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(x => x.Password)
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:40px;">
+                        <button class="btn btn-primary" style="width:100%;padding:5px;" type="submit">登录</button>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+    @section Scripts
+{
+        <!--客户端验证-->
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+</body>
+<footer class="modal-footer" style="position:fixed;bottom:0px;width:100%;">
+    <div class="container">
+        <p class="pull-left">&copy; @DateTime.Now.Year - <a href="http://www.meas.com" target="_blank">MEAS</a></p>
+        <p class="pull-right"><a id="scroll-to-top" style="display:none;" href="#" title="fw"><span class="glyphicon glyphicon-arrow-up"></span> </a></p>
+    </div>
+</footer>
+
+

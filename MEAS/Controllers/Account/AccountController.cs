@@ -148,6 +148,16 @@ namespace MEAS.Controllers
         }
 
 
+
+        [HttpPost]
+        public  ActionResult  DoLogin(string username, string password)
+        {
+            
+
+            return Redirect(Url.Action("Index", "Home"));
+        }
+
+
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {

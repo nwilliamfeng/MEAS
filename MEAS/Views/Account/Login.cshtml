@@ -6,10 +6,80 @@
 }
 <head>
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
-    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <link href="~/Content/validate.css" rel="stylesheet" />
     <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery-3.1.1.min.js"></script>
+    
+    <script type="text/javascript">
+        function executeLogin() {
+            var username=$("#username").val();
+            var password = $("#password").val();
+            var url = '@Url.Action("dologin", "account")';
 
+          
+            $.ajax({
+                type: "post",
+                url: url,
+               
+                data: { username: username, password: password },
+                success:function(){
+                    alert("success!");
+                },
+                error: function () {
+                    alert("fail!");
+                }
+            });
+        }
+
+        $(function () {
+            $('#registration-form').validate({
+                rules: {
+                    name: {
+                        required: true,
+                        required: true
+                    },
+
+                    username: {
+                        minlength: 6,
+                        required: true
+                    },
+
+                    password: {
+                        required: true,
+                        minlength: 6
+                    },
+                    confirm_password: {
+                        required: true,
+                        minlength: 6,
+                        equalTo: "#password"
+                    },
+
+                    email: {
+                        required: true,
+                        email: true
+                    },
+
+
+                    address: {
+                        minlength: 10,
+                        required: true
+                    },
+
+                    agree: "required"
+
+                },
+                highlight: function (element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function (element) {
+                    element
+                    .text('OK!').addClass('valid')
+                    .closest('.control-group').removeClass('error').addClass('success');
+                }
+            });
+        });
+    </script>
     <style>
         .control-label {
             vertical-align: central;
@@ -25,7 +95,7 @@
             margin: 4px,10px,10px,10px;
         }
 
-        div.loginbox {
+        #loginform {
             position: absolute;
             left: 40%;
             margin-top: 20px;
@@ -36,12 +106,10 @@
 
 </head>
 
-@{ var labelAttrib = new { @class = "control-label" };}
-@{ var txtBoxAttrib = new { @class = "form-control input-sm" };}
 
 <body>
 
-    <div class="loginbox">
+    <div id="loginform">
 
         <div style="text-align:center;">
             <h2><strong>MEAS</strong></h2>
@@ -52,37 +120,21 @@
             </div>
             <div id="result"></div>
             <div class="panel-body">
-                @using (Ajax.BeginForm(null, null
-                , new { returnUrl = ViewBag.ReturnUrl }
-                , new AjaxOptions
-                {
-                    UpdateTargetId = "result",
-                    Confirm = "登录成功！",
-                    HttpMethod = "post"
-                }
-                , new { @class = "form-horizontal" }))
-                {
-                    @Html.ValidationSummary()
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.UserName, labelAttrib)
-                        <div>
-                            @Html.TextBoxFor(x => x.UserName, txtBoxAttrib)
-                            @Html.ValidationMessageFor(x => x.UserName)
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Password, labelAttrib)
-                        <div>
-                            @Html.PasswordFor(x => x.Password, new { @class = "form-control input-sm" })
-                            @Html.ValidationMessageFor(x => x.Password)
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="username" class="control-label">用户名</label>
+                    <input type="text" id="username" class="form-control input-sm" />
+                </div>
 
-                    <div class="form-group" style="margin-top:40px;">
-                        <button class="btn btn-primary" style="width:100%;padding:5px;" type="submit">登录</button>
-                    </div>
-                }
+                <div class="form-group">
+                    <label for="password" class="control-label">登录密码</label>
+                    <input type="password" id="password" class="form-control input-sm req" />
+                </div>
+
+                <div class="form-group" style="margin-top:40px;" >
+                    <button class="btn btn-primary" style="width:100%;padding:5px;" type="submit" onclick="executeLogin()">登录</button>
+                </div>
+
             </div>
 
         </div>
@@ -90,16 +142,7 @@
     </div>
 
 
-
-
-
-
-    @section Scripts
-{
-        <!--客户端验证-->
-        @Scripts.Render("~/bundles/jqueryval")
-    }
-
+    
 </body>
 <footer class="modal-footer" style="position:fixed;bottom:0px;width:100%;">
     <div class="container">

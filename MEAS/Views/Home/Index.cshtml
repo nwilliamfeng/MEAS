@@ -16,8 +16,8 @@
             }
         }
         function sendWithAjax() {
-            //    var url = "http://localhost:45687/home/GetJsonResults";     
-            var url = "http://172.31.56.108:8045/api/order";
+                var url = "http://localhost:45687/home/GetJsonResults";     
+           // var url = "http://172.31.56.108:8045/api/order";
             $.ajax({
                 type: "get",
                 url: url,
@@ -27,10 +27,10 @@
                 //    a1: "bbb",
                 //    a2:"cccc",
                 //},
-                //data:{
-                //    id:"12",
-                 
-                //},
+                data:{
+                    name:"tom",
+                    age:"23",
+                },
                 success: function (data) {
                     displayResults(data);
                 },
