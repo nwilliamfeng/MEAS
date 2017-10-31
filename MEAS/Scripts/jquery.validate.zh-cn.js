@@ -16,4 +16,16 @@
             range: $.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
             max: $.validator.format("请输入一个最大为 {0} 的值"),
             min: $.validator.format("请输入一个最小为 {0} 的值")
-        });
+ });
+
+//添加字符串验证-只能包括中文字、英文字母、数字和下划线
+ function appendStringCheck(){
+     $.validator.addMethod("stringCheck", function (value, element) {
+         return this.optional(element) || /^[u0391-uFFE5w]+$/.test(value);
+     }, "只能包括中文字、英文字母、数字和下划线");
+ }
+
+
+ function ddd() {
+     alert("adfs");
+ }
