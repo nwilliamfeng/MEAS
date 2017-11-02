@@ -245,8 +245,13 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modalform.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\util.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -310,7 +315,7 @@
     <Content Include="Views\Shared\_Layout4.cshtml" />
     <Content Include="Views\Home\Index - 复制%282%29.cshtml" />
     <Content Include="Views\Account\Login3 - 复制.cshtml" />
-    <Content Include="Scripts\jquery.validate.zh-cn.js" />
+    <Content Include="Scripts\jquery.validate.extension.js" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

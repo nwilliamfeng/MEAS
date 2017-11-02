@@ -9,81 +9,63 @@
     <script type="text/javascript" src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
-    <script type="text/javascript"  src="~/Scripts/jquery.validate.zh-cn.js"></script>
-
+    <script type="text/javascript"  src="~/Scripts/jquery.validate.extension.js"></script>
+    <script src="~/Scripts/util.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
     <script type="text/javascript">
         //执行登录
         function executeLogin() {
             var username = $("#username").val();
             var password = $("#password").val();
             var url = '@Url.Action("dologin", "account")';
-
             $.ajax({
                 type: "post",
                 url: url,
                 data: { username: username, password: password },
-                success: function () {
-                    alert("success!");
+                success: function (result,status) {
+                    if (result.loginState === true) {
+                        alert(moment(result.logintime).format("YYYY HH:mm:ss"));
+                       
+                        console.log("login success");
+                       
+                    }
+                    else {
+                        console.log("login fail");
+                    }
                 },
                 error: function () {
+                    console.log("login error!");
                     alert("fail!");
                 }
             });
         }
 
-        function validate() {
-           
-            $.validator.addMethod("stringCheck", function (value, element) {
-                return this.optional(element) || /^[u0391-uFFE5w]+$/.test(value);
-            }, "只能包括中文字、英文字母、数字和下划线");
+        
+  
+        function validate() {            
             $('#loginform').validate({
-                debug: true, //调试模式取消submit的默认提交功能
-                // errorClass: "label.error", //默认为错误的样式类为：error
-                focusInvalid: true, //当为false时，验证无效时，没有焦点响应
-                onkeyup: function (element, event) {
-                    if (event.which === 9 && this.elementValue(element) === "") {
-                        return;
-                    } else {
-                        this.element(element);
-                    }
-                },
-                submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form
-                    executeLogin();
-                },
                 rules: {
                     username: {
-                        // minlength: 2,
-                        stringCheck:true,
+                        minlength: 2,
+                        specialChar: true, //检查特殊字符
                         required: true
                     },
                     password: {
                         required: true,
                         minlength: 4
                     }
-                },
-                highlight: function (element) {
-                    $(element).parent("div").removeClass("has-success").addClass("has-error");
-                },
-                
-                success: function (element) {
-                    $(element).parent("div").removeClass("has-error").addClass("has-success");
-                }
+                },    
             });
         }
 
-
-
         $(function () {
-            ddd();
-            validate();
+            setValidatorDefaults(); //设置默认验证
+            appendSepecialCharRule();//设置特殊字符验证
+            validate();//检查
         });
     </script>
     <style>
-        .control-label {
-            vertical-align: central;
-            margin: 104px,10px,10px,10px;
-        }
-
+  
         .btn {
             padding: 20px,10px;
             margin: 20px,10px;
@@ -106,8 +88,25 @@
 
 
 <body>
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div> 
+        </div> 
+    </div>
 
-    <form id="loginform">
+    <form id="loginform" >
 
         <div style="text-align:center;">
             <h2><strong>IMSystem</strong></h2>
@@ -118,25 +117,22 @@
             </div>
             <div id="result"></div>
             <div class="panel-body">
-
-                <div class="form-group">
+                <div class="form-group has-feedback">
                     <label for="username" class="control-label">用户名</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名" autocomplete="off"/>
-
+                    <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名" />               
+                    <span class="glyphicon form-control-feedback" ></span>    
                 </div>
-                <div class="form-group">
+                <div class="form-group has-feedback">
                     <label for="password" class="control-label">登录密码</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码"  autocomplete="off"/>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码"   />
+                    <span class="glyphicon form-control-feedback"></span>
                 </div>
-
                 <div class="form-actions" style="margin-top:40px;">
                     <button class="btn btn-primary" style="width:100%;padding:5px;" type="submit">登录</button>
                 </div>
-
+                
             </div>
-
         </div>
-
     </form>
 
 

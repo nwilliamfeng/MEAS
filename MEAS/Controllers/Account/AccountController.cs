@@ -149,12 +149,18 @@ namespace MEAS.Controllers
 
 
 
-        [HttpPost]
-        public  ActionResult  DoLogin(string username, string password)
-        {
-            
+        //[HttpPost]
+        //public  ActionResult  DoLogin(string username, string password)
+        //{
 
-            return Redirect(Url.Action("Index", "Home"));
+
+        //    return Redirect(Url.Action("Index", "Home"));
+        //}
+
+        [HttpPost]
+        public JsonNetResult DoLogin(string username, string password)
+        {
+            return new JsonNetResult { Data = new { loginState = true, loginTime = DateTime.Now } };
         }
 
 
