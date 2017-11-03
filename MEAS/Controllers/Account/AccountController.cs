@@ -122,7 +122,7 @@ namespace MEAS.Controllers
 
             if (!ModelState.IsValid)
                 return View();
-            var d = this.Request.IsAjaxRequest();
+      
             var user = await this._accountService.Find(model.UserName, model.Password);
             if (user != null)
             {
@@ -149,18 +149,30 @@ namespace MEAS.Controllers
 
 
 
-        //[HttpPost]
-        //public  ActionResult  DoLogin(string username, string password)
-        //{
-
-
-        //    return Redirect(Url.Action("Index", "Home"));
-        //}
+         
 
         [HttpPost]
-        public JsonNetResult DoLogin(string username, string password)
+        public async Task<JsonNetResult> DoLogin(string username, string password)
         {
-            return new JsonNetResult { Data = new { loginState = true, loginTime = DateTime.Now } };
+            var user = await this._accountService.Find(username, password);
+            if (user != null)
+            {
+                var rolestr = string.Join(",", user.Roles);
+                var mins = FormsAuthentication.Timeout.TotalMinutes;
+
+                mins = 1;
+                var timeout = DateTime.Now.AddMinutes(mins); //从webconfig配置文件获取
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, username, DateTime.Now, timeout, true, rolestr);
+                string encTicket = FormsAuthentication.Encrypt(ticket);
+                HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+                cookie.Expires = ticket.Expiration;
+                cookie.HttpOnly = true;
+                this.Response.Cookies.Add(cookie);
+                await this._accountService.UpdateLogin(user);
+                return new JsonNetResult { Data = new { loginState = true, loginName=user.LoginName } };
+            }
+            else
+                return new JsonNetResult { Data = new { loginState = false, message="错误的用户名或密码" } };
         }
 
 

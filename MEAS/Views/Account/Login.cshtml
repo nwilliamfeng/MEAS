@@ -6,13 +6,16 @@
 
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/validate.css" />
+   
     <script type="text/javascript" src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
     <script type="text/javascript"  src="~/Scripts/jquery.validate.extension.js"></script>
-    <script src="~/Scripts/util.js"></script>
+    
     <script src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="/Scripts/util.js"></script>
     <script type="text/javascript">
+      
         //执行登录
         function executeLogin() {
             var username = $("#username").val();
@@ -24,13 +27,22 @@
                 data: { username: username, password: password },
                 success: function (result,status) {
                     if (result.loginState === true) {
-                        alert(moment(result.logintime).format("YYYY HH:mm:ss"));
-                       
-                        console.log("login success");
-                       
+                        var cdsec = 3;//倒计时3秒
+                        $(".modal-header").removeClass().addClass("bg-primary");
+                       $("#successContent").show().siblings().hide().end().find("#seconds").text(cdsec);
+                       $('#myModal').modal();
+                       showCountDown(cdsec,function (d) {
+                           $('#seconds').text(d); //显示倒计时秒数
+                       }, function () {
+                           var ut = '@ViewBag.ReturnUrl';
+                           if (ut == '') 
+                               ut = '@Url.Action("Index", "Home")';                                                      
+                           self.location = ut;
+                       });
                     }
                     else {
-                        console.log("login fail");
+                        $("#failContent").show().text("登录失败，" + result.message).siblings().hide();
+                        $('#myModal').modal();
                     }
                 },
                 error: function () {
@@ -40,8 +52,6 @@
             });
         }
 
-        
-  
         function validate() {            
             $('#loginform').validate({
                 rules: {
@@ -58,11 +68,13 @@
             });
         }
 
-        $(function () {
+        $(function () {        
             setValidatorDefaults(); //设置默认验证
             appendSepecialCharRule();//设置特殊字符验证
             validate();//检查
         });
+
+       
     </script>
     <style>
   
@@ -88,22 +100,24 @@
 
 
 <body>
-    <div class="modal fade" tabindex="-1" role="dialog">
+  
+
+    
+    <!--登录框-->
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"  id="myModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">提醒</h4>
                 </div>
                 <div class="modal-body">
-                    <p>One fine body&hellip;</p>
+                    <h5 id="successContent" style="display:none;">登录成功，系统将在 <span style="font-weight:bold;" id="seconds"></span>秒后自动跳转</h5>
+                    <h5 id="failContent" style="display:none;"></h5>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div> 
-        </div> 
+            
+            </div>
+        </div>
     </div>
 
     <form id="loginform" >
@@ -138,6 +152,7 @@
 
 
 </body>
+
 <footer class="modal-footer" style="position:fixed;bottom:0px;width:100%;">
     <div class="container">
         <p class="pull-left">&copy; @DateTime.Now.Year - <a href="http://www.meas.com" target="_blank">MEAS</a></p>
