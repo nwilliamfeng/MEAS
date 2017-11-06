@@ -84,6 +84,7 @@
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.105.2\lib\net45\System.Data.SQLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -192,6 +193,7 @@
     <Compile Include="Filters\Tmp\MyAuthorizeFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\UserInfoManager.cs" />
+    <Compile Include="ValidationCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
@@ -254,7 +256,6 @@
     <Content Include="Scripts\util.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -317,7 +318,9 @@
     <Content Include="Views\Shared\_Layout4.cshtml" />
     <Content Include="Views\Home\Index - 复制%282%29.cshtml" />
     <Content Include="Views\Account\Login3 - 复制.cshtml" />
-    <Content Include="Scripts\jquery.validate.extension.js" />
+    <Content Include="Scripts\jquery.validate.extension.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

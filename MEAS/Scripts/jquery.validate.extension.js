@@ -27,7 +27,10 @@ $.extend($.validator.messages, {
      $.validator.addMethod("specialChar", function (value, element) {
          return this.optional(element) || /^[u0391-uFFE5w]+$/.test(value);
      }, "只能包括英文字母、数字和下划线");
+   
  }
+
+ 
 
  function setValidatorDefaults() {
      $.validator.setDefaults({
@@ -66,3 +69,4 @@ $.extend($.validator.messages, {
  }
 
 
+ 

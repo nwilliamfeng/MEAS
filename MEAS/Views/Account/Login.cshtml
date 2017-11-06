@@ -2,91 +2,19 @@
     Layout = null;
     ViewBag.Title = "Login";
 }
-<head>
-
+<head >
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/validate.css" />
-   
-    <script type="text/javascript" src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
-    <script type="text/javascript"  src="~/Scripts/jquery.validate.extension.js"></script>
-    
-    <script src="~/Scripts/moment.min.js"></script>
-    <script type="text/javascript" src="/Scripts/util.js"></script>
-    <script type="text/javascript">
-      
-        //执行登录
-        function executeLogin() {
-            var username = $("#username").val();
-            var password = $("#password").val();
-            var url = '@Url.Action("dologin", "account")';
-            $.ajax({
-                type: "post",
-                url: url,
-                data: { username: username, password: password },
-                success: function (result,status) {
-                    if (result.loginState === true) {
-                        var cdsec = 3;//倒计时3秒
-                        $(".modal-header").removeClass().addClass("bg-primary");
-                       $("#successContent").show().siblings().hide().end().find("#seconds").text(cdsec);
-                       $('#myModal').modal();
-                       showCountDown(cdsec,function (d) {
-                           $('#seconds').text(d); //显示倒计时秒数
-                       }, function () {
-                           var ut = '@ViewBag.ReturnUrl';
-                           if (ut == '') 
-                               ut = '@Url.Action("Index", "Home")';                                                      
-                           self.location = ut;
-                       });
-                    }
-                    else {
-                        $("#failContent").show().text("登录失败，" + result.message).siblings().hide();
-                        $('#myModal').modal();
-                    }
-                },
-                error: function () {
-                    console.log("login error!");
-                    alert("fail!");
-                }
-            });
-        }
-
-        function validate() {            
-            $('#loginform').validate({
-                rules: {
-                    username: {
-                        minlength: 2,
-                        specialChar: true, //检查特殊字符
-                        required: true
-                    },
-                    password: {
-                        required: true,
-                        minlength: 4
-                    }
-                },    
-            });
-        }
-
-        $(function () {        
-            setValidatorDefaults(); //设置默认验证
-            appendSepecialCharRule();//设置特殊字符验证
-            validate();//检查
-        });
-
-       
-    </script>
-    <style>
-  
+    <style>  
         .btn {
             padding: 20px,10px;
             margin: 20px,10px;
         }
-
         .form-group {
             margin: 4px,10px,10px,10px;
         }
-
         #loginform {
             position: absolute;
             left: 40%;
@@ -94,34 +22,52 @@
             width: 20%;
             height: 70%;
         }
-    </style>
 
+        .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    max-width:inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+}
+    </style>
 </head>
 
-
 <body>
-  
-
-    
-    <!--登录框-->
+    <!--登录结果对话框-->
     <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"  id="myModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">提醒</h4>
+        <div class="vertical-alignment-helper ">
+            <div class="modal-dialog vertical-align-center" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">提醒</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5 id="successContent" style="display:none;">登录成功，系统将在 <span style="font-weight:bold;" id="seconds"></span>秒后自动跳转</h5>
+                        <h5 id="failContent" style="display:none;"></h5>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <h5 id="successContent" style="display:none;">登录成功，系统将在 <span style="font-weight:bold;" id="seconds"></span>秒后自动跳转</h5>
-                    <h5 id="failContent" style="display:none;"></h5>
-                </div>
-            
             </div>
         </div>
+      
     </div>
 
     <form id="loginform" >
-
         <div style="text-align:center;">
             <h2><strong>IMSystem</strong></h2>
         </div>
@@ -141,7 +87,24 @@
                     <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码"   />
                     <span class="glyphicon form-control-feedback"></span>
                 </div>
-                <div class="form-actions" style="margin-top:40px;">
+                <div class="form-group has-feedback">
+                    <label for="validateCode" class="control-label">验证码</label>     
+                    <div>
+                        <!--这里需要把padding置0，否则验证码输入框左边会多出空隙-->
+                        <div class="col-xs-5"  style="padding:0px;">
+                            <input type="text" id="validateCode" class="form-control" name="validateCode"      />
+                        </div>
+                        <div class="col-xs-3" >
+                            <img id="validateCodeImg" src="@Url.Action("GetValidateCode", "account")" />
+                        </div>    
+                        <div class="col-xs-4" >
+                            <div style="margin-left:3px;cursor:pointer;" class="pull-right" id="changeCode" onclick="changeCode(this)">
+                                <b>看不清？<br /><em>换一张</em></b>
+                            </div>                           
+                        </div>                                
+                   </div>
+                </div>
+                <div class="form-actions" style="margin-top:60px;">
                     <button class="btn btn-primary" style="width:100%;padding:5px;" type="submit">登录</button>
                 </div>
                 
@@ -149,8 +112,93 @@
         </div>
     </form>
 
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript"  src="/Scripts/jquery.validate.extension.js?r=5675675"></script>
+
+    <script src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="/Scripts/util.js?r=654651"></script>
+    <script type="text/javascript">
+
+        //执行登录
+        function executeLogin() {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var validateCode = $("#validateCode").val();
+            var url = '@Url.Action("dologin", "account")';
+            $.ajax({
+                type: "post",
+                url: url,
+                data: { username: username, password: password ,validateCode:validateCode},
+                success: function (result,status) {
+                    if (result.loginState === true) {
+                        var cdsec = 3;//倒计时3秒
+                        $(".modal-header").removeClass("bg-danger").addClass("bg-success");
+                       $("#successContent").show().siblings().hide().end().find("#seconds").text(cdsec);
+                       $('#myModal').modal();
+                       showCountDown(cdsec,function (d) {
+                           $('#seconds').text(d); //显示倒计时秒数
+                       }, function () {
+                           var ut = '@ViewBag.ReturnUrl';
+                           if (ut == '')
+                               ut = '@Url.Action("Index", "Home")';
+                           self.location = ut;
+                       });
+                    }
+                    else {
+                        $(".modal-header").removeClass("bg-success").addClass("bg-danger");
+                        $("#failContent").show().text("登录失败，" + result.message).siblings().hide();
+                        $('#myModal').modal();
+                        $("#validateCodeImg").attr("src", '@Url.Action("GetValidateCode", "Account")');
+                    }
+                },
+                error: function () {
+                    console.log("login error!");
+                    alert("fail!");
+                }
+            });
+        }
+
+        function changeCode(img) {
+            $("#validateCodeImg").attr("src", '@Url.Action("GetValidateCode", "Account")');
+        }
+
+        function validate() {
+            $('#loginform').validate({
+                rules: {
+                    username: {
+                        minlength: 2,
+                        specialChar: true, //检查特殊字符
+                        required: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 4
+                    },
+                    validateCode:{
+                        required: true,
+                        minlength:4,
+                        maxlength:4,
+                    }
+                },
+            });
+        }
 
 
+
+
+        $(function () {
+            setValidatorDefaults(); //设置默认验证
+            appendSepecialCharRule();//设置特殊字符验证
+
+            validate();//检查
+        });
+
+
+    </script>
+
+   
 </body>
 
 <footer class="modal-footer" style="position:fixed;bottom:0px;width:100%;">

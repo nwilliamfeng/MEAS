@@ -119,16 +119,13 @@ namespace MEAS.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-
             if (!ModelState.IsValid)
-                return View();
-      
+                return View();    
             var user = await this._accountService.Find(model.UserName, model.Password);
             if (user != null)
             {
                 var rolestr = string.Join(",", user.Roles);
-                var mins = FormsAuthentication.Timeout.TotalMinutes;
-           
+                var mins = FormsAuthentication.Timeout.TotalMinutes;           
                 mins = 1;
                 var timeout = DateTime.Now.AddMinutes(mins); //从webconfig配置文件获取
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, timeout, true, rolestr);
@@ -137,10 +134,8 @@ namespace MEAS.Controllers
                 cookie.Expires = ticket.Expiration;
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
-                await this._accountService.UpdateLogin(user);
-                
+                await this._accountService.UpdateLogin(user);                
                return Redirect(returnUrl ?? Url.Action("Index", "Home"));
-
             }
             this.ModelState.AddModelError(string.Empty, "错误的用户名或密码！");
             return View();
@@ -149,11 +144,19 @@ namespace MEAS.Controllers
 
 
 
-         
+
 
         [HttpPost]
-        public async Task<JsonNetResult> DoLogin(string username, string password)
+        public async Task<JsonNetResult> DoLogin(string username, string password, string validateCode)
         {
+            string vc = this.Session["ValidateCode"]?.ToString();
+            if (vc == null)
+                return new JsonNetResult { Data = new { loginState = false, message = "当前页面无效，请重新刷新" } };
+            if (vc != validateCode)
+            {
+                return new JsonNetResult { Data = new { loginState = false, message = "错误的验证码。" } };
+            }
+
             var user = await this._accountService.Find(username, password);
             if (user != null)
             {
@@ -169,10 +172,10 @@ namespace MEAS.Controllers
                 cookie.HttpOnly = true;
                 this.Response.Cookies.Add(cookie);
                 await this._accountService.UpdateLogin(user);
-                return new JsonNetResult { Data = new { loginState = true, loginName=user.LoginName } };
+                return new JsonNetResult { Data = new { loginState = true, loginName = user.LoginName } };
             }
             else
-                return new JsonNetResult { Data = new { loginState = false, message="错误的用户名或密码" } };
+                return new JsonNetResult { Data = new { loginState = false, message = "错误的用户名或密码" } };
         }
 
 
@@ -212,6 +215,21 @@ namespace MEAS.Controllers
             var result=await this._accountService.UpdateAvatar(model.Id, logo);
             return Content( result?"更新头像成功!":"更新头像失败!");
         }
+
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetValidateCode()
+        {
+            ValidateCode vCode = new ValidateCode();
+            string code = vCode.CreateValidateCode(4);
+            Session["ValidateCode"] = code;//关键点
+            byte[] bytes = vCode.CreateValidateGraphic(code);
+            return File(bytes, @"image/jpeg");
+        }
+
+       
 
         [CustomAuthorize(Roles = "1,2,3")]
         public ActionResult ResetPassword()
