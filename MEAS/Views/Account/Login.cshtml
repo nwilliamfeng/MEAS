@@ -6,6 +6,7 @@
     <meta http-equiv="pragma" content="no-cache"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-modal.css"/>
     <link rel="stylesheet" href="~/Content/validate.css" />
     <style>  
         .btn {
@@ -22,28 +23,6 @@
             width: 20%;
             height: 70%;
         }
-
-        .vertical-alignment-helper {
-    display:table;
-    height: 100%;
-    width: 100%;
-    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
-}
-.vertical-align-center {
-    /* To center vertically */
-    display: table-cell;
-    vertical-align: middle;
-    pointer-events:none;
-}
-.modal-content {
-    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-    width:inherit;
-    max-width:inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
-    height:inherit;
-    /* To center horizontally */
-    margin: 0 auto;
-    pointer-events: all;
-}
     </style>
 </head>
 
@@ -95,11 +74,11 @@
                             <input type="text" id="validateCode" class="form-control" name="validateCode"      />
                         </div>
                         <div class="col-xs-3" >
-                            <img id="validateCodeImg" src="@Url.Action("GetValidateCode", "account")" />
+                            <img id="validateCodeImg" src="@Url.Action("GetValidateCode", "Account")" />
                         </div>    
                         <div class="col-xs-4" >
-                            <div style="margin-left:3px;cursor:pointer;" class="pull-right" id="changeCode" onclick="changeCode(this)">
-                                <b>看不清？<br /><em>换一张</em></b>
+                            <div style="margin-left:3px;cursor:pointer;" class="pull-right" id="changeCode" onclick="loadValidateCode()">
+                                <b id="info">看不清？<br /><em>换一张</em></b>
                             </div>                           
                         </div>                                
                    </div>
@@ -120,7 +99,14 @@
     <script src="~/Scripts/moment.min.js"></script>
     <script type="text/javascript" src="/Scripts/util.js?r=654651"></script>
     <script type="text/javascript">
-
+        //
+        function loadValidateCode() {
+            var url = '@Url.Action("GetValidateCode", "Account")';            
+            $.get(url, function (data) {
+                $("#validateCodeImg").attr("src", '@Url.Action("GetValidateCode", "Account")');
+            });
+        }
+ 
         //执行登录
         function executeLogin() {
             var username = $("#username").val();
@@ -128,13 +114,14 @@
             var validateCode = $("#validateCode").val();
             var url = '@Url.Action("dologin", "account")';
             $.ajax({
+                cache:false,
                 type: "post",
                 url: url,
-                data: { username: username, password: password ,validateCode:validateCode},
+                data: $("#loginform").serialize() ,//{ username: username, password: password ,validateCode:validateCode},
                 success: function (result,status) {
                     if (result.loginState === true) {
                         var cdsec = 3;//倒计时3秒
-                        $(".modal-header").removeClass("bg-danger").addClass("bg-success");
+                        $(".modal-header").css(  "background-color","#0480be");
                        $("#successContent").show().siblings().hide().end().find("#seconds").text(cdsec);
                        $('#myModal').modal();
                        showCountDown(cdsec,function (d) {
@@ -147,10 +134,11 @@
                        });
                     }
                     else {
-                        $(".modal-header").removeClass("bg-success").addClass("bg-danger");
+                        $(".modal-header").css("background-color","red");                      
                         $("#failContent").show().text("登录失败，" + result.message).siblings().hide();
+                        loadValidateCode();
                         $('#myModal').modal();
-                        $("#validateCodeImg").attr("src", '@Url.Action("GetValidateCode", "Account")');
+                       
                     }
                 },
                 error: function () {
@@ -160,10 +148,8 @@
             });
         }
 
-        function changeCode(img) {
-            $("#validateCodeImg").attr("src", '@Url.Action("GetValidateCode", "Account")');
-        }
-
+        
+        //进行验证
         function validate() {
             $('#loginform').validate({
                 rules: {
@@ -185,13 +171,9 @@
             });
         }
 
-
-
-
         $(function () {
             setValidatorDefaults(); //设置默认验证
             appendSepecialCharRule();//设置特殊字符验证
-
             validate();//检查
         });
 

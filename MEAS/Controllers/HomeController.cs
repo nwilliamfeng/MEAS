@@ -17,7 +17,7 @@ namespace MEAS.Controllers
             return View();
         }
 
-
+      
       
       
         [ErrorToResponse]
@@ -31,13 +31,24 @@ namespace MEAS.Controllers
             return this.Json(new string[] { "tom","jack","mary"},JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetKeywords(string content)
+        {
+            var data = new object[] { new { id = 1, name = content + "1" }, new { id = 2, name = content + "2" }, new { id = 3, name = content + "3" }};
+            return this.Json(data, JsonRequestBehavior.AllowGet);
+        }
 
+
+        public ActionResult OutputTable()
+        {
+            
+            var data = new object[] { new {id=1, fileName = "abc", size = "260k" }, new { id = 2, fileName = "cdef", size = "1200k" }, new { id = 3, fileName = "kghf", size = "4500k" } };
+            return this.Json(data, JsonRequestBehavior.AllowGet);
+        }
      
  
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+         
             return View();
         }
 

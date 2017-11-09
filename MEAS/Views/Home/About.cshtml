@@ -1,7 +1,25 @@
 ﻿@{
     ViewBag.Title = "About";
+    Layout = null;
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btn").attr("value","abc");
+        })
+        function clickme(u) {
+            alert(u.value);
+        }
+    </script>
+    <button id="btn" onclick="clickme(this)" value="ddd">click</button>
+</body>
+</html>
 
-<p>Use this area to provide additional information.</p>

@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Output Table";
+
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+ 
+    <script src="~/Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+    <script language="javascript">
+        function displayResults(data) {
+            $("#result").children().remove();
+            var dataArray = eval(data);
+            for (var i in dataArray) {
+                var s = "<p>" + dataArray[i] + "</p>";
+                $("#result").append(s);
+            }
+        }
+        function sendWithAjax() {
+                var url = "http://localhost:45687/home/GetJsonResults";     
+           // var url = "http://172.31.56.108:8045/api/order";
+            $.ajax({
+                type: "get",
+                url: url,
+                //datatype: "json",
+                //contentType: "application/json",     
+                //headers: {
+                //    a1: "bbb",
+                //    a2:"cccc",
+                //},
+                data:{
+                    name:"tom",
+                    age:"23",
+                },
+                success: function (data) {
+                    displayResults(data);
+                },
+                error: function (request, ajaxOptions, thrownError) {
+                    alert(request.responseText);
+                }
+            });
+        }
+
+        function sendWithGet() {
+            var url = "http://localhost:45687/home/GetJsonResults";
+            var data = { name: "tom", age: "24" };
+            $.get(url, data, function (data) {
+                displayResults(data);
+            });
+        }
+
+        function sendWithGet2() {
+            var url = "http://172.31.56.108:8045/api/order?jsoncallback=?";
+            $.getJSON(url, function (json) {
+
+                alert(json);
+             
+
+            });
+        }
+
+        function sendWithPost() {
+            var url = "http://localhost:45687/home/GetJsonResults";
+            var data = {name:"tom",age:"24"};
+            $.post(url,data, function (data) {
+                displayResults(data);
+            });
+        }
+        $(function () {
+            $("#send").click(function () {
+
+                sendWithAjax();
+    
+            })
+        })
+    </script>
+
+</head>
+<body>
+
+    <h1>this is demo page</h1>
+
+    <div class="container">
+        
+   
+ 
+
+    </div>
+
+     
+</body>
+</html>
